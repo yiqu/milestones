@@ -1,1 +1,135 @@
 /* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import url('https://fonts.googleapis.com/css?family=Balsamiq+Sans:wght@400;700|Roboto:100,400,700&display=swap');
+
+body {
+  /* margin: 0;  */
+  font-family: 'Roboto', sans-serif !important;
+}
+
+.wrapper {
+  min-height: calc(100vh - 50px);
+}
+
+button {
+  font-family: 'Roboto', cursive !important;
+}
+
+a.btn {
+  font-family: 'Roboto', cursive !important;
+}
+
+.roboto {
+  font-family: 'Roboto', sans-serif;
+}
+
+.if {
+  font-family: 'Indie Flower', cursive;
+}
+
+.secfont {
+  font-family: 'Balsamiq Sans', cursive;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+.fs-10 {
+  font-size: 10px !important;
+}
+
+.fs-12 {
+  font-size: 12px;
+}
+
+.fs-13 {
+  font-size: 13px !important;
+}
+
+.fs-14 {
+  font-size: 14px;
+}
+
+.img-h-100 {
+  height: 100%;
+}
+
+.full-w {
+  width: 100%;
+}
+
+.f-w-800 {
+  font-weight: 800;
+}
+
+h2 {
+  font-size: 1.5rem !important;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.center-loading {
+  display: flex;
+  justify-content: center;
+}
+
+.center-align {
+  display: flex;
+  justify-content: center;
+}
+
+.left-align {
+  display: flex;
+  justify-content: left;
+}
+
+.float-right {
+  justify-content: flex-end;
+}
+
+.v-self-align-center {
+  display: flex;
+  align-self: center;
+}
+
+ /* Extra small devices (phones, 600px and down) */
+ @media only screen and (max-width: 600px) {}
+
+ /* Small devices (portrait tablets and large phones, 600px and up) */
+ @media only screen and (min-width: 600px) {}
+
+ /* Medium devices (landscape tablets, 768px and up) */
+ @media only screen and (min-width: 768px) {}
+
+ /* Large devices (laptops/desktops, 992px and up) */
+ @media only screen and (min-width: 992px) {}
+
+ /* Extra large devices (large laptops and desktops, 1200px and up) */
+ @media only screen and (min-width: 1200px) {}
+
+.solid-underline {
+  text-decoration: underline;
+  text-decoration-style: solid;
+  text-underline-position: under;
+}
+
+.mild-dropshadow {
+  box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0);
+}
+
+.app-is-mobile .app-toolbar {
+  position: fixed;
+  /* Make sure the toolbar will stay on top of the content as it scrolls past. */
+  z-index: 2;
+}
+
+.mat-snack-bar-container.sb-success {
+  background-color: #0066cc;
+}
+
+.mat-snack-bar-container.sb-danger {
+  background-color: #990000;
+}

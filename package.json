@@ -33,6 +33,7 @@
     "angular-animations": "0.0.10",
     "bootstrap": "~4.3.1",
     "immutable": "~3.8.2",
+    "firebase": "~7.14.0",
     "jquery": ">=3.5.0",
     "lodash": "~4.17.15",
     "memo-decorator": "^2.0.1",

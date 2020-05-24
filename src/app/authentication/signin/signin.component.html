@@ -1,0 +1,59 @@
+<div class="row mb-3 comf text-center mt-3">
+  <div class="col-sm-12">
+    <div class="mb-2">
+      {{signInTitle}}
+    </div>
+    <div class="subtitle mb-2">
+      Don't have an account? <a [routerLink]="['../', 'signup']">Register here.</a>
+    </div>
+    <div class="signin-card-parent">
+      <mat-card class="signin-card" [formGroup]="signFg">
+        <mat-card-content>
+
+          <div class="signinAvatarParent mb-3">
+            <img [src]="avartarImgSrc" class="img-h-100 border-circ" alt="avartar">
+          </div>
+
+          <div>
+            <mat-form-field appearance="outline" class="mb-3 full-w">
+              <mat-label>Email</mat-label>
+              <input matInput placeholder="Email" [formControlName]="'id'" (keyup.enter)="onSignInClick()">
+              <mat-icon matSuffix>email</mat-icon>
+              <mat-hint>Email associated with your account.</mat-hint>
+              <mat-error>Invalid email format.</mat-error>
+            </mat-form-field>
+          </div>
+
+
+          <mat-form-field appearance="outline" class="full-w">
+            <mat-label>Password</mat-label>
+            <input matInput placeholder="Password" type="password" [formControlName]="'password'"
+              (keyup.enter)="onSignInClick()">
+            <mat-icon matSuffix>https</mat-icon>
+          </mat-form-field>
+
+          <div class="left-align">
+            <mat-checkbox class="example-margin" [formControlName]="'saveSession'" color="primary">
+              Keep me logged in.
+            </mat-checkbox>
+          </div>
+
+          <div *ngIf="this.as.authErrMsg">
+            <div class="alert alert-warning">
+              {{this.as.authErrMsg}}
+            </div>
+          </div>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <div class="center-align">
+            <app-loading-spinner *ngIf="this.as.authLoading" [diameter]="25"></app-loading-spinner>
+            <button *ngIf="!this.as.authLoading" mat-button class="signin-btn" (click)="onSignInClick()"
+              [disabled]="idFc.invalid">Sign in</button>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+  </div>
+</div>
