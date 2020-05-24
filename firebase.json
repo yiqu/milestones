@@ -1,0 +1,19 @@
+{
+  "hosting": [
+    {
+      "target": "milestones",
+      "public": "dist/milestones",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}
