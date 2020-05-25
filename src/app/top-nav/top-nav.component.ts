@@ -4,6 +4,7 @@ import { Subject, timer } from 'rxjs';
 import { takeUntil, take } from 'rxjs/operators';
 import { headShakeAnimation, rotateAnimation, tadaAnimation } from 'angular-animations';
 import { MenuItem } from '../shared/models/nav-item.model';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-top-nav',
@@ -28,8 +29,9 @@ export class TopNavComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output()
   navToggle: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(public router: Router, public route: ActivatedRoute) {
-
+  constructor(public router: Router, public route: ActivatedRoute,
+    public as: AuthService) {
+    this.buildUserMenuItems();
   }
 
   ngOnInit() {
@@ -63,12 +65,32 @@ export class TopNavComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onMenuItemClick(item: MenuItem) {
+    if (item.id === "account") {
+      this.router.navigate(['/', 'my-account']);
+    } else if (item.id === "signout") {
+      this.onSignoutClick();
+    } else if (item.id === "signin") {
+      this.onAuthClick();
+    }
+  }
 
+  onSignoutClick() {
+    this.as.signoutUser().then(
+      (res) => {
+        this.router.navigate(['/']);
+      },
+      (rej) => {
+
+      }
+    );
   }
 
 
   buildUserMenuItems() {
-
+    this.userMenuItems = [];
+    this.userMenuItems.push(
+      new MenuItem("record_voice_over", "Sign in", "signin")
+    )
   }
 
   ngOnDestroy() {

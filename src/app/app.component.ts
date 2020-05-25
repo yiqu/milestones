@@ -1,6 +1,8 @@
 import { Component, ViewChild, ChangeDetectorRef, OnDestroy, OnInit } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MediaMatcher } from '@angular/cdk/layout';
+import * as firebase from 'firebase/app';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +21,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private _mobileQueryListener: () => void;
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,) {
+    firebase.initializeApp(environment.firebaseConfig);
     /**
        * Detect if deive is mobile size, then re-run detection change
        */

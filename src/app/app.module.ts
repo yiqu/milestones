@@ -26,6 +26,7 @@ import { NotFoundComponentModule } from './404/404.module';
 
   imports: [
     BrowserModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
     BrowserAnimationsModule,
     MaterialModuleBundle,
     CommonModule,
@@ -49,7 +50,6 @@ import { NotFoundComponentModule } from './404/404.module';
         warning: 'toast-warning'
       }
     }),
-    AngularFireModule.initializeApp(environment.firebaseConfig),
     TopNavModule,
     SideNavModule,
     NotFoundComponentModule,

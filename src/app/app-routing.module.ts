@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PersonalComponent } from './personal/personal.component';
 import { NotFoundComponent } from './404/404.component';
+import { NetworkAwarePreloadStrategy } from './shared/preload-strategies/preload-network';
 
 const routes: Routes = [
   { path: "", redirectTo: "personal", pathMatch: "full" },
@@ -13,7 +14,14 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(
+    routes,
+    {
+      preloadingStrategy: NetworkAwarePreloadStrategy,
+      //scrollPositionRestoration: "top"
+    }
+    )
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

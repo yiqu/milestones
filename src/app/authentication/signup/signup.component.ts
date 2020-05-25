@@ -2,7 +2,6 @@ import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import * as fu from '../../shared/utils/form.utils';
 import { AuthInfo, IAuthInfo, VerifiedUser } from '../../shared/models/user.model';
-import { AuthService } from 'src/app/shared/services/auth.service';
 import * as firebase from 'firebase/app';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
@@ -10,6 +9,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import * as em from '../../shared/error-matchers/error-state.matcher';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -20,8 +20,8 @@ import { takeUntil } from 'rxjs/operators';
 export class AuthSignupComponent implements OnInit, OnDestroy {
 
   matcher: ErrorStateMatcher = new em.AfterActionsErrorStateMatcher();
-  signInTitle: string = "Create your BobaShop Account.";
-  avartarImgSrc: string = "assets/images/main/user/signin-avatar-default.png";
+  signInTitle: string = "Create your Milestone Account.";
+  avartarImgSrc: string = "assets/banner/milestones-banner-4.png";
   signFg: FormGroup;
   compDest$: Subject<any> = new Subject<any>();
   currentUser: VerifiedUser;
