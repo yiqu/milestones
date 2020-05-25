@@ -21,7 +21,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private _mobileQueryListener: () => void;
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,) {
-    firebase.initializeApp(environment.firebaseConfig);
+    //firebase.initializeApp(environment.firebaseConfig);
     /**
        * Detect if deive is mobile size, then re-run detection change
        */

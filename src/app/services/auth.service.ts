@@ -20,6 +20,8 @@ export class AuthService {
   ordersInCartFList: AngularFireList<any>;
 
   constructor(public firedb: AngularFireDatabase) {
+    //this.ordersInCartFList = this.firedb.list<any>(this.usersBaseUrl);
+
     firebase.auth().onAuthStateChanged(
       (user: firebase.User) => {
         console.log("AUTH:", user ? user.toJSON():user)
@@ -36,6 +38,9 @@ export class AuthService {
       }
     );
 
+    // this.ordersInCartFList.valueChanges().subscribe((val) => {
+    //   console.log(val)
+    // })
   }
 
 
