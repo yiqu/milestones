@@ -2,9 +2,12 @@ import { Injectable } from '@angular/core';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
-import { AngularFireDatabase, AngularFireList, SnapshotAction } from '@angular/fire/database';
-import { VerifiedUser, AuthInfo } from '../shared/models/user.model';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { VerifiedUser, AuthInfoFromUser } from '../shared/models/user.model';
 import { Subject } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AppState } from '../shared/redux-stores/global-store/app.reducer';
+import * as AuthActions from '../shared/redux-stores/auth/auth.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +20,7 @@ export class AuthService {
   private usersBaseUrl: string = "users/";
   signupErrorOccured$: Subject<string> = new Subject<string>();
 
-  ordersInCartFList: AngularFireList<any>;
-
-  constructor(public firedb: AngularFireDatabase) {
-    //this.ordersInCartFList = this.firedb.list<any>(this.usersBaseUrl);
+  constructor(private afs: AngularFirestore, public store: Store<AppState>) {
 
     firebase.auth().onAuthStateChanged(
       (user: firebase.User) => {
@@ -37,14 +37,10 @@ export class AuthService {
       () => {
       }
     );
-
-    // this.ordersInCartFList.valueChanges().subscribe((val) => {
-    //   console.log(val)
-    // })
   }
 
 
-  createUser(authInfo: AuthInfo) {
+  createUser(authInfo: AuthInfoFromUser) {
     this.authErrMsg = null;
     let sess: string = authInfo.saveSession ?
       firebase.auth.Auth.Persistence.LOCAL : firebase.auth.Auth.Persistence.SESSION;
@@ -57,8 +53,9 @@ export class AuthService {
     .then(
       (u: firebase.auth.UserCredential) => {
         const user: VerifiedUser = <VerifiedUser>u.user.toJSON();
-        const userIdRef = firebase.database().ref(this.usersBaseUrl + user.uid);
-        return userIdRef.set(user);
+        const userId: AngularFirestoreDocument = this.afs.doc(this.usersBaseUrl + user.uid);
+        return userId.set(user)
+
       },
       (rej) => {
         this.authErrMsg = this.getFirebaseErrorMsg(rej);
@@ -71,7 +68,7 @@ export class AuthService {
   }
 
 
-  loginUser(authInfo: AuthInfo) {
+  loginUser(authInfo: AuthInfoFromUser) {
     this.authErrMsg = null;
     let sess: string = authInfo.saveSession ?
       firebase.auth.Auth.Persistence.LOCAL : firebase.auth.Auth.Persistence.SESSION;
@@ -91,6 +88,10 @@ export class AuthService {
     ).finally(() => {
       this.authLoading = false;
     });
+  }
+
+  userLogin(authInfo: AuthInfoFromUser) {
+    this.store.dispatch(AuthActions.authLoginStart({authInfo: authInfo}));
   }
 
   signoutUser(): Promise<void> {

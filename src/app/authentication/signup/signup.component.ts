@@ -1,7 +1,7 @@
 import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import * as fu from '../../shared/utils/form.utils';
-import { AuthInfo, IAuthInfo, VerifiedUser } from '../../shared/models/user.model';
+import { AuthInfoFromUser, IAuthInfo, VerifiedUser } from '../../shared/models/user.model';
 import * as firebase from 'firebase/app';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
@@ -94,12 +94,12 @@ export class AuthSignupComponent implements OnInit, OnDestroy {
     if (res.password !== res.repassword) {
       this.as.authErrMsg = "Password does not match.";
     } else {
-      const auth: AuthInfo = new AuthInfo(res.email, res.password, false);
+      const auth: AuthInfoFromUser = new AuthInfoFromUser(res.email, res.password, false);
       this.signup(auth);
     }
   }
 
-  signup(a: AuthInfo) {
+  signup(a: AuthInfoFromUser) {
     this.as.createUser(a);
   }
 

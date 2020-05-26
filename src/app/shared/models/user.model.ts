@@ -10,9 +10,10 @@ export class User {
 export interface IAuthInfo {
   id: string;
   password: string;
+  saveSession: boolean;
 }
 
-export class AuthInfo implements IAuthInfo{
+export class AuthInfoFromUser implements IAuthInfo{
   constructor(public id: string, public password: string, public saveSession: boolean){
   }
 }

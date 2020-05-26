@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import * as fu from '../../shared/utils/form.utils';
-import { AuthInfo, IAuthInfo } from '../../shared/models/user.model';
+import { AuthInfoFromUser, IAuthInfo } from '../../shared/models/user.model';
 import * as firebase from 'firebase/app';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
@@ -50,7 +50,7 @@ export class AuthSigninComponent implements OnInit {
 
   onSignInClick() {
     if (this.passwordFc.value && this.passwordFc.value.trim()!=="") {
-      const auth: AuthInfo = new AuthInfo(this.signFg.value.id, this.signFg.value.password,
+      const auth: AuthInfoFromUser = new AuthInfoFromUser(this.signFg.value.id, this.signFg.value.password,
         this.signFg.value.saveSession);
       this.signIn(auth);
     } else {
@@ -58,8 +58,8 @@ export class AuthSigninComponent implements OnInit {
     }
   }
 
-  signIn(a: AuthInfo) {
-    this.as.loginUser(a);
+  signIn(a: AuthInfoFromUser) {
+    this.as.userLogin(a);
   }
 
 

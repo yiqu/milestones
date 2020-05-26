@@ -89,7 +89,8 @@ export class TopNavComponent implements OnInit, OnDestroy, AfterViewInit {
   buildUserMenuItems() {
     this.userMenuItems = [];
     this.userMenuItems.push(
-      new MenuItem("record_voice_over", "Sign in", "signin")
+      new MenuItem("record_voice_over", "Sign in", "signin"),
+      new MenuItem("forward", "Sign Out", "signout")
     )
   }
 

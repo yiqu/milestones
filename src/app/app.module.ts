@@ -17,6 +17,10 @@ import { PersonalComponent } from './personal/personal.component';
 import { TopNavModule } from './top-nav/top-nav.module';
 import { SideNavModule } from './side-nav/side-nav.module';
 import { NotFoundComponentModule } from './404/404.module';
+import { StoreModule } from '@ngrx/store';
+import { appReducers } from './shared/redux-stores/global-store/app.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
@@ -27,6 +31,10 @@ import { NotFoundComponentModule } from './404/404.module';
   imports: [
     BrowserModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
+    StoreModule.forRoot(appReducers),
+    environment.production ? [] : StoreDevtoolsModule.instrument({
+      maxAge: 30
+    }),
     BrowserAnimationsModule,
     MaterialModuleBundle,
     CommonModule,
