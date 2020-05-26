@@ -21,6 +21,7 @@ import { StoreModule } from '@ngrx/store';
 import { appReducers } from './shared/redux-stores/global-store/app.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
+import { appEffects } from './shared/redux-stores/global-store/app.effects';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { EffectsModule } from '@ngrx/effects';
     environment.production ? [] : StoreDevtoolsModule.instrument({
       maxAge: 30
     }),
+    EffectsModule.forRoot(appEffects),
     BrowserAnimationsModule,
     MaterialModuleBundle,
     CommonModule,

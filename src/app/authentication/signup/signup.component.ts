@@ -100,11 +100,12 @@ export class AuthSignupComponent implements OnInit, OnDestroy {
   }
 
   signup(a: AuthInfoFromUser) {
-    this.as.createUser(a);
+    this.as.registerUser(a);
   }
 
   ngOnDestroy() {
     this.compDest$.next();
+    this.compDest$.complete();
   }
 
 }

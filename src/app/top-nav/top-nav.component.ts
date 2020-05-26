@@ -75,14 +75,7 @@ export class TopNavComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onSignoutClick() {
-    this.as.signoutUser().then(
-      (res) => {
-        this.router.navigate(['/']);
-      },
-      (rej) => {
-
-      }
-    );
+    this.as.signoutUser();
   }
 
 
@@ -96,5 +89,6 @@ export class TopNavComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy() {
     this.compDest$.next();
+    this.compDest$.complete();
   }
 }

@@ -8,6 +8,7 @@ import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../shared/redux-stores/global-store/app.reducer';
 import * as AuthActions from '../shared/redux-stores/auth/auth.actions';
+import { UserRegistrationFromEmailActionProp } from '../shared/redux-stores/auth/auth.models';
 
 @Injectable({
   providedIn: 'root'
@@ -58,7 +59,7 @@ export class AuthService {
 
       },
       (rej) => {
-        this.authErrMsg = this.getFirebaseErrorMsg(rej);
+        //this.authErrMsg = this.getFirebaseErrorMsg(rej);
         return "ERROR";
       }
     )
@@ -67,80 +68,18 @@ export class AuthService {
     });
   }
 
-
-  loginUser(authInfo: AuthInfoFromUser) {
-    this.authErrMsg = null;
-    let sess: string = authInfo.saveSession ?
-      firebase.auth.Auth.Persistence.LOCAL : firebase.auth.Auth.Persistence.SESSION;
-
-    firebase.auth().setPersistence(sess)
-    .then(() => {
-      this.authLoading = true;
-      return firebase.auth().signInWithEmailAndPassword(authInfo.id, authInfo.password);
-    })
-    .then(
-      (u: firebase.auth.UserCredential) => {
-
-      },
-      (rej) => {
-        this.authErrMsg = this.getFirebaseErrorMsg(rej);
-      }
-    ).finally(() => {
-      this.authLoading = false;
-    });
+  registerUser(authInfo: AuthInfoFromUser) {
+    const p = new UserRegistrationFromEmailActionProp(authInfo.id, authInfo.password, authInfo.saveSession);
+    this.store.dispatch(AuthActions.authUserRegistrationFromEmailStart(p));
   }
+
 
   userLogin(authInfo: AuthInfoFromUser) {
     this.store.dispatch(AuthActions.authLoginStart({authInfo: authInfo}));
   }
 
-  signoutUser(): Promise<void> {
-    return firebase.auth().signOut();
-  }
-
-  getFirebaseErrorMsg(err: any): string {
-    if (err) {
-      return this.decodeFireBaseErr(err);
-    }
-    return "Server error occured, but could not get a detailed message from backend."
-  }
-
-  decodeFireBaseErr(err: any): string {
-    let errMsg: string = "Server error occured."
-    switch (err.code) {
-      case "auth/email-already-in-use": {
-        errMsg = "Email already exists.";
-        this.signupErrorOccured$.next('email-already-in-use');
-        break;
-      }
-      case "auth/invalid-email": {
-        errMsg = "Email is invalid.";
-        this.signupErrorOccured$.next('invalid-email');
-        break;
-      }
-      case "auth/operation-not-allowed": {
-        errMsg = "This operation is currently not allowed.";
-        break;
-      }
-      case "auth/weak-password": {
-        errMsg = "Password is too weak, try 6+ characters.";
-        this.signupErrorOccured$.next('weak-password');
-        break;
-      }
-      case "auth/user-not-found": {
-        errMsg = "User does not exist.";
-        break;
-      }
-      case "auth/wrong-password": {
-        errMsg = "Invalid password.";
-        break;
-      }
-      case "": {
-        errMsg = "BLAH.";
-        break;
-      }
-    }
-    return errMsg + " " + err['message'];
+  signoutUser() {
+    this.store.dispatch(AuthActions.authLogoutStart());
   }
 
 }

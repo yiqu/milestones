@@ -14,8 +14,62 @@ const inititalState: AuthState = {
 
 export const authReducer = createReducer(
   inititalState,
+  // Login start
   on(AuthActions.authLoginStart, (state, {authInfo}) => {
+    return {
+      ...state,
+      loading: true,
+      verifiedUser: null,
+      error: false,
+      errorMsg: null
+    }
+  }),
+  // Firebase auth valueChanges logged in with a user
+  on(AuthActions.authLoginSuccess, (state, {verifiedUser}) => {
+    const u = verifiedUser;
+    return {
+      ...state,
+      loading: false,
+      verifiedUser: u,
+      error: false,
+      errorMsg: null
+    }
+  }),
+  // Login done
+  on(AuthActions.authLoginFirebaseRequestSuccess, (state) => {
+    return {
+      ...state,
+    }
+  }),
 
+  on(AuthActions.authLoginFailure, (state, {errorMsg}) => {
+    return {
+      ...state,
+      loading: false,
+      verifiedUser: null,
+      error: true,
+      errorMsg: errorMsg
+    }
+  }),
+
+  on(AuthActions.authLogoutStart, (state) => {
+    return {
+      ...state,
+      loading: true,
+    }
+  }),
+
+  on(AuthActions.authLogoutSuccess, (state) => {
+    return {
+      ...state,
+      loading: false,
+      verifiedUser: null,
+      error: false,
+      errorMsg: null
+    }
+  }),
+
+  on(AuthActions.authUserRegistrationFromEmailStart, (state) => {
     return {
       ...state,
       loading: true,
@@ -25,15 +79,54 @@ export const authReducer = createReducer(
     }
   }),
 
-  on(AuthActions.authLoginSuccess, (state, {verifiedUser}) => {
-    const u = verifiedUser;
-
+  on(AuthActions.authUserRegistrationFromEmailSuccess, (state) => {
     return {
       ...state,
       loading: false,
-      verifiedUser: u,
+      verifiedUser: null,
       error: false,
       errorMsg: null
     }
   }),
+
+  on(AuthActions.authUserRegistrationFromEmailFailure, (state, {errorMsg}) => {
+    return {
+      ...state,
+      loading: false,
+      verifiedUser: null,
+      error: true,
+      errorMsg: errorMsg
+    }
+  }),
+
+  on(AuthActions.authAddNewRegisteredUserToDatabase, (state, {user}) => {
+    return {
+      ...state,
+      loading: true,
+      verifiedUser: user,
+      error: false,
+      errorMsg: null
+    }
+  }),
+
+  on(AuthActions.authAddNewRegisteredUserToDbFail, (state) => {
+    return {
+      ...state,
+      loading: false,
+      verifiedUser: null,
+      error: true,
+      errorMsg: "Error occured trying to add new user to Firebase"
+    }
+  }),
+
+  on(AuthActions.authAddNewRegisteredUserToDbSuccess, (state) => {
+    return {
+      ...state,
+      loading: true,
+      verifiedUser: null,
+      error: false,
+      errorMsg: null
+    }
+  }),
+
 )

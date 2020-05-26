@@ -18,7 +18,6 @@ const routes: Routes = [
     routes,
     {
       preloadingStrategy: NetworkAwarePreloadStrategy,
-      //scrollPositionRestoration: "top"
     }
     )
   ],
