@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import * as fu from '../../shared/utils/form.utils';
 import { AuthInfoFromUser, IAuthInfo } from '../../shared/models/user.model';
@@ -6,18 +6,26 @@ import * as firebase from 'firebase/app';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth.service';
+import { Store, select } from '@ngrx/store';
+import { AppState } from '../../shared/redux-stores/global-store/app.reducer';
+import { AuthState } from '../../shared/redux-stores/auth/auth.models';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-auth-signin',
   templateUrl: 'signin.component.html',
   styleUrls: ['./signin.component.css']
 })
-export class AuthSigninComponent implements OnInit {
+export class AuthSigninComponent implements OnInit, OnDestroy {
 
   signInTitle: string = "Sign in with your Milestones Account";
   avartarImgSrc: string = "assets/banner/milestones-banner-4.png";
   signFg: FormGroup;
-
+  compDest$: Subject<any> = new Subject<any>();
+  errorMsg: string;
+  errorOccured: boolean;
+  loading: boolean;
 
   get idFc(): FormControl {
     return <FormControl>this.signFg.get("id");
@@ -27,12 +35,27 @@ export class AuthSigninComponent implements OnInit {
     return <FormControl>this.signFg.get("password");
   }
 
-  constructor(public fb: FormBuilder, public as: AuthService, public router: Router) {
+  constructor(public fb: FormBuilder, public as: AuthService, public router: Router,
+    private store: Store<AppState>) {
+
     let id: string = null;
     let pw: string = null;
-    this.as.authErrMsg = null;
+
+    this.store.select("appAuth").pipe(
+      takeUntil(
+        this.compDest$
+      )
+    ).subscribe(
+      (authState: AuthState) => {
+        this.errorMsg = authState.errorMsg;
+        this.errorOccured = authState.error;
+        this.loading = authState.loading;
+        this.disableFieldsOnLoading(authState.loading);
+      }
+    );
+
     if (!environment.production) {
-      id = "tz2z@test.com";
+      id = "t1@test.com";
       pw = "123456";
     }
     this.signFg = this.fb.group({
@@ -43,8 +66,12 @@ export class AuthSigninComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.signFg.valueChanges.subscribe((val) => {
-      this.as.authErrMsg = null;
+    this.as.clearErrors();
+    this.signFg.valueChanges.pipe(
+      takeUntil(this.compDest$)
+    )
+    .subscribe((val) => {
+      this.as.clearErrors();
     });
   }
 
@@ -54,12 +81,24 @@ export class AuthSigninComponent implements OnInit {
         this.signFg.value.saveSession);
       this.signIn(auth);
     } else {
-      this.as.authErrMsg = "Enter a password.";
+      this.as.throwErrorMessage("Enter a password.")
     }
   }
 
   signIn(a: AuthInfoFromUser) {
     this.as.userLogin(a);
+  }
+
+  disableFieldsOnLoading(loading: boolean) {
+    if (this.signFg) {
+      loading ? this.signFg.disable({onlySelf: true, emitEvent: false}) :
+        this.signFg.enable({onlySelf: true, emitEvent: false});
+    }
+  }
+
+  ngOnDestroy() {
+    this.compDest$.next();
+    this.compDest$.complete();
   }
 
 

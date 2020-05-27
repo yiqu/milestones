@@ -10,6 +10,9 @@ import * as em from '../../shared/error-matchers/error-state.matcher';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../shared/redux-stores/global-store/app.reducer';
+import { AuthState } from '../../shared/redux-stores/auth/auth.models';
 
 
 @Component({
@@ -24,7 +27,10 @@ export class AuthSignupComponent implements OnInit, OnDestroy {
   avartarImgSrc: string = "assets/banner/milestones-banner-4.png";
   signFg: FormGroup;
   compDest$: Subject<any> = new Subject<any>();
-  currentUser: VerifiedUser;
+  errorMsg: string;
+  errorOccured: boolean;
+  loading: boolean;
+
 
   get emailFc(): FormControl {
     return <FormControl>this.signFg.get("email");
@@ -39,14 +45,28 @@ export class AuthSignupComponent implements OnInit, OnDestroy {
   }
 
   constructor(public fb: FormBuilder, public as: AuthService, public router: Router,
-    public ngZone: NgZone) {
+    private store: Store<AppState>) {
+
       let id: string = null;
       let pw: string = null;
-      this.as.authErrMsg = null;
+
       if (!environment.production) {
         id = "t@test.com";
         pw = "123456";
       }
+
+      this.store.select("appAuth").pipe(
+        takeUntil(
+          this.compDest$
+        )
+      ).subscribe(
+        (authState: AuthState) => {
+          this.errorMsg = authState.errorMsg;
+          this.errorOccured = authState.error;
+          this.loading = authState.loading;
+          this.disableFieldsOnLoading(authState.loading);
+        }
+      );
 
       this.signFg = this.fb.group({
         email: fu.createFormControl(id, false, [Validators.required, Validators.email]),
@@ -56,35 +76,17 @@ export class AuthSignupComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.signFg.valueChanges.subscribe((val) => {
-      this.as.authErrMsg = null;
+    this.as.clearErrors();
+
+    this.signFg.valueChanges.pipe(
+      takeUntil(this.compDest$)
+    )
+    .subscribe((val) => {
+      this.as.clearErrors();
       if (this.passwordFc.value !== this.repasswordFc.value) {
         this.repasswordFc.setErrors({"passwordDoesNotMatch": true});
       } else {
         this.repasswordFc.setErrors(null);
-      }
-    });
-
-    this.as.signupErrorOccured$.pipe(
-      takeUntil(this.compDest$)
-    )
-    .subscribe((val) => {
-      switch (val) {
-        case "email-already-in-use": {
-          this.emailFc.setErrors({"emailExists": true});
-          break;
-        }
-        case "invalid-email": {
-          this.emailFc.setErrors({"email": true});
-          break;
-        }
-        case "weak-password": {
-          this.passwordFc.setErrors({"weak": true});
-          break;
-        }
-        default: {
-          this.emailFc.setErrors(null);
-        }
       }
     });
   }
@@ -92,7 +94,7 @@ export class AuthSignupComponent implements OnInit, OnDestroy {
   onSignupClick() {
     const res = this.signFg.value;
     if (res.password !== res.repassword) {
-      this.as.authErrMsg = "Password does not match.";
+      this.as.throwErrorMessage("Password does not match.")
     } else {
       const auth: AuthInfoFromUser = new AuthInfoFromUser(res.email, res.password, false);
       this.signup(auth);
@@ -101,6 +103,13 @@ export class AuthSignupComponent implements OnInit, OnDestroy {
 
   signup(a: AuthInfoFromUser) {
     this.as.registerUser(a);
+  }
+
+  disableFieldsOnLoading(loading: boolean) {
+    if (this.signFg) {
+      loading ? this.signFg.disable({onlySelf: true, emitEvent: false}) :
+        this.signFg.enable({onlySelf: true, emitEvent: false});
+    }
   }
 
   ngOnDestroy() {

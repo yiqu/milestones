@@ -21,14 +21,16 @@ export class AppComponent implements OnInit, OnDestroy {
   private _mobileQueryListener: () => void;
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,) {
+    // injecting AngularFire will auto initializeApp
+
     //firebase.initializeApp(environment.firebaseConfig);
     /**
-       * Detect if deive is mobile size, then re-run detection change
-       */
-      this.mobileQuery = media.matchMedia('(max-width: 600px)');
-      this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-      this.mobileQuery.addListener(this._mobileQueryListener);
-      //this.fds.mobileQuery = this.mobileQuery; //ngrx
+     * Detect if deive is mobile size, then re-run detection change
+     */
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
+    //this.fds.mobileQuery = this.mobileQuery; //ngrx
   }
 
   ngOnInit() {

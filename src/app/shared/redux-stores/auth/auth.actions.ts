@@ -3,7 +3,8 @@ import { Action } from '@ngrx/store';
 import { AuthInfoFromUser, VerifiedUser } from '../../models/user.model';
 import { LoginSuccessActionProp, LoginFailureActionProp, LoginStartActionProp,
   UserRegistrationFromEmailActionProp,
-  AuthVerifiedUserProp} from './auth.models';
+  AuthVerifiedUserProp,
+  LogoutIfRedirectActionProp} from './auth.models';
 
 const LOGIN_START: string = "[Auth/Login] Auth Login Start";
 const LOGIN_SUCCESS: string = "[Auth/Login] Auth Login Success";
@@ -17,6 +18,8 @@ const NEW_USER_REGISTRATION_FAILURE: string = "[Auth/Register] Auth New User Reg
 const NEW_USER_REGISTRATION_ADD_TO_DB: string = "[Auth/Register] Auth New User Add To DB";
 const NEW_USER_REGISTRATION_ADD_TO_DB_SUCCESS: string = "[Auth/Register] Auth New User Add To DB Success";
 const NEW_USER_REGISTRATION_ADD_TO_DB_FAILURE: string = "[Auth/Register] Auth New User Add To DB Failure";
+const USER_ACTION_CLEAR_ERRORS: string = "[Auth/User] User Action Clear Errors";
+const USER_ACTION_THROW_ERROR: string = "[Auth/User] User Action Throw Error";
 
 export const authLoginStart = createAction(
   LOGIN_START,
@@ -38,7 +41,8 @@ export const authLoginFirebaseRequestSuccess = createAction(
 );
 
 export const authLogoutSuccess = createAction(
-  LOGOUT_SUCCESS
+  LOGOUT_SUCCESS,
+  props<LogoutIfRedirectActionProp>()
 );
 
 export const authLogoutStart = createAction(
@@ -71,3 +75,12 @@ export const authAddNewRegisteredUserToDbSuccess = createAction(
 export const authAddNewRegisteredUserToDbFail = createAction(
   NEW_USER_REGISTRATION_ADD_TO_DB_FAILURE
 );
+
+export const authClearErrorsByUser = createAction(
+  USER_ACTION_CLEAR_ERRORS
+)
+
+export const authThrowErrorMessageByUser = createAction(
+  USER_ACTION_THROW_ERROR,
+  props<LoginFailureActionProp>()
+)

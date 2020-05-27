@@ -15,7 +15,7 @@
   </div>
 
   <div class="d-flex section-parent float-right">
-    <button mat-icon-button
+    <button mat-icon-button [disabled]="loading"
       [matMenuTriggerFor]="menu" color="primary">
       <mat-icon>{{userMenuIcon}}</mat-icon>
     </button>

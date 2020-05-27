@@ -38,17 +38,17 @@
             </mat-checkbox>
           </div>
 
-          <div *ngIf="this.as.authErrMsg">
+          <div *ngIf="errorOccured">
             <div class="alert alert-warning">
-              {{this.as.authErrMsg}}
+              {{errorMsg}}
             </div>
           </div>
         </mat-card-content>
 
         <mat-card-actions>
           <div class="center-align">
-            <app-loading-spinner *ngIf="this.as.authLoading" [diameter]="25"></app-loading-spinner>
-            <button *ngIf="!this.as.authLoading" mat-button class="signin-btn" (click)="onSignInClick()"
+            <app-loading-spinner *ngIf="loading" [diameter]="25"></app-loading-spinner>
+            <button *ngIf="!loading" mat-button class="signin-btn" (click)="onSignInClick()"
               [disabled]="idFc.invalid">Sign in</button>
           </div>
         </mat-card-actions>

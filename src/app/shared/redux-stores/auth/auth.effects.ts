@@ -13,6 +13,7 @@ import { AuthInfoFromUser, VerifiedUser, InAppAlias, User } from '../../models/u
 import { LoginSuccessActionProp, LoginFailureActionProp, AuthVerifiedUserProp } from './auth.models';
 import * as AuthUtils from '../../utils/auth.utils';
 import * as fromAuthActions from './auth.actions';
+import * as fromRouterActions from '../router-related/router-related.actions';
 
 @Injectable()
 export class AuthEffects {
@@ -56,7 +57,7 @@ export class AuthEffects {
       switchMap(() => {
         return firebase.auth().signOut()
         .then(() => {
-          return fromAuthActions.authLogoutSuccess();
+          return fromAuthActions.authLogoutSuccess({redirect: true});
         });
       }));
   });
@@ -101,6 +102,30 @@ export class AuthEffects {
           return fromAuthActions.authAddNewRegisteredUserToDbFail();
         });
 
+      }));
+  });
+
+  userLoggedout$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(fromAuthActions.authLogoutSuccess),
+      map((options) => {
+        const redirect = options.redirect;
+        const urlSegs: string[] = [];
+        if (redirect) {
+          urlSegs.push("/");
+        }
+        return fromRouterActions.redirectWithUrl({url: urlSegs});
+      }));
+  });
+
+  userLoggedInSuccess$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(fromAuthActions.authLoginSuccess),
+      map((options) => {
+        if (options.redirect) {
+          return fromRouterActions.redirectWithUrl({url: ['/']});
+        }
+        return fromRouterActions.redirectWithUrl({url: null});
       }));
   });
 

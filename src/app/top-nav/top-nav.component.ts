@@ -5,6 +5,10 @@ import { takeUntil, take } from 'rxjs/operators';
 import { headShakeAnimation, rotateAnimation, tadaAnimation } from 'angular-animations';
 import { MenuItem } from '../shared/models/nav-item.model';
 import { AuthService } from '../services/auth.service';
+import { AppState } from '../shared/redux-stores/global-store/app.reducer';
+import { Store } from '@ngrx/store';
+import { AuthState } from '../shared/redux-stores/auth/auth.models';
+import { VerifiedUser } from '../shared/models/user.model';
 
 @Component({
   selector: 'app-top-nav',
@@ -25,18 +29,26 @@ export class TopNavComponent implements OnInit, OnDestroy, AfterViewInit {
   swingState: boolean = false;
   userMenuIcon: string; //account_circle
   userMenuItems: MenuItem[] = [];
+  loading: boolean;
 
   @Output()
   navToggle: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(public router: Router, public route: ActivatedRoute,
-    public as: AuthService) {
-    this.buildUserMenuItems();
+    public as: AuthService, private store: Store<AppState>) {
+      this.store.select("appAuth").subscribe(
+        (state: AuthState) => {
+          this.loading = state.loading;
+          this.buildUserMenuItems(state.verifiedUser);
+          this.userMenuIcon = state.verifiedUser ? "account_circle" : "perm_identity";
+        }
+      )
+
   }
 
   ngOnInit() {
     this.animateLogoOnStart();
-    this.userMenuIcon = "perm_identity";
+
   }
 
   ngAfterViewInit() {
@@ -79,12 +91,18 @@ export class TopNavComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-  buildUserMenuItems() {
+  buildUserMenuItems(u: VerifiedUser) {
     this.userMenuItems = [];
-    this.userMenuItems.push(
-      new MenuItem("record_voice_over", "Sign in", "signin"),
-      new MenuItem("forward", "Sign Out", "signout")
-    )
+    if (u) {
+      this.userMenuItems.push(
+        new MenuItem("account_circle", "My profile", "account"),
+        new MenuItem("forward", "Sign Out", "signout")
+      )
+    } else {
+      this.userMenuItems.push(
+        new MenuItem("record_voice_over", "Sign in", "signin"),
+      )
+    }
   }
 
   ngOnDestroy() {

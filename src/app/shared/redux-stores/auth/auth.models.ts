@@ -14,7 +14,7 @@ export class LoginStartActionProp {
 }
 
 export class LoginSuccessActionProp {
-  constructor(public verifiedUser: any) {
+  constructor(public verifiedUser: any, public redirect?: boolean) {
   }
 }
 
@@ -31,5 +31,11 @@ export class UserRegistrationFromEmailActionProp {
 
 export class AuthVerifiedUserProp {
   constructor(public user: VerifiedUser) {
+  }
+}
+
+
+export class LogoutIfRedirectActionProp {
+  constructor(public redirect: boolean) {
   }
 }

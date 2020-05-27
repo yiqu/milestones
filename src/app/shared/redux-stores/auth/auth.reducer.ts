@@ -122,10 +122,30 @@ export const authReducer = createReducer(
   on(AuthActions.authAddNewRegisteredUserToDbSuccess, (state) => {
     return {
       ...state,
-      loading: true,
-      verifiedUser: null,
+      loading: false,
       error: false,
       errorMsg: null
+    }
+  }),
+
+  on(AuthActions.authClearErrorsByUser, (state) => {
+    return {
+      ...state,
+      error: false,
+      errorMsg: null
+    }
+  }),
+
+  on(AuthActions.authThrowErrorMessageByUser, (state, {errorMsg}) => {
+    let msg: string = "Error occured.";
+    if (errorMsg) {
+      msg = errorMsg;
+    }
+    return {
+      ...state,
+      loading: false,
+      error: true,
+      errorMsg: msg
     }
   }),
 
