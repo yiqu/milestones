@@ -149,4 +149,11 @@ export const authReducer = createReducer(
     }
   }),
 
+  on(AuthActions.authAutoLogin, (state, {user}) => {
+    return {
+      ...state,
+      verifiedUser: user
+    }
+  }),
+
 )

@@ -9,6 +9,8 @@ import { AppState } from '../shared/redux-stores/global-store/app.reducer';
 import { Store } from '@ngrx/store';
 import { AuthState } from '../shared/redux-stores/auth/auth.models';
 import { VerifiedUser } from '../shared/models/user.model';
+import * as utils from '../shared/utils/general.utils';
+import { CapitalizeFirstLetterPipe } from '../shared/pipes/letters.pipe';
 
 @Component({
   selector: 'app-top-nav',
@@ -35,7 +37,8 @@ export class TopNavComponent implements OnInit, OnDestroy, AfterViewInit {
   navToggle: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(public router: Router, public route: ActivatedRoute,
-    public as: AuthService, private store: Store<AppState>) {
+    public as: AuthService, private store: Store<AppState>,
+    private capitalize: CapitalizeFirstLetterPipe) {
       this.store.select("appAuth").subscribe(
         (state: AuthState) => {
           this.loading = state.loading;
@@ -94,7 +97,10 @@ export class TopNavComponent implements OnInit, OnDestroy, AfterViewInit {
   buildUserMenuItems(u: VerifiedUser) {
     this.userMenuItems = [];
     if (u) {
+      const displayName = utils.createInitAlias(u.email);
       this.userMenuItems.push(
+        new MenuItem(null, this.capitalize.transform(displayName), null,
+          true),
         new MenuItem("account_circle", "My profile", "account"),
         new MenuItem("forward", "Sign Out", "signout")
       )

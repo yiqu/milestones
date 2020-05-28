@@ -20,6 +20,7 @@ const NEW_USER_REGISTRATION_ADD_TO_DB_SUCCESS: string = "[Auth/Register] Auth Ne
 const NEW_USER_REGISTRATION_ADD_TO_DB_FAILURE: string = "[Auth/Register] Auth New User Add To DB Failure";
 const USER_ACTION_CLEAR_ERRORS: string = "[Auth/User] User Action Clear Errors";
 const USER_ACTION_THROW_ERROR: string = "[Auth/User] User Action Throw Error";
+const AUTO_LOGIN: string = "[Auth/Auto] Auto Log In";
 
 export const authLoginStart = createAction(
   LOGIN_START,
@@ -83,4 +84,9 @@ export const authClearErrorsByUser = createAction(
 export const authThrowErrorMessageByUser = createAction(
   USER_ACTION_THROW_ERROR,
   props<LoginFailureActionProp>()
+)
+
+export const authAutoLogin = createAction(
+  AUTO_LOGIN,
+  props<AuthVerifiedUserProp>()
 )

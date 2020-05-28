@@ -7,6 +7,8 @@ import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { PipeBundleModule } from '../shared/pipes/pipe-bundle.module';
+import { CapitalizeFirstLetterPipe } from '../shared/pipes/letters.pipe';
 
 @NgModule({
   imports: [
@@ -15,7 +17,8 @@ import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    PipeBundleModule
   ],
 
   exports: [
@@ -27,7 +30,7 @@ import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
   ],
 
   providers: [
-
+    CapitalizeFirstLetterPipe
   ],
 
 })

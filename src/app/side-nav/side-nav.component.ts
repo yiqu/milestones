@@ -36,10 +36,6 @@ export class SideNavComponent implements OnInit, OnDestroy {
       new NavHeaderList(new NavHeader("Help & Settings"), [
         new NavHeaderLink("My Account", "account_circle", ["/", "my-account"]),
         new NavHeaderLink("Customer Service", "device_unknown", ["/", "help", "customer-service"]),
-        new NavHeaderLink("My Account", "account_circle", ["/", "my-account"]),
-        new NavHeaderLink("Customer Service", "device_unknown", ["/", "help", "customer-service"]),
-        new NavHeaderLink("My Account", "account_circle", ["/", "my-account"]),
-        new NavHeaderLink("Customer Service", "device_unknown", ["/", "help", "customer-service"])
       ])
     );
   }

@@ -3,6 +3,12 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MediaMatcher } from '@angular/cdk/layout';
 import * as firebase from 'firebase/app';
 import { environment } from '../environments/environment';
+import { AppState } from './shared/redux-stores/global-store/app.reducer';
+import { Store } from '@ngrx/store';
+import * as AuthActions from './shared/redux-stores/auth/auth.actions';
+import { VerifiedUser } from './shared/models/user.model';
+
+const LOCAL_STORAGE_USER_KEY: string = "VERIFIED_USER";
 
 @Component({
   selector: 'app-root',
@@ -20,7 +26,8 @@ export class AppComponent implements OnInit, OnDestroy {
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
 
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,) {
+  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
+    public store: Store<AppState>) {
     // injecting AngularFire will auto initializeApp
 
     //firebase.initializeApp(environment.firebaseConfig);
@@ -34,7 +41,10 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
+    const u = this.getUserFromLocalStorage();
+    if (u) {
+      this.store.dispatch(AuthActions.authAutoLogin({user: u}))
+    }
   }
 
   onTopNavMenuClick() {
@@ -47,6 +57,15 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.sideNav) {
       this.sideNav.close();
     }
+  }
+
+  getUserFromLocalStorage(): VerifiedUser {
+    const localStorageUser: any = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USER_KEY));
+    if (!localStorageUser) {
+      return null;
+    }
+    console.info("LS User Present");
+    return localStorageUser;
   }
 
   ngOnDestroy() {

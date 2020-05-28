@@ -10,6 +10,9 @@ const routes: Routes = [
   { path: 'auth',
     loadChildren: () => import('./authentication/auth.module').then(m => m.AuthModule)
   },
+  { path: 'my-account',
+    loadChildren: () => import('./my-account/my.module').then(m => m.MyAccountModule)
+  },
   { path: '**', component: NotFoundComponent}
 ];
 

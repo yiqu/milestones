@@ -1,0 +1,61 @@
+<div class="row mt-3 mb-3">
+  <div class="col-sm-6 offset-md-3">
+    <div class="order-label comf center-align" id="">
+      Account Overview
+    </div>
+  </div>
+</div>
+
+<div class="row mb-3" *ngIf="user; else noUser">
+  <div class="col-sm-12 roboto">
+    <mat-card class="profile-card">
+      <mat-card-header>
+        <img mat-card-avatar [src]="user.photoURL ? user.photoURL : defaultAvartarImgSrc">
+        <mat-card-title>{{user.displayName ? user.displayName : 'No Display Name Entered'}}</mat-card-title>
+        <mat-card-subtitle>
+          Last logged in: {{user.lastLoginAt | dateDisplay:'FULLANDFROMNOW'}}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <form>
+          <div class="form-row">
+            <div class="form-group col-sm-4">
+              <label>Email</label>
+              <input type="email" class="form-control" placeholder="Email"
+                [value]="user.email" readonly>
+            </div>
+            <div class="form-group col-sm-4">
+              <label >Display name</label>
+              <input type="text" class="form-control" [value]="user.displayName" readonly>
+            </div>
+            <div class="form-group col-sm-4">
+              <label >Phone number</label>
+              <input type="text" class="form-control" [value]="user.phoneNumber" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label >Photo URL</label>
+            <input type="text" class="form-control" [value]="user.photoURL" readonly>
+          </div>
+          <div class="form-group">
+            <label >Access Token</label>
+            <input type="text" class="form-control"
+              [value]="user.stsTokenManager.accessToken" readonly>
+          </div>
+          <div class="form-group">
+            <label >Token Expire Time</label>
+            <input type="text" class="form-control"
+              [value]="user.stsTokenManager.expirationTime | dateDisplay:'FULLANDFROMNOW'" readonly>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<ng-template #noUser>
+  <div class="center-align">
+    Loading your profile...
+    <app-loading-spinner [diameter]="30"></app-loading-spinner>
+  </div>
+</ng-template>

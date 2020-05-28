@@ -3,6 +3,7 @@ import { CountNumberDisplayPipe } from './count-display.pipe';
 import { PluralDisplayPipe } from './plural.pipe';
 import { DateDisplayPipe } from './time-utils.pipe';
 import { UserDisplayPipe } from './user.pipe';
+import { CapitalizeFirstLetterPipe } from './letters.pipe';
 
 @NgModule({
   imports: [],
@@ -11,14 +12,16 @@ import { UserDisplayPipe } from './user.pipe';
     PluralDisplayPipe,
     CountNumberDisplayPipe,
     DateDisplayPipe,
-    UserDisplayPipe
+    UserDisplayPipe,
+    CapitalizeFirstLetterPipe
   ],
 
   declarations: [
     PluralDisplayPipe,
     CountNumberDisplayPipe,
     DateDisplayPipe,
-    UserDisplayPipe
+    UserDisplayPipe,
+    CapitalizeFirstLetterPipe
   ],
 
   providers: [],

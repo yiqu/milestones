@@ -1,0 +1,24 @@
+<div class="container mb-3">
+  <div class="row mb-3 secfont text-center mt-3">
+    <div class="col-sm-12">
+      <h2>My Account</h2>
+    </div>
+  </div>
+
+  <div class="row mb-2 mt-2">
+    <div class="col-sm-12">
+      <nav mat-tab-nav-bar [backgroundColor]="undefined">
+        <a mat-tab-link *ngFor="let link of tabLinks"
+          (click)="activeLink = link"
+          routerLinkActive #rla="routerLinkActive"
+          [active]="rla.isActive"
+          [routerLink]="[link.url]">
+          <mat-icon mat-list-icon class="mr-1">{{link.iconName}}</mat-icon>
+          {{link.display}}
+        </a>
+      </nav>
+    </div>
+  </div>
+
+  <router-outlet></router-outlet>
+</div>

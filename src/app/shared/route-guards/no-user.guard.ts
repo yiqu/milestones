@@ -11,7 +11,7 @@ import { AuthState } from '../redux-stores/auth/auth.models';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthUserAlreadyLoggedInGuard implements CanActivate {
+export class NoVerifiedUserGuard implements CanActivate {
   constructor(public router: Router, public route: ActivatedRoute,
     public store: Store<AppState>) {
   }
@@ -23,35 +23,11 @@ export class AuthUserAlreadyLoggedInGuard implements CanActivate {
       take(1),
       map((state: AuthState) => {
         if (state.verifiedUser) {
-          return this.router.createUrlTree(['/', 'my-account']);;
+          return true;
         }
-        return true;
+        return this.router.createUrlTree(['/', 'auth', 'signin']);;;
       }),
     );
-  }
-
-}
-
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthUserAlreadyLoggedInChildrenGuard implements CanActivateChild {
-  constructor(public router: Router, public route: ActivatedRoute,
-    public store: Store<AppState>) {
-  }
-
-  canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
-    Observable<boolean | UrlTree> | Promise<boolean> | boolean | UrlTree {
-
-      return this.store.select("appAuth").pipe(
-        take(1),
-        map((state: AuthState) => {
-          if (state.verifiedUser) {
-            return this.router.createUrlTree(['/', 'my-account']);;
-          }
-          return true;
-        }),
-      );
   }
 
 }

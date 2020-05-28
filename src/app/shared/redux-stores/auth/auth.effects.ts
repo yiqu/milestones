@@ -14,6 +14,7 @@ import { LoginSuccessActionProp, LoginFailureActionProp, AuthVerifiedUserProp } 
 import * as AuthUtils from '../../utils/auth.utils';
 import * as fromAuthActions from './auth.actions';
 import * as fromRouterActions from '../router-related/router-related.actions';
+import * as fromLsActions from '../local-storage/local-storage.actions';
 
 @Injectable()
 export class AuthEffects {
@@ -108,25 +109,43 @@ export class AuthEffects {
   userLoggedout$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(fromAuthActions.authLogoutSuccess),
-      map((options) => {
+      switchMap((options) => {
         const redirect = options.redirect;
         const urlSegs: string[] = [];
         if (redirect) {
           urlSegs.push("/");
         }
-        return fromRouterActions.redirectWithUrl({url: urlSegs});
+        return [
+          fromRouterActions.redirectWithUrl({url: urlSegs}),
+          fromLsActions.clearVerifiedUserAction()
+        ];
       }));
   });
 
   userLoggedInSuccess$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(fromAuthActions.authLoginSuccess),
-      map((options) => {
-        if (options.redirect) {
-          return fromRouterActions.redirectWithUrl({url: ['/']});
+      switchMap((opts) => {
+        let urlToRedirect: string[] = null;
+        if (opts.redirect) {
+          urlToRedirect = [];
+          urlToRedirect.push("/");
         }
-        return fromRouterActions.redirectWithUrl({url: null});
-      }));
+        return [
+          fromRouterActions.redirectWithUrl({url: urlToRedirect}),
+          fromLsActions.saveVerifiedUserAction({user: opts.verifiedUser})
+        ];
+      })
+    );
+  });
+
+  autoLoginFromLocalStorage$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(fromAuthActions.authAutoLogin),
+      map((opts) => {
+        return fromAuthActions.authLoginSuccess({verifiedUser: opts.user});
+      })
+    );
   });
 
 }

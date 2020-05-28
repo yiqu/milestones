@@ -21,8 +21,9 @@
     </button>
 
     <mat-menu #menu="matMenu">
-      <button *ngFor="let item of userMenuItems" mat-menu-item (click)="onMenuItemClick(item)">
-        <mat-icon>{{item.iconName}}</mat-icon>
+      <button *ngFor="let item of userMenuItems" mat-menu-item (click)="onMenuItemClick(item)"
+        [disabled]="item.disabled">
+        <mat-icon *ngIf="item.iconName">{{item.iconName}}</mat-icon>
         <span>{{item.display}}</span>
       </button>
     </mat-menu>
