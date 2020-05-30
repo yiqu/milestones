@@ -28,7 +28,7 @@ export class SideNavComponent implements OnInit, OnDestroy {
         new NavHeaderLink("My Progress", "assessment", ["/", "personal"]),
       ]),
       new NavHeaderList(new NavHeader("Data"), [
-        new NavHeaderLink("Work Days", "assignment", ["/", "management", "inventory"]),
+        new NavHeaderLink("Configurations", "assignment", ["/", "settings"]),
       ]),
       new NavHeaderList(new NavHeader("History"), [
         new NavHeaderLink("Metrics", "trending_up", ["/", "performance", "metrics"])

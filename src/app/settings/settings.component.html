@@ -1,0 +1,67 @@
+<div class="container mb-3">
+  <div class="row mb-3 secfont text-center mt-3">
+    <div class="col-sm-12">
+      <h2>Milestone Configurations</h2>
+    </div>
+  </div>
+
+  <div class="row mb-2 mt-2">
+    <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="alert alert-primary" role="alert">
+        General info for 2020:<br>
+        Days in 2020
+        From Wednesday, January 1, 2020, to Wednesday, December 31, 2020, there are:
+        <br>
+        <ul>
+          <li>
+            366 days
+          </li>
+          <li>
+            252 working days
+          </li>
+          <li>
+            104 weekend days
+          </li>
+          <li>
+            10 public holidays
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-2 mt-2">
+    <div class="col-sm-12 sub-title">
+      Overall Configurations
+    </div>
+  </div>
+
+  <div class="row mb-2 mt-2">
+    <div class="col-lg-6 col-md-6 col-sm-12">
+      <form class="full-w" *ngIf="configFg; else loading" [formGroup]="configFg">
+        <mat-form-field class="full-w">
+          <mat-label>Total number of work days per year</mat-label>
+          <input matInput formControlName="workDays">
+          <mat-error *ngIf="this.workingDaysFc.hasError('numbersOnly') &&
+            !this.workingDaysFc.hasError('required')">
+              Please enter only numerical values.
+          </mat-error>
+          <mat-error *ngIf="workingDaysFc.hasError('required')">
+            Field is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <div class="alert alert-danger" role="alert" *ngIf="!formValid">
+          Please fix your invalid values.
+        </div>
+        <div class="mt-3">
+          <button mat-flat-button color="primary" (click)="updateConfig()"
+            type="button">Update</button>
+        </div>
+      </form>
+      <ng-template #loading>
+        <app-shared-loading></app-shared-loading>
+      </ng-template>
+    </div>
+  </div>
+
+</div>

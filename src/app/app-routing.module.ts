@@ -13,6 +13,9 @@ const routes: Routes = [
   { path: 'my-account',
     loadChildren: () => import('./my-account/my.module').then(m => m.MyAccountModule)
   },
+  { path: 'settings',
+    loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule)
+  },
   { path: '**', component: NotFoundComponent}
 ];
 
