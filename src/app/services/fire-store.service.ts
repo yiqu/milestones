@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreDocument, Action,
   DocumentSnapshot } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import * as utils from '../shared/utils/general.utils';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppState } from '../shared/redux-stores/global-store/app.reducer';
 import { VerifiedUser } from '../shared/models/user.model';
+import { FirebasePromiseError } from '../shared/models/firebase.model';
+import * as authutils from '../shared/utils/auth.utils';
 
 @Injectable({
   providedIn: 'root'
@@ -25,12 +27,14 @@ export class AngularFireService {
 
   getDocByPath<T>(path: string) {
     const pathWithUserId: string = this.currentUser.uid + "/" + path;
-    console.log(pathWithUserId)
     const itemDoc = this.afs.doc<T>(pathWithUserId);
     return itemDoc.snapshotChanges().pipe(
       map((changes: Action<DocumentSnapshot<T>>) => {
-        console.log(changes.payload.data(), changes.payload.metadata,changes.payload.ref)
+        //console.log(changes.payload.data(), changes.payload.metadata,changes.payload.ref)
         return changes.payload.data();
+      }),
+      catchError((err: FirebasePromiseError) => {
+        return throwError(authutils.decodeFireBaseErr(err));
       })
     );;
   }

@@ -11,6 +11,7 @@ import * as fu from '../shared/utils/form.utils';
 import * as fv from '../shared/form-validators/general-form.validator';
 import { Subject } from 'rxjs';
 import { ToasterService } from '../services/toaster.service';
+import * as SettingsAction from '../shared/redux-stores/settings/settings.actions';
 
 
 @Component({
@@ -24,37 +25,39 @@ export class SettingsComponent implements OnInit, OnDestroy {
   configFg: FormGroup;
   formValid: boolean = true;
   compDest$: Subject<any> = new Subject<any>();
+  workingDayLabel: string = "Total number of work days per year (DOES NOT INCLUDE HOLIDAYS)";
 
-  constructor(private store: Store<AppState>, public fb: FormBuilder,
-    public afs: AngularFireService, public ts: ToasterService) {
-
-  }
+  dataLoading: boolean;
+  updateLoading: boolean;
+  currentSettingData: ISettingsConfiguration;
+  error: boolean;
+  errorMsg: string;
 
   get workingDaysFc(): FormControl {
     return <FormControl>this.configFg.get("workDays");
   }
 
+  constructor(private store: Store<AppState>, public fb: FormBuilder,
+    public afs: AngularFireService, public ts: ToasterService) {
+      this.store.select("settings").pipe(
+        takeUntil(this.compDest$)
+      ).subscribe(
+        (state) => {
+          this.dataLoading = state.loading;
+          this.updateLoading = state.updateLoading;
+          this.currentSettingData = state.settingsConfig;
+          this.error = state.error;
+          this.errorMsg = state.errorMsg;
+
+          if (this.currentSettingData) {
+            this.buildConfigFg(this.currentSettingData);
+          }
+        }
+      )
+  }
+
   ngOnInit() {
-    this.store.select("appAuth").pipe(
-      takeUntil(
-        this.compDest$
-      ),
-      tap((state: AuthState) => {
-        this.user = state.verifiedUser;
-      }),
-      switchMap((state) => {
-        return this.getUserConfigData();
-      }),
-    )
-    .subscribe(
-      (res: ISettingsConfiguration) => {
-        this.buildConfigFg(res);
-        this.ts.getSuccess("Config loaded.");
-      },
-      (err) => {
-        this.ts.getError(err['code']);
-      }
-    )
+    this.store.dispatch(SettingsAction.getSettingsStartAction());
   }
 
   getUserConfigData() {
@@ -72,16 +75,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
   updateConfig() {
     this.formValid = this.configFg.valid;
     const formVal = this.configFg.value;
-    console.log(formVal)
     if (this.configFg.valid) {
-      this.afs.setDocByPath("settings", formVal).then(
-        (res) => {
-          this.ts.getSuccess("Saved.");
-        },
-        (err) => {
-          this.ts.getError("Something went wrong saving your value.");
-        }
-      )
+      this.store.dispatch(SettingsAction.updateSettingsStartAction({settingsVal: formVal}));
     }
   }
 

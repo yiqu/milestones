@@ -1,6 +1,8 @@
 /**
  * Utils class for Authentication related
  */
+import { FirebasePromiseError } from '../models/firebase.model';
+
 
 export function getFirebaseErrorMsg(err: any): string {
   if (err) {
@@ -9,7 +11,7 @@ export function getFirebaseErrorMsg(err: any): string {
   return "Server error occured, but could not get a detailed message from backend."
 }
 
-export function decodeFireBaseErr(err: any): string {
+export function decodeFireBaseErr(err: FirebasePromiseError): string {
   let errMsg: string = "Server error occured."
   switch (err.code) {
     case "auth/email-already-in-use": {
@@ -34,6 +36,10 @@ export function decodeFireBaseErr(err: any): string {
     }
     case "auth/wrong-password": {
       errMsg = "Invalid password.";
+      break;
+    }
+    case "permission-denied": {
+      errMsg = "You do not have the permission to take this action.";
       break;
     }
     case "": {
