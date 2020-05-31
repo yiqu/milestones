@@ -1,0 +1,262 @@
+<ng-container *ngIf="msFg; else loading" [formGroup]="msFg">
+  <div class="row mt-5 mb-5" formGroupName="endYear">
+    <div class="col-md-8 col-sm-12">
+      <div>
+        <div class="secfont sub-title">
+          End Year
+        </div>
+        <div class="sub-text">
+          This indicates the ending year of this Milestone entry. For example: if you switched to a new job on June 2015, then your end year for the
+          new job should be "2015".
+        </div>
+      </div>
+      <div>
+        <mat-form-field class="full-w">
+          <mat-label>End Year</mat-label>
+          <mat-select formControlName="value">
+            <mat-option *ngFor="let year of listOfYears" [value]="year">{{year}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="full-w">
+          <mat-label>Explaination note</mat-label>
+          <textarea matInput cdkTextareaAutosize
+            formControlName="note"
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="5"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-md-4 col-sm-0">
+      <div class="step-label">
+        Step 1/6
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3 mb-5">
+    <div class="col-md-8 col-sm-12" formGroupName="projectedPTOInDays">
+      <div>
+        <div class="secfont sub-title">
+          Projected PTO Usage For This Year
+        </div>
+        <div class="sub-text">
+          This is the estimated PTO usage you will have for this year. Usually it's 5 days for Christmas, and 5 days for summer.
+        </div>
+      </div>
+      <div>
+        <mat-form-field class="full-w">
+          <mat-label>PTO Usage In Days</mat-label>
+          <input matInput type="text" formControlName="value">
+          <span matSuffix>DAYS</span>
+          <button mat-button *ngIf="msFg.get('projectedPTOInDays.value').value" matSuffix mat-icon-button aria-label="Clear"
+            (click)="onClearByFcName('projectedPTOInDays')">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="full-w">
+          <mat-label>Explaination note</mat-label>
+          <textarea matInput cdkTextareaAutosize
+            formControlName="note"
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="5"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-md-4 col-sm-0">
+      <div class="step-label">
+        Step 2/6
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3 mb-5">
+    <div class="col-md-8 col-sm-12">
+      <div>
+        <div class="secfont sub-title">
+          Salary or Hourly Rate
+        </div>
+        <div class="sub-text">
+          This is your take home salary or hourly rate. If salary is provided, we will calculate your hourly rate like the following:
+          <div class="mt-1 f-w-800">
+            SALARY / TOTAL WORKABLE HOURS = HOURLY RATE
+          </div>
+          <div class="mt-1">
+            i.e. I make $110,000 a year at company A. This year, my total workable days is 251 days. 251 days is already excluding the 10 major US holidays.
+          </div>
+          <div class="mt-1">
+            My company gives me 4 weeks (20 days of PTO) that I can not cash out, so these 20 days will NOT be part of total workable hours because I can not
+            work, and I can not make money off these 20 days.
+          </div>
+          <div class="mt-1">
+            So my total workable hours is 251 (workable days) - 20 (not working and non-cashable days) times 8. Which is 1848 hours.
+          </div>
+          <div class="mt-1 f-w-800">
+            My hourly at company A is $110,000 / 1848h = $59.52 per hour.
+          </div>
+        </div>
+      </div>
+      <div class="mt-3">
+        <mat-radio-group formControlName="wageRateType">
+          <mat-radio-button value="salary" class="mr-3">Salary</mat-radio-button>
+          <mat-radio-button value="hourly">Hourly Rate</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div formGroupName="wageRateValue">
+        <div *ngIf="msFg.get('wageRateType').value">
+          <mat-form-field class="full-w">
+            <mat-label>{{rateTypeLabel}}</mat-label>
+            <input matInput type="text" formControlName="value">
+            <span matSuffix>{{msFg.get('wageRateType').value}}</span>
+            <button mat-button *ngIf="msFg.get('wageRateValue.value').value" matSuffix mat-icon-button aria-label="Clear"
+              (click)="onClearByFcName('wageRateValue')">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="full-w">
+            <mat-label>Explaination note</mat-label>
+            <textarea matInput cdkTextareaAutosize
+              formControlName="note"
+              cdkAutosizeMinRows="1"
+              cdkAutosizeMaxRows="5"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 col-sm-0">
+      <div class="step-label">
+        Step 3/6
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3 mb-5">
+    <div class="col-md-8 col-sm-12" formGroupName="cashablePTOInHours">
+      <div>
+        <div class="secfont sub-title">
+          Cashable PTO
+        </div>
+        <div class="sub-text">
+          This is the amount of PTO hours you will earn this year that can be converted to cash.
+        </div>
+      </div>
+      <div>
+        <mat-form-field class="full-w">
+          <mat-label>Cashable PTO</mat-label>
+          <input matInput type="text" formControlName="value">
+          <span matSuffix>HOURS</span>
+          <button mat-button *ngIf="msFg.get('cashablePTOInHours').value" matSuffix mat-icon-button aria-label="Clear"
+            (click)="onClearByFcName('cashablePTOInHours')">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="full-w">
+          <mat-label>Explaination note</mat-label>
+          <textarea matInput cdkTextareaAutosize
+            formControlName="note"
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="5"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-md-4 col-sm-0">
+      <div class="step-label">
+        Step 4/6
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3 mb-5">
+    <div class="col-md-8 col-sm-12" formGroupName="Four1kContribution">
+      <div>
+        <div class="secfont sub-title">
+          401k Contribution Amount
+        </div>
+        <div class="sub-text">
+          This is the amount of 401k contribution you will receive from your company.
+        </div>
+      </div>
+      <div>
+        <mat-form-field class="full-w">
+          <mat-label>401k Contribution</mat-label>
+          <input matInput type="text" formControlName="value">
+          <span matSuffix>DOLLARS</span>
+          <button mat-button *ngIf="msFg.get('Four1kContribution.value').value" matSuffix mat-icon-button aria-label="Clear"
+            (click)="onClearByFcName('Four1kContribution')">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="full-w">
+          <mat-label>Explaination note</mat-label>
+          <textarea matInput cdkTextareaAutosize
+            formControlName="note"
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="5"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-md-4 col-sm-0">
+      <div class="step-label">
+        Step 5/6
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3 mb-5">
+    <div class="col-md-8 col-sm-12" formGroupName="bonus">
+      <div>
+        <div class="secfont sub-title">
+          Year End Bonus
+        </div>
+        <div class="sub-text">
+          This is the amount of cash bonus you will receive from your company.
+        </div>
+      </div>
+      <div>
+        <mat-form-field class="full-w">
+          <mat-label>Bonus</mat-label>
+          <input matInput type="text" formControlName="value">
+          <span matSuffix>DOLLARS</span>
+          <button mat-button *ngIf="msFg.get('bonus.value').value" matSuffix mat-icon-button aria-label="Clear"
+            (click)="onClearByFcName('bonus')">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="full-w">
+          <mat-label>Explaination note</mat-label>
+          <textarea matInput cdkTextareaAutosize
+            formControlName="note"
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="5"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-md-4 col-sm-0">
+      <div class="step-label">
+        Step 6/6
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row mt-3 mb-5">
+    <div class="col-md-8 col-sm-12">
+      <button mat-flat-button color="primary" (click)="onSubmitMilestone()" class="mr-3">Submit</button>
+      <button mat-flat-button color="accent" (click)="resetMilestone()">Reset</button>
+    </div>
+  </div>
+</ng-container>
+<ng-template #loading>
+  Creating your form...
+</ng-template>
+

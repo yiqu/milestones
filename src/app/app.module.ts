@@ -22,11 +22,17 @@ import { appReducers } from './shared/redux-stores/global-store/app.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { appEffects } from './shared/redux-stores/global-store/app.effects';
+import { PersonalAddComponent } from './personal/add/add.component';
+import { PersonalEditComponent } from './personal/edit/edit.component';
+import { PersonalProgressComponent } from './personal/progress/progress.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PersonalComponent
+    PersonalComponent,
+    PersonalAddComponent,
+    PersonalEditComponent,
+    PersonalProgressComponent,
   ],
 
   imports: [

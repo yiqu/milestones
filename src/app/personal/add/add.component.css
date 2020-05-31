@@ -1,0 +1,17 @@
+.sub-title {
+  font-weight: 800;
+  font-size: 18px;
+  text-decoration: underline;
+}
+
+.sub-text {
+  font-size: 14px;
+}
+
+.step-label {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  font-weight: 800;
+  justify-content: center;
+}

@@ -1,8 +1,9 @@
 <div class="container mb-3">
-  <div class="row mb-3 secfont text-center mt-3">
+  <div class="row mb-3 mt-3">
     <div class="col-sm-12">
-      <h2>My Progress</h2>
+      <button mat-flat-button color="primary" (click)="onAddMilestone()">Add New Milestone</button>
     </div>
   </div>
-
+  <hr>
+  <router-outlet></router-outlet>
 </div>
