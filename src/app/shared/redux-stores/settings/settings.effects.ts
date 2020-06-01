@@ -73,7 +73,7 @@ export class SettingsEffects {
             return SettingsAction.updateSettingsDoneAction();
           },
           (rej: FirebasePromiseError) => {
-            const errMsg = utils.decodeFireBaseErr(rej);
+            const errMsg = utils.getFirebaseErrorMsg(rej);
             return SettingsAction.updateSettingsFailureAction({errorMsg: errMsg});
           }
         )

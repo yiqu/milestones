@@ -34,7 +34,7 @@ export class AngularFireService {
         return changes.payload.data();
       }),
       catchError((err: FirebasePromiseError) => {
-        return throwError(authutils.decodeFireBaseErr(err));
+        return throwError(authutils.getFirebaseErrorMsg(err));
       })
     );;
   }

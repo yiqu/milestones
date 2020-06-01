@@ -7,6 +7,8 @@ import { RouterRedirectState } from '../router-related/router-related.models';
 import { LocalStorageState } from '../local-storage/local-storage.models';
 import { SettingsState } from '../settings/settings.model';
 import * as fromSettingsReducer from '../settings/settings.reducer';
+import { IMilestonePersonalState } from '../milestone/milestone.model';
+import * as fromPersonalReducer from '../milestone/milestones.reducer';
 
 /**
  * App Overall State
@@ -15,7 +17,8 @@ export interface AppState {
   appAuth: AuthState;
   appRouterRedirects: RouterRedirectState;
   localStorage: LocalStorageState;
-  settings: SettingsState
+  settings: SettingsState,
+  personal: IMilestonePersonalState
 
 }
 
@@ -23,5 +26,6 @@ export const appReducers: ActionReducerMap<AppState> = {
   appAuth: fromAuthReducer.authReducer,
   appRouterRedirects: fromRouterReducer.routerReducer,
   localStorage: fromLsReducer.localStorageReducer,
-  settings: fromSettingsReducer.settingsReducer
+  settings: fromSettingsReducer.settingsReducer,
+  personal: fromPersonalReducer.milestonePersonalReducer
 }

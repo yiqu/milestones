@@ -7,6 +7,7 @@ import { PersonalAddComponent } from './personal/add/add.component';
 import { PersonalProgressComponent } from './personal/progress/progress.component';
 import { PersonalEditComponent } from './personal/edit/edit.component';
 import { NoVerifiedUserGuard } from './shared/route-guards/no-user.guard';
+import { PersonalAddCompleteComponent } from './personal/add-complete/complete.component';
 
 const routes: Routes = [
   { path: "", redirectTo: "personal", pathMatch: "full" },
@@ -17,6 +18,7 @@ const routes: Routes = [
         { path: "", redirectTo: 'progress', pathMatch: 'full' },
         { path: "progress", component: PersonalProgressComponent },
         { path: "add", component: PersonalAddComponent },
+        { path: 'add-complete', component: PersonalAddCompleteComponent },
         { path: "edit", component: PersonalEditComponent }
       ]
   },

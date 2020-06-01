@@ -4,10 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import 'firebase/auth';
 import { switchMap, catchError, map, tap } from 'rxjs/operators';
-import { environment } from '../../../../environments/environment';
 import { Injectable } from '@angular/core';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { EMPTY, from, of, Observable } from 'rxjs';
 import { AuthService } from '../../../services/auth.service';
 import { AuthInfoFromUser, VerifiedUser, InAppAlias, User } from '../../models/user.model';
 import { LoginSuccessActionProp, LoginFailureActionProp, AuthVerifiedUserProp } from './auth.models';
@@ -15,6 +12,7 @@ import * as AuthUtils from '../../utils/auth.utils';
 import * as fromAuthActions from './auth.actions';
 import * as fromRouterActions from '../router-related/router-related.actions';
 import * as fromLsActions from '../local-storage/local-storage.actions';
+import { ToasterService } from '../../../services/toaster.service';
 
 @Injectable()
 export class AuthEffects {
@@ -22,7 +20,7 @@ export class AuthEffects {
   private usersBaseUrl: string = "users/";
 
   constructor(public as: AuthService, public actions$: Actions,
-    public router: Router, public route: ActivatedRoute,
+    public router: Router, public route: ActivatedRoute, private ts: ToasterService,
     private afs: AngularFirestore) {
   }
 
@@ -76,6 +74,7 @@ export class AuthEffects {
           })
           .then(
             (u: firebase.auth.UserCredential) => {
+              this.ts.getSuccess("Your account has been successfully registered.");
               const user: VerifiedUser = <VerifiedUser>u.user.toJSON();
               user.inAppAliases = JSON.parse(JSON.stringify(new InAppAlias(JSON.parse(JSON.stringify(new User(user.uid, user.email, {...user}))))));
               const p = new AuthVerifiedUserProp(user);
@@ -97,9 +96,11 @@ export class AuthEffects {
       switchMap((user) => {
         const userIdDoc: AngularFirestoreDocument = this.afs.doc(this.usersBaseUrl + user.user.uid);
         return userIdDoc.set(user.user).then(() => {
+          this.ts.getSuccess("User created.");
           return fromAuthActions.authAddNewRegisteredUserToDbSuccess();
         },
         (rej) => {
+          this.ts.getError("Error occured adding user.");
           return fromAuthActions.authAddNewRegisteredUserToDbFail();
         });
 
@@ -115,6 +116,7 @@ export class AuthEffects {
         if (redirect) {
           urlSegs.push("/");
         }
+        this.ts.getSuccess("You are logged out.");
         return [
           fromRouterActions.redirectWithUrl({url: urlSegs}),
           fromLsActions.clearVerifiedUserAction()
@@ -131,6 +133,7 @@ export class AuthEffects {
           urlToRedirect = [];
           urlToRedirect.push("/");
         }
+        this.ts.getSuccess("You are logged in.");
         return [
           fromRouterActions.redirectWithUrl({url: urlToRedirect}),
           fromLsActions.saveVerifiedUserAction({user: opts.verifiedUser})
@@ -143,6 +146,7 @@ export class AuthEffects {
     return this.actions$.pipe(
       ofType(fromAuthActions.authAutoLogin),
       map((opts) => {
+        this.ts.getSuccess("Auto logging in...");
         return fromAuthActions.authLoginSuccess({verifiedUser: opts.user});
       })
     );

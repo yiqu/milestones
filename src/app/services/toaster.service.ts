@@ -18,6 +18,10 @@ export class ToasterService {
     this.ts.error(msg, "Error occured!");
   }
 
+  getInfo(msg: string) {
+    this.ts.info(msg, "Info.");
+  }
+
   clearAll() {
     this.ts.clear();
   }

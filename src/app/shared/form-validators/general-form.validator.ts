@@ -22,7 +22,8 @@ export function customOnlyLettersValidator(control: FormControl): {[s: string]: 
 export function customOnlyNumbersValidator(control: FormControl): {[s: string]: boolean} {
   //const num: RegExp = /^[0-9]+([,.][0-9]+)?$/;
   const num: RegExp = /^[0-9]+([.][0-9]+)?$/;
-  const val = control.value;
+  // convert to string first
+  const val = control.value + "";
   if (val && val.match(num)) {
     return null;
   }

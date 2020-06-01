@@ -28,6 +28,7 @@ import { PersonalProgressComponent } from './personal/progress/progress.componen
 import { LoadingModule } from './shared/loading/loading.module';
 import { CurrencyDisplayPipe } from './shared/pipes/currency-display.pipe';
 import { DirectivesBundleModule } from './shared/directives/dir-bundle.module';
+import { PersonalAddCompleteComponent } from './personal/add-complete/complete.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { DirectivesBundleModule } from './shared/directives/dir-bundle.module';
     PersonalAddComponent,
     PersonalEditComponent,
     PersonalProgressComponent,
+    PersonalAddCompleteComponent,
   ],
 
   imports: [

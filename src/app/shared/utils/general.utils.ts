@@ -13,3 +13,7 @@ export function addfireKey(c: SnapshotAction<any>[]) {
     )}
   );
 }
+
+export function getPureObject(obj: any) {
+  return JSON.parse(JSON.stringify(obj));
+}

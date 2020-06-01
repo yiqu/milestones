@@ -11,7 +11,7 @@ export function getFirebaseErrorMsg(err: any): string {
   return "Server error occured, but could not get a detailed message from backend."
 }
 
-export function decodeFireBaseErr(err: FirebasePromiseError): string {
+function decodeFireBaseErr(err: FirebasePromiseError): string {
   let errMsg: string = "Server error occured."
   switch (err.code) {
     case "auth/email-already-in-use": {

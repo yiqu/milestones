@@ -1,0 +1,11 @@
+<div class="row mt-3 mb-3">
+  <div class="col-md-6 col-sm-12 sub-title">
+    Pick a Milestone entry to begin editing.
+  </div>
+</div>
+
+<div class="row mt-3 mb-3" *ngFor="let stone of allMilestones">
+  <div class="col-md-6 col-sm-12">
+    {{stone.dateStarted}}
+  </div>
+</div>

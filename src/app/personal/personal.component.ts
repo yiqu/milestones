@@ -27,6 +27,10 @@ export class PersonalComponent implements OnInit, OnDestroy {
     });
   }
 
+  onEditMilestone() {
+    this.router.navigate(['./', 'edit'], {relativeTo: this.route});
+  }
+
   ngOnDestroy() {
 
   }

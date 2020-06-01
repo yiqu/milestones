@@ -1,31 +1,28 @@
-<div class="row mt-3 mb-5" *ngIf="!settingsLoading">
+<div class="row mt-3 mb-3" *ngIf="!settingsLoading">
   <div class="col-sm-12">
     This Year's Total Working Days: {{workingDays}} days.
   </div>
 </div>
 <ng-container *ngIf="msFg; else loading" [formGroup]="msFg">
-  <div class="row mt-5 mb-5" formGroupName="endYear">
+  <div class="row mt-5 mb-5" formGroupName="dateStarted">
     <div class="col-md-1 col-sm-0 step-parent">
       <div class="step-label">
         Step 1/6
       </div>
     </div>
-    <div class="col-md-11 col-sm-12">
+    <div class="col-md-6 col-sm-12">
       <div class="mb-2">
-        <div class="secfont sub-title">
-          End Year
+        <div class="secfont sub-title mb-2">
+          Job Starting Date
         </div>
-        <div class="sub-text">
-          This indicates the ending year of this Milestone entry. For example: if you switched to a new job on June 2015, then your end year for the
-          new job should be "2015".
+        <div class="sub-text mb-2">
+          This is the date that you started the job offically.
         </div>
       </div>
       <div>
         <mat-form-field class="full-w">
-          <mat-label>End Year</mat-label>
-          <mat-select formControlName="value">
-            <mat-option *ngFor="let year of listOfYears" [value]="year">{{year}}</mat-option>
-          </mat-select>
+          <mat-label>Start Date MM/DD/YYYY</mat-label>
+          <input matInput type="date" formControlName="value">
         </mat-form-field>
       </div>
       <div>
@@ -46,19 +43,19 @@
         Step 2/6
       </div>
     </div>
-    <div class="col-md-11 col-sm-12" formGroupName="projectedPTOInDays">
+    <div class="col-md-6 col-sm-12" formGroupName="projectedPTOInDays">
       <div class="mb-2">
-        <div class="secfont sub-title">
+        <div class="secfont sub-title mb-2">
           Projected PTO Usage For This Year
         </div>
-        <div class="sub-text">
+        <div class="sub-text mb-2">
           This is the estimated PTO usage you will have for this year. Usually it's 5 days for Christmas, and 5 days for summer.
         </div>
       </div>
       <div>
         <mat-form-field class="full-w">
           <mat-label>PTO Usage In Days</mat-label>
-          <input matInput type="text" formControlName="value">
+          <input matInput type="number" formControlName="value">
           <span matSuffix>DAYS</span>
           <button mat-button *ngIf="msFg.get('projectedPTOInDays.value').value" matSuffix mat-icon-button aria-label="Clear"
             (click)="onClearByFcName('projectedPTOInDays')">
@@ -84,12 +81,12 @@
         Step 3/6
       </div>
     </div>
-    <div class="col-md-11 col-sm-12">
+    <div class="col-md-6 col-sm-12">
       <div class="mb-2">
-        <div class="secfont sub-title">
+        <div class="secfont sub-title mb-2">
           Salary or Hourly Rate
         </div>
-        <div class="sub-text">
+        <div class="sub-text mb-2">
           This is your take home salary or hourly rate. If salary is provided, we will calculate your hourly rate like the following:
           <div class="mt-1 f-w-800">
             SALARY / TOTAL WORKABLE HOURS = HOURLY RATE
@@ -120,7 +117,7 @@
           <mat-form-field class="full-w">
             <mat-label>{{rateTypeLabel}}</mat-label>
             <span matPrefix>$ &nbsp;</span>
-            <input matInput type="text" formControlName="value">
+            <input matInput type="number" formControlName="value">
             <span matSuffix>{{msFg.get('wageRateType').value}}</span>
             <button mat-button *ngIf="msFg.get('wageRateValue.value').value" matSuffix mat-icon-button aria-label="Clear"
               (click)="onClearByFcName('wageRateValue')">
@@ -154,19 +151,19 @@
         Step 4/6
       </div>
     </div>
-    <div class="col-md-11 col-sm-12" formGroupName="cashablePTOInHours">
+    <div class="col-md-6 col-sm-12" formGroupName="cashablePTOInHours">
       <div class="mb-2">
-        <div class="secfont sub-title">
+        <div class="secfont sub-title mb-2">
           Cashable PTO
         </div>
-        <div class="sub-text">
+        <div class="sub-text mb-2">
           This is the amount of PTO hours you will earn this year that can be converted to cash.
         </div>
       </div>
       <div>
         <mat-form-field class="full-w">
           <mat-label>Cashable PTO</mat-label>
-          <input matInput type="text" formControlName="value">
+          <input matInput type="number" formControlName="value">
           <span matSuffix>HOURS</span>
           <button mat-button *ngIf="msFg.get('cashablePTOInHours').value" matSuffix mat-icon-button aria-label="Clear"
             (click)="onClearByFcName('cashablePTOInHours')">
@@ -192,12 +189,12 @@
         Step 5/6
       </div>
     </div>
-    <div class="col-md-11 col-sm-12" formGroupName="Four1kContribution">
+    <div class="col-md-6 col-sm-12" formGroupName="Four1kContribution">
       <div class="mb-2">
-        <div class="secfont sub-title">
+        <div class="secfont sub-title mb-2">
           401k Contribution Amount
         </div>
-        <div class="sub-text">
+        <div class="sub-text mb-2">
           This is the amount of 401k contribution you will receive from your company.
         </div>
       </div>
@@ -205,7 +202,7 @@
         <mat-form-field class="full-w">
           <mat-label>401k Contribution</mat-label>
           <span matPrefix>$ &nbsp;</span>
-          <input matInput type="text" formControlName="value">
+          <input matInput type="number" formControlName="value">
           <span matSuffix>DOLLARS</span>
           <button mat-button *ngIf="msFg.get('Four1kContribution.value').value" matSuffix mat-icon-button aria-label="Clear"
             (click)="onClearByFcName('Four1kContribution')">
@@ -231,12 +228,12 @@
         Step 6/6
       </div>
     </div>
-    <div class="col-md-11 col-sm-12" formGroupName="bonus">
+    <div class="col-md-6 col-sm-12" formGroupName="bonus">
       <div class="mb-2">
-        <div class="secfont sub-title">
+        <div class="secfont sub-title mb-2">
           Year End Bonus
         </div>
-        <div class="sub-text">
+        <div class="sub-text mb-2">
           This is the amount of cash bonus you will receive from your company.
         </div>
       </div>
@@ -244,7 +241,7 @@
         <mat-form-field class="full-w">
           <mat-label>Bonus</mat-label>
           <span matPrefix>$ &nbsp;</span>
-          <input matInput type="text" formControlName="value">
+          <input matInput type="number" formControlName="value">
           <span matSuffix>DOLLARS</span>
           <button mat-button *ngIf="msFg.get('bonus.value').value" matSuffix mat-icon-button aria-label="Clear"
             (click)="onClearByFcName('bonus')">
@@ -273,10 +270,12 @@
       </div>
     </div>
   </ng-container>
-  <div class="row mt-3 mb-5">
+  <div class="row mt-3">
     <div class="col-md-8 col-sm-12">
-      <button mat-flat-button color="primary" (click)="onSubmitMilestone()" class="mr-3">Submit</button>
-      <button mat-flat-button color="accent" (click)="resetMilestone()">Reset</button>
+      <button mat-flat-button color="primary" (click)="onSubmitMilestone()" class="mr-3"
+        [disabled]="crudLoading || formDebouncing">Submit</button>
+      <button mat-flat-button color="accent" (click)="resetMilestone()"
+        [disabled]="crudLoading || formDebouncing">Reset</button>
     </div>
   </div>
 </ng-container>

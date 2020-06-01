@@ -133,3 +133,8 @@ h2 {
 .mat-snack-bar-container.sb-danger {
   background-color: #990000;
 }
+
+button.edit-btn {
+  background-color: #ffbb33;
+  color: #fff;
+}
