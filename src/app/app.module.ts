@@ -26,6 +26,8 @@ import { PersonalAddComponent } from './personal/add/add.component';
 import { PersonalEditComponent } from './personal/edit/edit.component';
 import { PersonalProgressComponent } from './personal/progress/progress.component';
 import { LoadingModule } from './shared/loading/loading.module';
+import { CurrencyDisplayPipe } from './shared/pipes/currency-display.pipe';
+import { DirectivesBundleModule } from './shared/directives/dir-bundle.module';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,7 @@ import { LoadingModule } from './shared/loading/loading.module';
     HttpClientModule,
     ReactiveFormsModule,
     FontAwesomeModule,
+    DirectivesBundleModule,
     ToastrModule.forRoot({
       timeOut: 5000,
       extendedTimeOut: 1000,
@@ -75,7 +78,7 @@ import { LoadingModule } from './shared/loading/loading.module';
   ],
 
   providers: [
-
+    CurrencyDisplayPipe
   ],
 
   bootstrap: [AppComponent]

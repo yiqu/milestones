@@ -9,6 +9,7 @@ import { SettingsState } from 'src/app/shared/redux-stores/settings/settings.mod
 import { takeUntil, debounceTime } from 'rxjs/operators';
 import * as SettingActions from '../../shared/redux-stores/settings/settings.actions';
 import * as fv from '../../shared/form-validators/general-form.validator';
+import { CurrencyDisplayPipe } from 'src/app/shared/pipes/currency-display.pipe';
 
 const DEFAULT_DAYS: number = 251;
 
@@ -42,7 +43,7 @@ export class PersonalAddComponent implements OnInit, OnDestroy {
   }
 
   constructor(private router: Router, private route: ActivatedRoute, private fb: FormBuilder,
-    private store: Store<AppState>) {
+    private store: Store<AppState>, private cdp: CurrencyDisplayPipe) {
   }
 
   ngOnInit() {
@@ -116,7 +117,7 @@ export class PersonalAddComponent implements OnInit, OnDestroy {
       const workableHours = (this.workingDays - projectedPto) * 8;
       const hourly = salary / workableHours;
       console.log(projectedPto, workableHours, hourly)
-      return +(hourly.toFixed(2));
+      return this.cdp.transform(+(hourly.toFixed(2)));
     }
     return NaN;
   }
@@ -128,7 +129,7 @@ export class PersonalAddComponent implements OnInit, OnDestroy {
       const workableHours = (this.workingDays - projectedPto) * 8;
       const salary = hourly * workableHours;
       console.log(projectedPto, workableHours, salary)
-      return +(salary.toFixed(2));
+      return this.cdp.transform(+(salary.toFixed(2)));
     }
     return NaN;
   }

@@ -6,16 +6,19 @@ import { NetworkAwarePreloadStrategy } from './shared/preload-strategies/preload
 import { PersonalAddComponent } from './personal/add/add.component';
 import { PersonalProgressComponent } from './personal/progress/progress.component';
 import { PersonalEditComponent } from './personal/edit/edit.component';
+import { NoVerifiedUserGuard } from './shared/route-guards/no-user.guard';
 
 const routes: Routes = [
   { path: "", redirectTo: "personal", pathMatch: "full" },
-  { path: "personal", component: PersonalComponent, children:
-    [
-      { path: "", redirectTo: 'progress', pathMatch: 'full' },
-      { path: "progress", component: PersonalProgressComponent },
-      { path: "add", component: PersonalAddComponent },
-      { path: "edit", component: PersonalEditComponent }
-    ]
+  { path: "personal", component: PersonalComponent,
+    canActivate: [NoVerifiedUserGuard],
+    children:
+      [
+        { path: "", redirectTo: 'progress', pathMatch: 'full' },
+        { path: "progress", component: PersonalProgressComponent },
+        { path: "add", component: PersonalAddComponent },
+        { path: "edit", component: PersonalEditComponent }
+      ]
   },
   { path: 'auth',
     loadChildren: () => import('./authentication/auth.module').then(m => m.AuthModule)
