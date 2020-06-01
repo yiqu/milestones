@@ -1,7 +1,17 @@
+<div class="row mt-3 mb-5" *ngIf="!settingsLoading">
+  <div class="col-sm-12">
+    This Year's Total Working Days: {{workingDays}} days.
+  </div>
+</div>
 <ng-container *ngIf="msFg; else loading" [formGroup]="msFg">
   <div class="row mt-5 mb-5" formGroupName="endYear">
-    <div class="col-md-8 col-sm-12">
-      <div>
+    <div class="col-md-1 col-sm-0 step-parent">
+      <div class="step-label">
+        Step 1/6
+      </div>
+    </div>
+    <div class="col-md-11 col-sm-12">
+      <div class="mb-2">
         <div class="secfont sub-title">
           End Year
         </div>
@@ -28,16 +38,16 @@
         </mat-form-field>
       </div>
     </div>
-    <div class="col-md-4 col-sm-0">
-      <div class="step-label">
-        Step 1/6
-      </div>
-    </div>
   </div>
 
   <div class="row mt-3 mb-5">
-    <div class="col-md-8 col-sm-12" formGroupName="projectedPTOInDays">
-      <div>
+    <div class="col-md-1 col-sm-0 step-parent">
+      <div class="step-label">
+        Step 2/6
+      </div>
+    </div>
+    <div class="col-md-11 col-sm-12" formGroupName="projectedPTOInDays">
+      <div class="mb-2">
         <div class="secfont sub-title">
           Projected PTO Usage For This Year
         </div>
@@ -66,16 +76,16 @@
         </mat-form-field>
       </div>
     </div>
-    <div class="col-md-4 col-sm-0">
-      <div class="step-label">
-        Step 2/6
-      </div>
-    </div>
   </div>
 
   <div class="row mt-3 mb-5">
-    <div class="col-md-8 col-sm-12">
-      <div>
+    <div class="col-md-1 col-sm-0 step-parent">
+      <div class="step-label">
+        Step 3/6
+      </div>
+    </div>
+    <div class="col-md-11 col-sm-12">
+      <div class="mb-2">
         <div class="secfont sub-title">
           Salary or Hourly Rate
         </div>
@@ -109,6 +119,7 @@
         <div *ngIf="msFg.get('wageRateType').value">
           <mat-form-field class="full-w">
             <mat-label>{{rateTypeLabel}}</mat-label>
+            <span matPrefix>$ &nbsp;</span>
             <input matInput type="text" formControlName="value">
             <span matSuffix>{{msFg.get('wageRateType').value}}</span>
             <button mat-button *ngIf="msFg.get('wageRateValue.value').value" matSuffix mat-icon-button aria-label="Clear"
@@ -126,18 +137,25 @@
               cdkAutosizeMaxRows="5"></textarea>
           </mat-form-field>
         </div>
+        <div *ngIf="calculateWageValid">
+          Your calculated
+          {{msFg.get('wageRateType').value === 'salary' ?
+            'hourly wage: $' + calculatedRateWage :
+            'annual salary: $' + calculatedRateWage}}
+        </div>
       </div>
     </div>
-    <div class="col-md-4 col-sm-0">
-      <div class="step-label">
-        Step 3/6
-      </div>
-    </div>
+
   </div>
 
   <div class="row mt-3 mb-5">
-    <div class="col-md-8 col-sm-12" formGroupName="cashablePTOInHours">
-      <div>
+    <div class="col-md-1 col-sm-0 step-parent">
+      <div class="step-label">
+        Step 4/6
+      </div>
+    </div>
+    <div class="col-md-11 col-sm-12" formGroupName="cashablePTOInHours">
+      <div class="mb-2">
         <div class="secfont sub-title">
           Cashable PTO
         </div>
@@ -166,16 +184,16 @@
         </mat-form-field>
       </div>
     </div>
-    <div class="col-md-4 col-sm-0">
-      <div class="step-label">
-        Step 4/6
-      </div>
-    </div>
   </div>
 
   <div class="row mt-3 mb-5">
-    <div class="col-md-8 col-sm-12" formGroupName="Four1kContribution">
-      <div>
+    <div class="col-md-1 col-sm-0 step-parent">
+      <div class="step-label">
+        Step 5/6
+      </div>
+    </div>
+    <div class="col-md-11 col-sm-12" formGroupName="Four1kContribution">
+      <div class="mb-2">
         <div class="secfont sub-title">
           401k Contribution Amount
         </div>
@@ -186,6 +204,7 @@
       <div>
         <mat-form-field class="full-w">
           <mat-label>401k Contribution</mat-label>
+          <span matPrefix>$ &nbsp;</span>
           <input matInput type="text" formControlName="value">
           <span matSuffix>DOLLARS</span>
           <button mat-button *ngIf="msFg.get('Four1kContribution.value').value" matSuffix mat-icon-button aria-label="Clear"
@@ -204,16 +223,16 @@
         </mat-form-field>
       </div>
     </div>
-    <div class="col-md-4 col-sm-0">
-      <div class="step-label">
-        Step 5/6
-      </div>
-    </div>
   </div>
 
   <div class="row mt-3 mb-5">
-    <div class="col-md-8 col-sm-12" formGroupName="bonus">
-      <div>
+    <div class="col-md-1 col-sm-0 step-parent">
+      <div class="step-label">
+        Step 6/6
+      </div>
+    </div>
+    <div class="col-md-11 col-sm-12" formGroupName="bonus">
+      <div class="mb-2">
         <div class="secfont sub-title">
           Year End Bonus
         </div>
@@ -224,6 +243,7 @@
       <div>
         <mat-form-field class="full-w">
           <mat-label>Bonus</mat-label>
+          <span matPrefix>$ &nbsp;</span>
           <input matInput type="text" formControlName="value">
           <span matSuffix>DOLLARS</span>
           <button mat-button *ngIf="msFg.get('bonus.value').value" matSuffix mat-icon-button aria-label="Clear"
@@ -242,13 +262,17 @@
         </mat-form-field>
       </div>
     </div>
-    <div class="col-md-4 col-sm-0">
-      <div class="step-label">
-        Step 6/6
-      </div>
-    </div>
   </div>
   <hr>
+  <ng-container *ngIf="formErrorOccured">
+    <div class="row mt-3 mb-3">
+      <div class="col-sm-12">
+        <div class="alert alert-danger" role="alert">
+          Invalid fields needs to be fixed before submitting.
+        </div>
+      </div>
+    </div>
+  </ng-container>
   <div class="row mt-3 mb-5">
     <div class="col-md-8 col-sm-12">
       <button mat-flat-button color="primary" (click)="onSubmitMilestone()" class="mr-3">Submit</button>
@@ -257,6 +281,6 @@
   </div>
 </ng-container>
 <ng-template #loading>
-  Creating your form...
+  <app-shared-loading></app-shared-loading>
 </ng-template>
 

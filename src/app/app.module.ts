@@ -25,6 +25,7 @@ import { appEffects } from './shared/redux-stores/global-store/app.effects';
 import { PersonalAddComponent } from './personal/add/add.component';
 import { PersonalEditComponent } from './personal/edit/edit.component';
 import { PersonalProgressComponent } from './personal/progress/progress.component';
+import { LoadingModule } from './shared/loading/loading.module';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { PersonalProgressComponent } from './personal/progress/progress.componen
     TopNavModule,
     SideNavModule,
     NotFoundComponentModule,
+    LoadingModule,
     AppRoutingModule
   ],
 
