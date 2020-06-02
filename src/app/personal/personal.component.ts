@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ToasterService } from '../services/toaster.service';
 
 @Component({
   selector: 'app-personal',
@@ -11,7 +12,7 @@ export class PersonalComponent implements OnInit, OnDestroy {
 
   compDest$: Subject<any> = new Subject<any>();
 
-  constructor(private router: Router, private route: ActivatedRoute) {
+  constructor(private router: Router, private route: ActivatedRoute, private ts: ToasterService) {
 
   }
 
@@ -32,6 +33,6 @@ export class PersonalComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-
+    this.ts.clearAll();
   }
 }

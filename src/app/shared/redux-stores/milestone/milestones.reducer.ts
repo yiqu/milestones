@@ -46,6 +46,7 @@ export const milestonePersonalReducer = createReducer(
   on(MSActions.getAllMilestonesAction, (state, {extras}) => {
     return {
       ...state,
+      loading: true,
       crudLoading: false,
       error: false,
       errMsg: null,
@@ -55,6 +56,7 @@ export const milestonePersonalReducer = createReducer(
   on(MSActions.getAllMilestonesFailureAction, (state, {errorMsg}) => {
     return {
       ...state,
+      loading: false,
       crudLoading: false,
       error: true,
       errMsg: errorMsg,
@@ -65,6 +67,7 @@ export const milestonePersonalReducer = createReducer(
   on(MSActions.getAllMilestonesDoneAction, (state, {payload}) => {
     return {
       ...state,
+      loading: false,
       crudLoading: false,
       error: false,
       errMsg: null,

@@ -83,6 +83,7 @@ export class PersonalAddComponent implements OnInit, OnDestroy {
 
   createNewMilestoneFg() {
     this.msFg = this.fb.group({
+      companyName: fu.createFormControl(null, false, [Validators.required]),
       dateStarted: this.createValueFg(true),
       projectedPTOInDays: this.createValueFg(true, true),
       wageRateType: fu.createFormControl(null, false, [Validators.required]),
@@ -157,14 +158,18 @@ export class PersonalAddComponent implements OnInit, OnDestroy {
     } else {
       const val: IJobConfigFormValue = this.msFg.value;
       let endYear: number = moment(val.dateStarted.value).year();
+      let dateStartedInMilli: number = moment(val.dateStarted.value).valueOf();
+      val.dateStarted.value = dateStartedInMilli;
       const data: JobConfig = new JobConfig(
+        val.companyName,
         endYear,
         val.projectedPTOInDays,
         new FormValue(undefined, undefined),
         new FormValue(undefined, undefined),
         val.cashablePTOInHours,
         val.Four1kContribution,
-        val.bonus, val.dateStarted,
+        val.bonus,
+        val.dateStarted,
         this.currentUser
       );
 

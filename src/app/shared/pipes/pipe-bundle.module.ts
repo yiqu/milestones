@@ -5,6 +5,7 @@ import { DateDisplayPipe } from './time-utils.pipe';
 import { UserDisplayPipe } from './user.pipe';
 import { CapitalizeFirstLetterPipe } from './letters.pipe';
 import { CurrencyDisplayPipe } from './currency-display.pipe';
+import { ObjectKeysPipe, MilestoneLabelPipe, MilestoneValUnitPipe, CompanyLogoUrlPipe } from './general.pipe';
 
 @NgModule({
   imports: [],
@@ -15,7 +16,11 @@ import { CurrencyDisplayPipe } from './currency-display.pipe';
     DateDisplayPipe,
     UserDisplayPipe,
     CapitalizeFirstLetterPipe,
-    CurrencyDisplayPipe
+    CurrencyDisplayPipe,
+    ObjectKeysPipe,
+    MilestoneLabelPipe,
+    MilestoneValUnitPipe,
+    CompanyLogoUrlPipe
   ],
 
   declarations: [
@@ -24,7 +29,11 @@ import { CurrencyDisplayPipe } from './currency-display.pipe';
     DateDisplayPipe,
     UserDisplayPipe,
     CapitalizeFirstLetterPipe,
-    CurrencyDisplayPipe
+    CurrencyDisplayPipe,
+    ObjectKeysPipe,
+    MilestoneLabelPipe,
+    MilestoneValUnitPipe,
+    CompanyLogoUrlPipe
   ],
 
   providers: [],

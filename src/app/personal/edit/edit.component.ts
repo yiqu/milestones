@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppState } from 'src/app/shared/redux-stores/global-store/app.reducer';
 import { Store } from '@ngrx/store';
 import * as MSActions from '../../shared/redux-stores/milestone/milestone.actions';
@@ -8,19 +8,20 @@ import { QueryExtras, IMilestonePersonalState } from 'src/app/shared/redux-store
 import { VerifiedUser } from 'src/app/shared/models/user.model';
 import { Subject, combineLatest, Observable } from 'rxjs';
 import { IJobConfig } from 'src/app/shared/models/job-config.model';
+import { ToasterService } from 'src/app/services/toaster.service';
 
 @Component({
   selector: 'app-personal-edit',
   templateUrl: 'edit.component.html',
   styleUrls: ['./edit.component.css', '../personal.component.css']
 })
-export class PersonalEditComponent implements OnInit {
+export class PersonalEditComponent implements OnInit, OnDestroy {
 
   compDest$: Subject<any> = new Subject<any>();
   allMilestones: IJobConfig[] = [];
+  loading: boolean = true;
 
-  constructor(private store: Store<AppState>) {
-
+  constructor(private store: Store<AppState>, private ts: ToasterService) {
   }
 
   ngOnInit() {
@@ -38,13 +39,28 @@ export class PersonalEditComponent implements OnInit {
       (data: IMilestonePersonalState) => {
         this.allMilestones = [];
         this.allMilestones = data.payloadData;
+        this.loading = data.loading;
       }
     );
 
   }
 
+  onEdit() {
+
+  }
+
+  onDelete() {
+    console.log("deleting")
+  }
+
   getAllMilestones(user: VerifiedUser) {
     const extra = new QueryExtras(user, null);
     this.store.dispatch(MSActions.getAllMilestonesAction({extras: extra}));
+  }
+
+  ngOnDestroy() {
+    this.compDest$.next();
+    this.compDest$.complete();
+    this.ts.clearAll();
   }
 }

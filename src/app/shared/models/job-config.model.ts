@@ -1,6 +1,7 @@
 import { VerifiedUser } from './user.model';
 
 export interface IJobConfig {
+  companyName: string;
   endYear: number;
   projectedPTOInDays: FormValue;
   salary: FormValue;
@@ -15,6 +16,7 @@ export interface IJobConfig {
 
 export class JobConfig implements IJobConfig {
   constructor(
+    public companyName: string,
     public endYear: number,
     public projectedPTOInDays: FormValue,
     public salary: FormValue,
@@ -33,6 +35,7 @@ export class JobConfig implements IJobConfig {
  * Form value models
  */
 export interface IJobConfigFormValue {
+  companyName: string;
   dateStarted: FormValue;
   projectedPTOInDays: FormValue;
   wageRateType: "salary" | "hourly";

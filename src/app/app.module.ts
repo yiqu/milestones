@@ -29,6 +29,7 @@ import { LoadingModule } from './shared/loading/loading.module';
 import { CurrencyDisplayPipe } from './shared/pipes/currency-display.pipe';
 import { DirectivesBundleModule } from './shared/directives/dir-bundle.module';
 import { PersonalAddCompleteComponent } from './personal/add-complete/complete.component';
+import { CustomComponentsModule } from './shared/custom/custom-bundle.module';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { PersonalAddCompleteComponent } from './personal/add-complete/complete.c
     SideNavModule,
     NotFoundComponentModule,
     LoadingModule,
+    CustomComponentsModule,
     AppRoutingModule
   ],
 

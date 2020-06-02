@@ -1,0 +1,73 @@
+.card {
+  width: 100%;
+}
+
+.vlabel {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+}
+
+.val {
+  font-family: 'Montserrat', sans-serif;
+  color: #86592d;
+  font-weight: 500;
+  font-size: 1.3rem;
+}
+
+.title {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 500;
+  font-size: 19px;
+}
+
+.sub-title {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+  color: #a3297a;
+}
+
+.total-comp {
+  color: #009933;
+  font-weight: 500;
+  font-size: 2rem;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.note {
+  font-size: 0.9rem;
+  font-family: 'Roboto', sans-serif;
+  color: #a6a6a6;
+}
+
+.btn-grp {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.btn-parent {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.co-name {
+  color: #0073e6;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+}
+
+.logo-parent {
+  display: flex;
+  height: auto;
+  justify-content: center;
+  overflow: hidden;
+  opacity: 0.9;
+}
+
+.co-logo {
+  border-top-left-radius: calc(.25rem - 1px);
+  border-top-right-radius: calc(.25rem - 1px);
+  max-width: 100%;
+  height: auto;
+}

@@ -74,7 +74,7 @@ export class MilestonePersonalEffects {
       switchMap((data) => {
         const extras = data.extras;
         const user = extras.user;
-        return this.getDbCollection(user.uid).get().then(
+        return this.getDbCollection(user.uid).orderBy("dateStarted.value", "desc").get().then(
           (res) => {
             const result: any[] = [];
             res.forEach((d) => {
@@ -105,7 +105,7 @@ export class MilestonePersonalEffects {
 
 
   getDbCollection(uid: string) {
-    // {{uid}}/milestones  <--path
+    // {{uid}}/milestones/all  <--path
     console.log(uid + this.milestonesBaseUrl)
     return firebase.firestore().collection(uid + this.milestonesBaseUrl);
   }

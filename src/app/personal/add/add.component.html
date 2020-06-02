@@ -4,7 +4,7 @@
   </div>
 </div>
 <ng-container *ngIf="msFg; else loading" [formGroup]="msFg">
-  <div class="row mt-5 mb-5" formGroupName="dateStarted">
+  <div class="row mt-5 mb-5" >
     <div class="col-md-1 col-sm-0 step-parent">
       <div class="step-label">
         Step 1/6
@@ -13,26 +13,34 @@
     <div class="col-md-6 col-sm-12">
       <div class="mb-2">
         <div class="secfont sub-title mb-2">
-          Job Starting Date
+          Job Name and Starting Date
         </div>
         <div class="sub-text mb-2">
-          This is the date that you started the job offically.
+          This is the company name and the date that you started offically.
         </div>
       </div>
       <div>
         <mat-form-field class="full-w">
-          <mat-label>Start Date MM/DD/YYYY</mat-label>
-          <input matInput type="date" formControlName="value">
+          <mat-label>Company Name</mat-label>
+          <input matInput type="text" formControlName="companyName">
         </mat-form-field>
       </div>
-      <div>
-        <mat-form-field class="full-w">
-          <mat-label>Explaination note</mat-label>
-          <textarea matInput cdkTextareaAutosize
-            formControlName="note"
-            cdkAutosizeMinRows="1"
-            cdkAutosizeMaxRows="5"></textarea>
-        </mat-form-field>
+      <div formGroupName="dateStarted">
+        <div>
+          <mat-form-field class="full-w">
+            <mat-label>Start Date MM/DD/YYYY</mat-label>
+            <input matInput type="date" formControlName="value">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="full-w">
+            <mat-label>Explaination note</mat-label>
+            <textarea matInput cdkTextareaAutosize
+              formControlName="note"
+              cdkAutosizeMinRows="1"
+              cdkAutosizeMaxRows="5"></textarea>
+          </mat-form-field>
+        </div>
       </div>
     </div>
   </div>

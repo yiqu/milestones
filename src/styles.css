@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
-@import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Roboto:wght@300;400;700&family=Quicksand:wght@300;400;500&family=Montserrat:wght@300;400&display=swap');
 
 body {
   /* margin: 0;  */
@@ -13,6 +13,7 @@ body {
 
 button {
   font-family: 'Roboto', cursive !important;
+  font-weight: 800 !important;
 }
 
 a.btn {
@@ -21,6 +22,14 @@ a.btn {
 
 .roboto {
   font-family: 'Roboto', sans-serif;
+}
+
+.osfont {
+  font-family: 'Quicksand', sans-serif;
+}
+
+.numfont {
+  font-family: 'Montserrat', sans-serif;
 }
 
 .secfont {
@@ -52,7 +61,7 @@ a {
 }
 
 .full-w {
-  width: 100%;
+  width: 100% !important;
 }
 
 .f-w-800 {
@@ -138,3 +147,4 @@ button.edit-btn {
   background-color: #ffbb33;
   color: #fff;
 }
+
