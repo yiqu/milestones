@@ -29,7 +29,6 @@ export class PersonalEditConfigComponent implements OnInit, OnDestroy {
   }
 
   onSave(c: IJobConfig) {
-    console.log(c)
     if (c.firebaseId) {
       this.store.dispatch(MSActions.editMilestoneSaveStartAction({payload: c}));
     }

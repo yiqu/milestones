@@ -62,12 +62,14 @@ export class MilestoneAddComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges() {
     if (this.editingConfig) {
-      this.createNewMilestoneFg(this.editingConfig)
+      this.createNewMilestoneFg(this.editingConfig);
+    } else {
+      this.createNewMilestoneFg();
     }
+
   }
 
   ngOnInit() {
-
     const settingsState$: Observable<SettingsState> = this.store.select("settings");
     const authState$: Observable<AuthState> = this.store.select("appAuth");
 
@@ -88,7 +90,6 @@ export class MilestoneAddComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   createNewMilestoneFg(config?: IJobConfig) {
-
     const cn = config?.companyName;
     const ds = new FormValue(moment(config?.dateStarted.value).format("MM/DD/YYYY"), config?.dateStarted.note);
     const ppto = config?.projectedPTOInDays;
@@ -108,7 +109,7 @@ export class MilestoneAddComponent implements OnInit, OnDestroy, OnChanges {
       Four1kContribution: this.createValueFg(true, true, fc),
       bonus: this.createValueFg(true, true, b)
     });
-
+console.log("Created", this.msFg)
     this.msFg.valueChanges.pipe(
       tap(() => this.formDebouncing = true),
       takeUntil(this.compDest$),
@@ -207,6 +208,8 @@ export class MilestoneAddComponent implements OnInit, OnDestroy, OnChanges {
 
       if (this.currentUser) {
         this.onConfigSave.emit(data);
+      } else {
+        console.error("NO user");
       }
     }
   }
