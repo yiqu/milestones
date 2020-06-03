@@ -6,6 +6,8 @@ import { MaterialModuleBundle } from '../material-bundle.module';
 import { PipeBundleModule } from '../pipes/pipe-bundle.module';
 import { RouterModule } from '@angular/router';
 import { DialogConfirmComponent } from './dialog/dialog.component';
+import { MilestoneAddComponent } from './milestone-new/new.component';
+import { LoadingModule } from '../loading/loading.module';
 
 
 @NgModule({
@@ -15,17 +17,20 @@ import { DialogConfirmComponent } from './dialog/dialog.component';
     ReactiveFormsModule,
     MaterialModuleBundle,
     PipeBundleModule,
-    RouterModule
+    RouterModule,
+    LoadingModule
   ],
 
   exports: [
     MilestoneDisplayComponent,
-    DialogConfirmComponent
+    DialogConfirmComponent,
+    MilestoneAddComponent,
   ],
 
   declarations: [
     MilestoneDisplayComponent,
-    DialogConfirmComponent
+    DialogConfirmComponent,
+    MilestoneAddComponent
   ],
 
   providers: [

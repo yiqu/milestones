@@ -10,8 +10,9 @@ const inititalState: IMilestonePersonalState = {
   errMsg: null,
   error: false,
   crudData: null,
-  payloadData: null,
-  queryExtras: null
+  payloadData: [],
+  queryExtras: null,
+  editingConfig: null
 }
 
 export const milestonePersonalReducer = createReducer(
@@ -39,7 +40,7 @@ export const milestonePersonalReducer = createReducer(
       crudLoading: false,
       error: true,
       errMsg: errorMsg,
-      payloadData: null,
+      payloadData: [],
       crudData: null
     }
   }),
@@ -60,7 +61,7 @@ export const milestonePersonalReducer = createReducer(
       crudLoading: false,
       error: true,
       errMsg: errorMsg,
-      payloadData: null,
+      payloadData: [],
       crudData: null
     }
   }),
@@ -72,6 +73,47 @@ export const milestonePersonalReducer = createReducer(
       error: false,
       errMsg: null,
       payloadData: payload,
+      crudData: null
+    }
+  }),
+  on(MSActions.editMilestoneStartAction, (state, {payload}) => {
+    return {
+      ...state,
+      loading: true,
+      crudLoading: false,
+      error: false,
+      errMsg: null,
+      crudData: null,
+      editingConfig: payload
+    }
+  }),
+  on(MSActions.editMilestoneRedirectAction, (state, {payload}) => {
+    return {
+      ...state,
+      error: false,
+      errMsg: null,
+      crudData: null,
+      editingConfig: payload
+    }
+  }),
+  on(MSActions.editMilestoneSaveDoneAction, (state) => {
+    return {
+      ...state,
+      loading: false,
+      crudLoading: false,
+      error: false,
+      errMsg: null,
+      crudData: null,
+      editingConfig: null
+    }
+  }),
+  on(MSActions.editMilestoneSaveFailureAction, (state, {errorMsg}) => {
+    return {
+      ...state,
+      loading: false,
+      crudLoading: false,
+      error: true,
+      errMsg: errorMsg,
       crudData: null
     }
   }),

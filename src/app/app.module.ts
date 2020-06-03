@@ -30,6 +30,7 @@ import { CurrencyDisplayPipe } from './shared/pipes/currency-display.pipe';
 import { DirectivesBundleModule } from './shared/directives/dir-bundle.module';
 import { PersonalAddCompleteComponent } from './personal/add-complete/complete.component';
 import { CustomComponentsModule } from './shared/custom/custom-bundle.module';
+import { PersonalEditConfigComponent } from './personal/edit/edit-config/config.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { CustomComponentsModule } from './shared/custom/custom-bundle.module';
     PersonalEditComponent,
     PersonalProgressComponent,
     PersonalAddCompleteComponent,
+    PersonalEditConfigComponent
   ],
 
   imports: [

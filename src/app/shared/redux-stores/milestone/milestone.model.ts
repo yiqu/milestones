@@ -14,6 +14,7 @@ export interface IMilestonePersonalState {
   crudData: IJobConfig;
   payloadData: IJobConfig[];
   queryExtras: any;
+  editingConfig: IJobConfig;
 }
 
 export class QueryExtras {

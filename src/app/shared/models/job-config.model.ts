@@ -25,7 +25,8 @@ export class JobConfig implements IJobConfig {
     public Four1kContribution: FormValue,
     public bonus: FormValue,
     public dateStarted: FormValue,
-    public user: VerifiedUser
+    public user: VerifiedUser,
+    public firebaseId?: string
   ) {
 
   }

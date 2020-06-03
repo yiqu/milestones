@@ -8,6 +8,7 @@ import { PersonalProgressComponent } from './personal/progress/progress.componen
 import { PersonalEditComponent } from './personal/edit/edit.component';
 import { NoVerifiedUserGuard } from './shared/route-guards/no-user.guard';
 import { PersonalAddCompleteComponent } from './personal/add-complete/complete.component';
+import { PersonalEditConfigComponent } from './personal/edit/edit-config/config.component';
 
 const routes: Routes = [
   { path: "", redirectTo: "personal", pathMatch: "full" },
@@ -19,7 +20,8 @@ const routes: Routes = [
         { path: "progress", component: PersonalProgressComponent },
         { path: "add", component: PersonalAddComponent },
         { path: 'add-complete', component: PersonalAddCompleteComponent },
-        { path: "edit", component: PersonalEditComponent }
+        { path: "edit", component: PersonalEditComponent },
+        { path: "edit/:id", component: PersonalEditConfigComponent }
       ]
   },
   { path: 'auth',

@@ -1,18 +1,29 @@
 <div class="row mt-3 mb-3">
   <div class="col-md-6 col-sm-12 sub-title">
-    Edit or delete your Milestone entries.
+    {{pageTitle}}
   </div>
 </div>
 
 <ng-container *ngIf="!loading; else isLoading">
-  <div class="row mt-3 mb-3" *ngFor="let stone of allMilestones">
-    <div class="col-md-6 col-sm-12">
-      <app-milestone-display [config]="stone" (editAction)="onEdit()"
-        (deleteAction)="onDelete()" [enableEditing]="true"></app-milestone-display>
+  <ng-container *ngIf="(allMilestones.length > 0); else noMs">
+    <div class="row mt-3 mb-3" *ngFor="let stone of allMilestones; index as i">
+      <div class="col-md-6 col-sm-12">
+        <app-milestone-display [config]="stone" (editAction)="onEdit(i)"
+          (deleteAction)="onDelete(i)" [enableEditing]="true"></app-milestone-display>
+      </div>
     </div>
-  </div>
+  </ng-container>
 </ng-container>
 
 <ng-template #isLoading>
   <app-shared-loading></app-shared-loading>
+</ng-template>
+
+
+<ng-template #noMs>
+  <div class="row mt-3 mb-3">
+    <div class="col-sm-12">
+      You currently do not have any Milestones.
+    </div>
+  </div>
 </ng-template>

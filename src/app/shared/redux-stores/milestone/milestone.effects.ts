@@ -102,11 +102,65 @@ export class MilestonePersonalEffects {
     );
   }, {dispatch: false});
 
+  startMilestoneEdit$ = createEffect(() => {
+  return this.actions$.pipe(
+      ofType(fromMsActions.editMilestoneStartAction),
+      map((data) => {
+        return fromMsActions.editMilestoneRedirectAction({payload: data.payload});
+      })
+    );
+  });
+
+  redirectMilestoneEdit$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(fromMsActions.editMilestoneRedirectAction),
+      tap((data) => {
+        this.router.navigate(['/', 'personal', 'edit', data.payload.firebaseId]);
+      })
+    );
+  }, {dispatch: false});
+
+  saveMilestoneEdit$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(fromMsActions.editMilestoneSaveStartAction),
+      switchMap((d) => {
+        d.payload
+        return this.getDbCollection(d.payload.user.uid)
+          .doc(d.payload.firebaseId).update(getPureObject(d.payload))
+          .then(
+            (res) => {
+              return fromMsActions.editMilestoneSaveDoneAction();
+            },
+            (rej: FirebasePromiseError) => {
+              return fromMsActions.editMilestoneSaveFailureAction({errorMsg: AuthUtils.getFirebaseErrorMsg(rej)});
+            }
+          )
+      })
+    );
+  });
+
+  saveMilestoneEditSuccess$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(fromMsActions.editMilestoneSaveDoneAction),
+      tap((data) => {
+        this.ts.getSuccess("Updated Milestone successfully.");
+        this.router.navigate(['/', 'personal', 'edit']);
+      })
+    );
+  }, {dispatch: false});
+
+  saveMilestoneEditFailed$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(fromMsActions.editMilestoneSaveFailureAction),
+      tap((data) => {
+        this.ts.getError(data.errorMsg);
+      })
+    );
+  }, {dispatch: false});
 
 
   getDbCollection(uid: string) {
     // {{uid}}/milestones/all  <--path
-    console.log(uid + this.milestonesBaseUrl)
     return firebase.firestore().collection(uid + this.milestonesBaseUrl);
   }
 

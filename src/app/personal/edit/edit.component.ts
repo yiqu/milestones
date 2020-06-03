@@ -20,6 +20,7 @@ export class PersonalEditComponent implements OnInit, OnDestroy {
   compDest$: Subject<any> = new Subject<any>();
   allMilestones: IJobConfig[] = [];
   loading: boolean = true;
+  pageTitle: string;
 
   constructor(private store: Store<AppState>, private ts: ToasterService) {
   }
@@ -40,16 +41,19 @@ export class PersonalEditComponent implements OnInit, OnDestroy {
         this.allMilestones = [];
         this.allMilestones = data.payloadData;
         this.loading = data.loading;
+        this.pageTitle = this.allMilestones.length > 0 ?
+          ("My Milestones (" + this.allMilestones.length + ")") : "No Milestones found";
       }
     );
 
   }
 
-  onEdit() {
-
+  onEdit(i: number) {
+    const toEdit = this.allMilestones[i];
+    this.store.dispatch(MSActions.editMilestoneStartAction({payload: toEdit}));
   }
 
-  onDelete() {
+  onDelete(i: number) {
     console.log("deleting")
   }
 
