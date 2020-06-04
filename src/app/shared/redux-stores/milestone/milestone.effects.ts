@@ -34,9 +34,15 @@ export class MilestonePersonalEffects {
       concatMap((msData) => {
         this.ts.getInfo("Adding new Milestone...");
         const config: IJobConfig = msData.payload;
-        return this.getDbCollection(config.user.uid).add(getPureObject(msData.payload)).then(
+        const dbRef = this.getDbCollection(config.user.uid).doc();
+        const fbId: string = dbRef.id;
+        const data: IJobConfig = JSON.parse(JSON.stringify(config));
+        data.firebaseId = fbId;
+
+        return dbRef.set(getPureObject(data))
+        .then(
           (res) => {
-            return fromMsActions.addMilestoneDoneAction();
+            return fromMsActions.addMilestoneDoneAction({payload: data});
           },
           (rej: FirebasePromiseError) => {
             return fromMsActions.addMilestoneFailureAction({errorMsg: AuthUtils.getFirebaseErrorMsg(rej)});
@@ -59,8 +65,16 @@ export class MilestonePersonalEffects {
 
   addNewMilestoneFailed$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(fromMsActions.addMilestoneFailureAction,
-        fromMsActions.getAllMilestonesFailureAction),
+      ofType(fromMsActions.addMilestoneFailureAction),
+      tap((data) => {
+        this.ts.getError(data.errorMsg);
+      })
+    );
+  }, {dispatch: false});
+
+  getNewMilestoneFailed$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(fromMsActions.getAllMilestonesFailureAction),
       tap((data) => {
         this.ts.getError(data.errorMsg);
       })
@@ -86,7 +100,7 @@ export class MilestonePersonalEffects {
             return fromMsActions.getAllMilestonesDoneAction({payload: result});
           },
           (rej: FirebasePromiseError) => {
-            return fromMsActions.addMilestoneFailureAction({errorMsg: AuthUtils.getFirebaseErrorMsg(rej)});
+            return fromMsActions.getAllMilestonesFailureAction({errorMsg: AuthUtils.getFirebaseErrorMsg(rej)});
           }
         )
       })
@@ -102,6 +116,7 @@ export class MilestonePersonalEffects {
     );
   }, {dispatch: false});
 
+  // redirect to edit page
   startMilestoneEdit$ = createEffect(() => {
   return this.actions$.pipe(
       ofType(fromMsActions.editMilestoneStartAction),
@@ -111,14 +126,18 @@ export class MilestonePersonalEffects {
     );
   });
 
+
   redirectMilestoneEdit$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(fromMsActions.editMilestoneRedirectAction),
       tap((data) => {
-        this.router.navigate(['/', 'personal', 'edit', data.payload.firebaseId]);
+        if (data.payload.firebaseId) {
+          this.router.navigate(['/', 'personal', 'edit', data.payload.firebaseId]);
+        }
       })
     );
   }, {dispatch: false});
+
 
   saveMilestoneEdit$ = createEffect(() => {
     return this.actions$.pipe(
@@ -139,6 +158,7 @@ export class MilestonePersonalEffects {
     );
   });
 
+
   saveMilestoneEditSuccess$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(fromMsActions.editMilestoneSaveDoneAction),
@@ -148,6 +168,7 @@ export class MilestonePersonalEffects {
       })
     );
   }, {dispatch: false});
+
 
   saveMilestoneEditFailed$ = createEffect(() => {
     return this.actions$.pipe(

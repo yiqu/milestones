@@ -55,6 +55,7 @@ export const authReducer = createReducer(
   on(AuthActions.authLogoutStart, (state) => {
     return {
       ...state,
+      verifiedUser: null,
       loading: true,
     }
   }),

@@ -146,8 +146,8 @@
           <div *ngIf="calculateWageValid">
             Your calculated
             {{msFg.get('wageRateType').value === 'salary' ?
-              'hourly wage: $' + calculatedRateWage :
-              'annual salary: $' + calculatedRateWage}}
+              'hourly wage: $' + (calculatedRateWage | currencyDisplay):
+              'annual salary: $' + (calculatedRateWage | currencyDisplay)}}
           </div>
         </div>
       </div>

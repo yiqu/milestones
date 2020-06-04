@@ -31,6 +31,7 @@ import { DirectivesBundleModule } from './shared/directives/dir-bundle.module';
 import { PersonalAddCompleteComponent } from './personal/add-complete/complete.component';
 import { CustomComponentsModule } from './shared/custom/custom-bundle.module';
 import { PersonalEditConfigComponent } from './personal/edit/edit-config/config.component';
+import { PersonalEmptyComponent } from './personal/empty/empty.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { PersonalEditConfigComponent } from './personal/edit/edit-config/config.
     PersonalEditComponent,
     PersonalProgressComponent,
     PersonalAddCompleteComponent,
-    PersonalEditConfigComponent
+    PersonalEditConfigComponent,
+    PersonalEmptyComponent
   ],
 
   imports: [
@@ -60,7 +62,7 @@ import { PersonalEditConfigComponent } from './personal/edit/edit-config/config.
     FontAwesomeModule,
     DirectivesBundleModule,
     ToastrModule.forRoot({
-      timeOut: 5000,
+      timeOut: 3000,
       extendedTimeOut: 1000,
       positionClass: 'toast-top-right',
       preventDuplicates: false,

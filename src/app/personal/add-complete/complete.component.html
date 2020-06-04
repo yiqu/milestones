@@ -5,22 +5,9 @@
         You have successfully added a new Milestone!
       </div>
     </div>
-    <ng-container *ngFor="let field of dataFields; last as isLast">
-      <div class="row mb-3">
-        <div class="val-label mb-1">
-          {{field}}
-        </div>
-        <div class="mb-2 value mr-1">
-          {{addedMileStone[field].value}}
-          <span class="note">
-            ({{addedMileStone[field].note}})
-          </span>
-        </div>
-      </div>
-      <hr *ngIf="!isLast">
-    </ng-container>
   </div>
 </div>
+<app-milestone-display [config]="addedMileStone"></app-milestone-display>
 <div class="row mb-3 mt-3">
   <div class="col-sm-12">
     <button mat-flat-button color="accent" (click)="edit()" class="mr-3">Edit</button>

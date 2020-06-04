@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import memo from 'memo-decorator';
 import { CurrencyDisplayPipe } from './currency-display.pipe';
+import { stripCommas } from '../utils/general.utils';
 
 const PRIVATE_KEYS: string[] = ["dateStarted", "user", "endYear", "firebaseId", "companyName"];
 
@@ -84,7 +85,6 @@ export class MilestoneValUnitPipe implements PipeTransform {
 
   }
 
-  @memo()
   transform(val: string, label: any): string {
     let res: string = "";
     switch(label) {
@@ -97,15 +97,15 @@ export class MilestoneValUnitPipe implements PipeTransform {
         break;
       }
       case "Four1kContribution": {
-        res = "$" + this.cdp.transform(+val);
+        res = "$" + this.cdp.transform(stripCommas(val));
         break;
       }
       case "hourlyRate": {
-        res = "$" + this.cdp.transform(+val);
+        res = "$" + this.cdp.transform(stripCommas(val));
         break;
       }
       case "salary": {
-        res = "$" + this.cdp.transform(+val);
+        res = "$" + this.cdp.transform(stripCommas(val));
         break;
       }
       case "cashablePTOInHours": {
@@ -116,6 +116,7 @@ export class MilestoneValUnitPipe implements PipeTransform {
     return res;
   }
 }
+
 
 
 @Pipe({

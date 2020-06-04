@@ -1,14 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AppState } from 'src/app/shared/redux-stores/global-store/app.reducer';
+import { AppState } from '../../shared/redux-stores/global-store/app.reducer';
 import { Store } from '@ngrx/store';
 import * as MSActions from '../../shared/redux-stores/milestone/milestone.actions';
 import { switchMap, map, takeUntil } from 'rxjs/operators';
-import { AuthState } from 'src/app/shared/redux-stores/auth/auth.models';
-import { QueryExtras, IMilestonePersonalState } from 'src/app/shared/redux-stores/milestone/milestone.model';
-import { VerifiedUser } from 'src/app/shared/models/user.model';
+import { QueryExtras, IMilestonePersonalState } from '../../shared/redux-stores/milestone/milestone.model';
+import { VerifiedUser } from '../../shared/models/user.model';
 import { Subject, combineLatest, Observable } from 'rxjs';
-import { IJobConfig } from 'src/app/shared/models/job-config.model';
-import { ToasterService } from 'src/app/services/toaster.service';
+import { IJobConfig } from '../../shared/models/job-config.model';
+import { ToasterService } from '../../services/toaster.service';
 
 @Component({
   selector: 'app-personal-edit',

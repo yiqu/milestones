@@ -26,12 +26,13 @@ export const milestonePersonalReducer = createReducer(
       crudData: payload
     }
   }),
-  on(MSActions.addMilestoneDoneAction, (state) => {
+  on(MSActions.addMilestoneDoneAction, (state, {payload}) => {
     return {
       ...state,
       crudLoading: false,
       error: false,
-      errMsg: null
+      errMsg: null,
+      crudData: payload
     }
   }),
   on(MSActions.addMilestoneFailureAction, (state, {errorMsg}) => {

@@ -21,7 +21,8 @@ export const addMilestoneStartAction = createAction(
 
 
 export const addMilestoneDoneAction = createAction(
-  ADD_MILESTONE_DONE
+  ADD_MILESTONE_DONE,
+  props<{payload: IJobConfig}>()
 )
 
 export const addMilestoneFailureAction = createAction(

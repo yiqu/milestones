@@ -114,7 +114,7 @@ export class AuthEffects {
         const redirect = options.redirect;
         const urlSegs: string[] = [];
         if (redirect) {
-          urlSegs.push("/");
+          urlSegs.push("/", "auth");
         }
         this.ts.getSuccess("You are logged out.");
         return [

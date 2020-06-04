@@ -158,7 +158,7 @@ console.log("Created", this.msFg)
       const projectedPto = +(this.msFg.get("projectedPTOInDays.value").value);
       const workableHours = (this.workingDays - projectedPto) * 8;
       const hourly = salary / workableHours;
-      return this.cdp.transform(+(hourly.toFixed(2)));
+      return (+(hourly.toFixed(2)));
     }
     return NaN;
   }
@@ -169,7 +169,7 @@ console.log("Created", this.msFg)
       const projectedPto = +(this.msFg.get("projectedPTOInDays.value").value);
       const workableHours = (this.workingDays - projectedPto) * 8;
       const salary = hourly * workableHours;
-      return this.cdp.transform(+(salary.toFixed(2)));
+      return (+(salary.toFixed(2)));
     }
     return NaN;
   }

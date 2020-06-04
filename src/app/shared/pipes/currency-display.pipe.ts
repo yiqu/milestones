@@ -16,7 +16,12 @@ export class CurrencyDisplayPipe implements PipeTransform {
   }
 
   addComma(val: number): string {
-    const arrayOfNumbersReversed = (val+"").split("").reverse();
+    const stringVersion = (val+"");
+    const portions: string[] =stringVersion.split(".");
+    const decimalsPortion: string = portions[1]
+    const intPortion: string = portions[0];
+
+    const arrayOfNumbersReversed = intPortion.split("").reverse();
     const resArr = [];
     for (let i=0; i<arrayOfNumbersReversed.length; i++) {
       resArr.push(arrayOfNumbersReversed[i])
@@ -24,6 +29,7 @@ export class CurrencyDisplayPipe implements PipeTransform {
         resArr.push(",")
       }
     }
-    return resArr.reverse().join("");
+    const result = resArr.reverse().join("") + (decimalsPortion ? ("." + decimalsPortion) : "");
+    return result;
   }
 }

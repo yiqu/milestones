@@ -17,3 +17,8 @@ export function addfireKey(c: SnapshotAction<any>[]) {
 export function getPureObject(obj: any) {
   return JSON.parse(JSON.stringify(obj));
 }
+
+export function stripCommas(val: string): number {
+  let v = val+"";
+  return +(v.replace(",", ""));
+}

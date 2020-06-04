@@ -63,6 +63,7 @@
   justify-content: center;
   overflow: hidden;
   opacity: 0.9;
+  padding: 10px;
 }
 
 .co-logo {
@@ -70,4 +71,5 @@
   border-top-right-radius: calc(.25rem - 1px);
   max-width: 100%;
   height: auto;
+  width: 13rem;
 }
