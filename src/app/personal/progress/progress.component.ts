@@ -2,16 +2,22 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToasterService } from '../../services/toaster.service';
 import { Subject } from 'rxjs';
 import { IJobConfig } from '../../shared/models/job-config.model';
-import { AppState } from 'src/app/shared/redux-stores/global-store/app.reducer';
+import { AppState } from '../../shared/redux-stores/global-store/app.reducer';
 import { Store } from '@ngrx/store';
 import * as MSAction from '../../shared/redux-stores/milestone/milestone.actions';
 import { takeUntil } from 'rxjs/operators';
-import { QueryExtras } from 'src/app/shared/redux-stores/milestone/milestone.model';
+import { QueryExtras } from '../../shared/redux-stores/milestone/milestone.model';
+import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation } from 'angular-animations';
 
 @Component({
   selector: 'app-personal-progress',
   templateUrl: 'progress.component.html',
-  styleUrls: ['./progress.component.css']
+  styleUrls: ['./progress.component.css'],
+  animations: [
+    fadeInOnEnterAnimation(),
+    fadeOutOnLeaveAnimation()
+  ]
+
 })
 export class PersonalProgressComponent implements OnInit, OnDestroy {
 

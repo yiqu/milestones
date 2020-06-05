@@ -8,11 +8,16 @@ import { VerifiedUser } from '../../shared/models/user.model';
 import { Subject, combineLatest, Observable } from 'rxjs';
 import { IJobConfig } from '../../shared/models/job-config.model';
 import { ToasterService } from '../../services/toaster.service';
+import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation } from 'angular-animations';
 
 @Component({
   selector: 'app-personal-edit',
   templateUrl: 'edit.component.html',
-  styleUrls: ['./edit.component.css', '../personal.component.css']
+  styleUrls: ['./edit.component.css', '../personal.component.css'],
+  animations: [
+    fadeInOnEnterAnimation(),
+    fadeOutOnLeaveAnimation()
+  ]
 })
 export class PersonalEditComponent implements OnInit, OnDestroy {
 
@@ -20,6 +25,7 @@ export class PersonalEditComponent implements OnInit, OnDestroy {
   allMilestones: IJobConfig[] = [];
   loading: boolean = true;
   pageTitle: string;
+  currentUser: VerifiedUser;
 
   constructor(private store: Store<AppState>, private ts: ToasterService) {
   }
@@ -30,6 +36,7 @@ export class PersonalEditComponent implements OnInit, OnDestroy {
     ).subscribe(
       (data) => {
         this.getAllMilestones(data.verifiedUser);
+        this.currentUser = data.verifiedUser;
       }
     );
 
@@ -41,7 +48,7 @@ export class PersonalEditComponent implements OnInit, OnDestroy {
         this.allMilestones = data.payloadData;
         this.loading = data.loading;
         this.pageTitle = this.allMilestones.length > 0 ?
-          ("My Milestones (" + this.allMilestones.length + ")") : "No Milestones found";
+          ("My Milestones (" + this.allMilestones.length + ")") : "";
       }
     );
 
@@ -53,7 +60,10 @@ export class PersonalEditComponent implements OnInit, OnDestroy {
   }
 
   onDelete(i: number) {
-    console.log("deleting")
+    const toDelete: IJobConfig = this.allMilestones[i];
+    this.store.dispatch(MSActions.deleteMilestoneStartAction(
+      {docId: toDelete.firebaseId, user: this.currentUser}
+    ))
   }
 
   getAllMilestones(user: VerifiedUser) {

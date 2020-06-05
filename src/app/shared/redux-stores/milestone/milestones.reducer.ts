@@ -62,7 +62,6 @@ export const milestonePersonalReducer = createReducer(
       crudLoading: false,
       error: true,
       errMsg: errorMsg,
-      payloadData: [],
       crudData: null
     }
   }),
@@ -109,6 +108,36 @@ export const milestonePersonalReducer = createReducer(
     }
   }),
   on(MSActions.editMilestoneSaveFailureAction, (state, {errorMsg}) => {
+    return {
+      ...state,
+      loading: false,
+      crudLoading: false,
+      error: true,
+      errMsg: errorMsg,
+      crudData: null
+    }
+  }),
+  on(MSActions.deleteMilestoneStartAction, (state, {docId, user}) => {
+    return {
+      ...state,
+      loading: false,
+      crudLoading: false,
+      error: false,
+      errMsg: null,
+      crudData: null
+    }
+  }),
+  on(MSActions.deleteMilestoneDoneAction, (state, {docId, user}) => {
+    return {
+      ...state,
+      loading: false,
+      crudLoading: false,
+      error: false,
+      errMsg: null,
+      crudData: null
+    }
+  }),
+  on(MSActions.deleteMilestoneFailureAction, (state, {errorMsg}) => {
     return {
       ...state,
       loading: false,

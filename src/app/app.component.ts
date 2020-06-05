@@ -7,6 +7,7 @@ import { AppState } from './shared/redux-stores/global-store/app.reducer';
 import { Store } from '@ngrx/store';
 import * as AuthActions from './shared/redux-stores/auth/auth.actions';
 import { VerifiedUser } from './shared/models/user.model';
+import { IsMobileService } from './services/is-mobile.service';
 
 const LOCAL_STORAGE_USER_KEY: string = "VERIFIED_USER";
 
@@ -27,7 +28,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private _mobileQueryListener: () => void;
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
-    public store: Store<AppState>) {
+    public store: Store<AppState>, private ims: IsMobileService) {
     // injecting AngularFire will auto initializeApp
 
     //firebase.initializeApp(environment.firebaseConfig);
@@ -37,7 +38,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
-    //this.fds.mobileQuery = this.mobileQuery; //ngrx
+    this.ims.mediaQList = this.mobileQuery;
   }
 
   ngOnInit() {

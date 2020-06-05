@@ -64,6 +64,10 @@ a {
   width: 100% !important;
 }
 
+button.mat-flat-button.m-w-btn {
+  min-width: 125px;
+}
+
 .f-w-800 {
   font-weight: 800;
 }

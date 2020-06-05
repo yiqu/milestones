@@ -17,6 +17,7 @@ import { ToasterService } from '../../../services/toaster.service';
 import { IJobConfig } from '../../models/job-config.model';
 import { FirebasePromiseError } from '../../models/firebase.model';
 import { getPureObject } from '../../utils/general.utils';
+import { QueryExtras } from './milestone.model';
 
 @Injectable()
 export class MilestonePersonalEffects {
@@ -178,6 +179,45 @@ export class MilestonePersonalEffects {
       })
     );
   }, {dispatch: false});
+
+
+  deleteMilestone$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(fromMsActions.deleteMilestoneStartAction),
+      switchMap((data) => {
+        return this.getDbCollection(data.user.uid).doc(data.docId).delete()
+        .then(
+          (res) => {
+            return fromMsActions.deleteMilestoneDoneAction(data);
+          },
+          (rej: FirebasePromiseError) => {
+            return fromMsActions.deleteMilestoneFailureAction({errorMsg: AuthUtils.getFirebaseErrorMsg(rej)});
+          }
+        )
+      })
+    );
+  });
+
+  deleteMilestoneFailed$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(fromMsActions.deleteMilestoneFailureAction),
+      tap((data) => {
+        this.ts.getError(data.errorMsg);
+      })
+    );
+  }, {dispatch: false});
+
+
+  deleteMilestoneSuccess$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(fromMsActions.deleteMilestoneDoneAction),
+      map((data) => {
+        this.ts.getSuccess("Successfully deleted your Milestone.");
+        const extras = new QueryExtras(data.user, null);
+        return fromMsActions.getAllMilestonesAction({extras: extras});
+      })
+    );
+  });
 
 
   getDbCollection(uid: string) {

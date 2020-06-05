@@ -8,6 +8,8 @@ import { RouterModule } from '@angular/router';
 import { DialogConfirmComponent } from './dialog/dialog.component';
 import { MilestoneAddComponent } from './milestone-new/new.component';
 import { LoadingModule } from '../loading/loading.module';
+import { MilestoneListComponent } from './milestone-list-display/list-display.component';
+import { PersonalEmptyComponent } from './empty/empty.component';
 
 
 @NgModule({
@@ -25,12 +27,16 @@ import { LoadingModule } from '../loading/loading.module';
     MilestoneDisplayComponent,
     DialogConfirmComponent,
     MilestoneAddComponent,
+    MilestoneListComponent,
+    PersonalEmptyComponent
   ],
 
   declarations: [
     MilestoneDisplayComponent,
     DialogConfirmComponent,
-    MilestoneAddComponent
+    MilestoneAddComponent,
+    MilestoneListComponent,
+    PersonalEmptyComponent
   ],
 
   providers: [

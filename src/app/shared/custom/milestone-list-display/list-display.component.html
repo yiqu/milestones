@@ -1,0 +1,45 @@
+<ng-container *ngIf="!loading; else loadingData">
+  <ng-container *ngIf="(allMilestones.length > 0); else noMs">
+
+    <mat-tab-group mat-align-tabs="center" animationDuration="0ms" dynamicHeight>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="mr-1">dns</mat-icon>
+          Tiles View
+        </ng-template>
+        <div class="row mt-3 mb-3 center-align" *ngFor="let stone of allMilestones; index as i"
+          [@fadeInOnEnter] [@fadeOutOnLeave]>
+          <div class="col-md-6 col-sm-12">
+            <app-milestone-display [config]="stone" [enableEditing]="editingMode" (editAction)="onEdit(i)"
+              (deleteAction)="onDelete(i)"></app-milestone-display>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="mr-1">list</mat-icon>
+          List View
+        </ng-template>
+      </mat-tab>
+
+      <mat-tab label="Graph">
+        <ng-template mat-tab-label>
+          <mat-icon class="mr-1">timeline</mat-icon>
+          Table View
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+
+
+  </ng-container>
+</ng-container>
+
+<ng-template #noMs>
+  <app-milestone-empty></app-milestone-empty>
+</ng-template>
+
+<ng-template #loadingData>
+  <app-shared-loading></app-shared-loading>
+</ng-template>
