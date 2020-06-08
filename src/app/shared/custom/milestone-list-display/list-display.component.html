@@ -1,7 +1,8 @@
 <ng-container *ngIf="!loading; else loadingData">
   <ng-container *ngIf="(allMilestones.length > 0); else noMs">
 
-    <mat-tab-group mat-align-tabs="center" animationDuration="0ms" dynamicHeight>
+    <mat-tab-group mat-align-tabs="center" animationDuration="0ms" dynamicHeight
+      [selectedIndex]="activeTabIndex" (selectedTabChange)="onTabChange($event)">
 
       <mat-tab>
         <ng-template mat-tab-label>
@@ -22,12 +23,17 @@
           <mat-icon class="mr-1">list</mat-icon>
           List View
         </ng-template>
+        <div class="row mt-3 mb-3 center-align">
+          <div class="col-md-10 col-sm-12">
+            <app-shared-table [mileStones]="allMilestones"></app-shared-table>
+          </div>
+        </div>
       </mat-tab>
 
       <mat-tab label="Graph">
         <ng-template mat-tab-label>
           <mat-icon class="mr-1">timeline</mat-icon>
-          Table View
+          Graph View
         </ng-template>
       </mat-tab>
     </mat-tab-group>

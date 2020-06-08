@@ -6,6 +6,7 @@ import { UserDisplayPipe } from './user.pipe';
 import { CapitalizeFirstLetterPipe } from './letters.pipe';
 import { CurrencyDisplayPipe } from './currency-display.pipe';
 import { ObjectKeysPipe, MilestoneLabelPipe, MilestoneValUnitPipe, CompanyLogoUrlPipe } from './general.pipe';
+import { TableColumnDisplayPipe, TableDataDisplayPipe } from './table.pipe';
 
 @NgModule({
   imports: [],
@@ -20,7 +21,9 @@ import { ObjectKeysPipe, MilestoneLabelPipe, MilestoneValUnitPipe, CompanyLogoUr
     ObjectKeysPipe,
     MilestoneLabelPipe,
     MilestoneValUnitPipe,
-    CompanyLogoUrlPipe
+    CompanyLogoUrlPipe,
+    TableColumnDisplayPipe,
+    TableDataDisplayPipe
   ],
 
   declarations: [
@@ -33,7 +36,9 @@ import { ObjectKeysPipe, MilestoneLabelPipe, MilestoneValUnitPipe, CompanyLogoUr
     ObjectKeysPipe,
     MilestoneLabelPipe,
     MilestoneValUnitPipe,
-    CompanyLogoUrlPipe
+    CompanyLogoUrlPipe,
+    TableColumnDisplayPipe,
+    TableDataDisplayPipe
   ],
 
   providers: [],

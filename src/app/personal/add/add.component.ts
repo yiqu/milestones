@@ -37,6 +37,10 @@ export class PersonalAddComponent implements OnInit, OnDestroy {
     this.store.dispatch(MSActions.addMilestoneStartAction({payload: c}));
   }
 
+  goBack() {
+    this.router.navigate(['../'], {relativeTo: this.route});
+  }
+
   ngOnDestroy() {
     this.compDest$.next();
     this.compDest$.complete();

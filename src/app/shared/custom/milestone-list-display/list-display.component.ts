@@ -1,6 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { IJobConfig } from '../../models/job-config.model';
 import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation, fadeOutDownOnLeaveAnimation } from 'angular-animations';
+import { Router, ActivatedRoute, NavigationEnd, ParamMap } from '@angular/router';
+import { filter, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { MatTab } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-milestone-list',
@@ -12,7 +16,7 @@ import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation, fadeOutDownOnLeaveAnim
     fadeOutDownOnLeaveAnimation()
   ]
 })
-export class MilestoneListComponent implements OnInit {
+export class MilestoneListComponent implements OnInit, OnDestroy {
 
   @Input()
   loading: boolean;
@@ -29,12 +33,27 @@ export class MilestoneListComponent implements OnInit {
   @Output()
   deleteAction: EventEmitter<number> = new EventEmitter<number>();
 
-  constructor() {
+  compDest$: Subject<any> = new Subject<any>();
+  activeTabIndex: number = 0;
 
+  constructor(public router: Router, public route: ActivatedRoute) {
+
+    this.route.queryParamMap.pipe(
+      takeUntil(this.compDest$)
+    )
+    .subscribe((val: ParamMap) => {
+      this.setActiveTab(+val.get("tab"));
+    });
   }
 
   ngOnInit() {
 
+  }
+
+  setActiveTab(p: any) {
+    if  (p && (p > -1 && p < 3)) {
+      this.activeTabIndex = +p;
+    }
   }
 
   onEdit(i: number) {
@@ -43,5 +62,17 @@ export class MilestoneListComponent implements OnInit {
 
   onDelete(i: number) {
     this.deleteAction.emit(i);
+  }
+
+  onTabChange(tab: {index: number, tab: MatTab}) {
+    this.router.navigate(['./'], {
+      relativeTo: this.route,
+      queryParams: {tab: tab.index}
+    })
+  }
+
+  ngOnDestroy() {
+    this.compDest$.next();
+    this.compDest$.complete();
   }
 }

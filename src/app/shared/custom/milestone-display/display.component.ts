@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogConfirmComponent } from '../dialog/dialog.component';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import * as moment from 'moment';
+import { caluclateTotalComp } from '../../utils/general.utils';
 
 @Component({
   selector: 'app-milestone-display',
@@ -25,10 +25,16 @@ export class MilestoneDisplayComponent implements OnInit, OnChanges, OnDestroy {
   @Output()
   editAction: EventEmitter<any> = new EventEmitter<any>();
 
+  @Output()
+  calculatedTotalComp: EventEmitter<any> = new EventEmitter<any>();
+
   compDest$: Subject<any> = new Subject<any>();
   companyName: string;
   dateStarted: number;
   subtitlePrefix: string = "Started this job on ";
+  totalComp: any;
+  showCalc: boolean = true;
+  calculationWorkText: string;
 
   constructor(public dialog: MatDialog) {
 
@@ -37,6 +43,8 @@ export class MilestoneDisplayComponent implements OnInit, OnChanges, OnDestroy {
   ngOnChanges(c) {
     this.companyName = this.config.companyName ? this.config.companyName : "No Company Name";
     this.dateStarted = this.config.dateStarted.value;
+    this.totalComp = caluclateTotalComp(this.config);
+    this.calculationWorkText = this.getCalcText();
   }
 
   ngOnInit() {
@@ -65,6 +73,18 @@ export class MilestoneDisplayComponent implements OnInit, OnChanges, OnDestroy {
         this.deleteAction.emit();
       }
     });
+  }
+
+  onShowCalcToggle() {
+    this.showCalc = !this.showCalc;
+  }
+
+  getCalcText(): string {
+    const cashablePtoInValue = this.config?.cashablePTOInHours?.value * this.config?.hourlyRate?.value;
+    return "Salary of $" + this.config.salary.value + " + $" + cashablePtoInValue +
+    " (" + this.config.cashablePTOInHours.value + "h (cashable pto) * $" + this.config.hourlyRate.value
+    + " (hourly rate)" + ") + $" + this.config.bonus.value + " (bonus) + $" +
+    this.config.Four1kContribution.value + " (401k)";
   }
 
   ngOnDestroy() {

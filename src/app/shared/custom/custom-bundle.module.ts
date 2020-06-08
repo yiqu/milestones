@@ -10,6 +10,7 @@ import { MilestoneAddComponent } from './milestone-new/new.component';
 import { LoadingModule } from '../loading/loading.module';
 import { MilestoneListComponent } from './milestone-list-display/list-display.component';
 import { PersonalEmptyComponent } from './empty/empty.component';
+import { TableModule } from './table/table.module';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { PersonalEmptyComponent } from './empty/empty.component';
     MaterialModuleBundle,
     PipeBundleModule,
     RouterModule,
-    LoadingModule
+    LoadingModule,
+    TableModule,
   ],
 
   exports: [

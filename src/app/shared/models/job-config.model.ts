@@ -55,4 +55,48 @@ export class FormValue implements IFormValue {
   constructor(public value: any, public note: string) {
 
   }
+
+  get getNumericValue() {
+    console.log(this.value)
+    if (this.value && isNumeric(this.value)) {
+      return this.value;
+    }
+    return NaN;
+  }
+}
+
+export function isNumeric(num: any){
+  return !isNaN(num);
+}
+
+export interface IJobConfigColumn {
+  companyName: string;
+  endYear: number;
+  projectedPTOInDays: number;
+  salary: number;
+  hourlyRate: number;
+  cashablePTOInHours: number;
+  Four1kContribution: number;
+  bonus: number;
+  dateStarted: number;
+  user: VerifiedUser;
+  firebaseId?: string;
+}
+
+export class JobConfigColumn implements IJobConfigColumn {
+  constructor(
+    public companyName: string,
+    public endYear: number,
+    public totalComp: number,
+    public projectedPTOInDays: number,
+    public salary: number,
+    public hourlyRate: number,
+    public cashablePTOInHours: number,
+    public Four1kContribution: number,
+    public bonus: number,
+    public dateStarted: number,
+    public user: VerifiedUser,
+    public firebaseId?: string) {
+
+  }
 }

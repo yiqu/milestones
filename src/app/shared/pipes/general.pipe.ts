@@ -148,3 +148,4 @@ export class CompanyLogoUrlPipe implements PipeTransform {
     return url + name + ".png";
   }
 }
+

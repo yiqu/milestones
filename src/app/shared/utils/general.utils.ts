@@ -1,4 +1,5 @@
 import { SnapshotAction } from '@angular/fire/database';
+import { IJobConfig } from '../models/job-config.model';
 
 export function createInitAlias(email: string): string {
   return email.substr(0, email.indexOf("@"));
@@ -21,4 +22,33 @@ export function getPureObject(obj: any) {
 export function stripCommas(val: string): number {
   let v = val+"";
   return +(v.replace(",", ""));
+}
+
+export function isNumeric(num: any){
+  return !isNaN(num);
+}
+
+export function getNumeric(res: any): number {
+  if (isNumeric(res)) {
+    return +res;
+  }
+  return NaN;
+}
+
+  /**
+   * Total Comp
+   * Base + Cashable PTO * hourly rate + year end bonus + 401k deposit
+   */
+export function caluclateTotalComp(config: IJobConfig): number {
+  if (config) {
+    const base = getNumeric(config?.salary?.value);
+    const cashablePtoInHours = getNumeric(config?.cashablePTOInHours?.value);
+    const hourlyRate = getNumeric(config?.hourlyRate?.value);
+    const yearEndBonus = getNumeric(config?.bonus?.value);
+    const four1kDepo = getNumeric(config?.Four1kContribution?.value);
+
+    const total: number = base + (cashablePtoInHours * hourlyRate) + yearEndBonus + four1kDepo;
+    return total;
+  }
+  return NaN;
 }

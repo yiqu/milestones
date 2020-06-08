@@ -109,7 +109,7 @@ export class MilestoneAddComponent implements OnInit, OnDestroy, OnChanges {
       Four1kContribution: this.createValueFg(true, true, fc),
       bonus: this.createValueFg(true, true, b)
     });
-console.log("Created", this.msFg)
+
     this.msFg.valueChanges.pipe(
       tap(() => this.formDebouncing = true),
       takeUntil(this.compDest$),

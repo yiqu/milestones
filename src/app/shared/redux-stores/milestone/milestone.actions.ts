@@ -17,6 +17,7 @@ const EDIT_MILESTONE_SAVE_FAILURE: string = "[Milestone/API] Edit Milestone Save
 const DELETE_MILESTONE_START: string = "[Milestone/API] Delete Milestone Start";
 const DELETE_MILESTONE_DONE: string = "[Milestone/API] Delete Milestone Success";
 const DELETE_MILESTONE_FAILURE: string = "[Milestone/API] Delete Milestone Failure";
+const CALCULATE_TOTAL_FOR_MILESTONE: string = "[Milestone/API] Calculate Total Compensations";
 
 export const addMilestoneStartAction = createAction(
   ADD_MILESTONE_START,
@@ -87,4 +88,9 @@ export const deleteMilestoneDoneAction = createAction(
 export const deleteMilestoneFailureAction = createAction(
   DELETE_MILESTONE_FAILURE,
   props<ErrorActionProp>()
+)
+
+export const calculateTotalCompAction = createAction(
+  CALCULATE_TOTAL_FOR_MILESTONE,
+  props<{payload: IJobConfig[]}>()
 )

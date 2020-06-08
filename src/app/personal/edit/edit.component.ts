@@ -9,6 +9,7 @@ import { Subject, combineLatest, Observable } from 'rxjs';
 import { IJobConfig } from '../../shared/models/job-config.model';
 import { ToasterService } from '../../services/toaster.service';
 import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation } from 'angular-animations';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-personal-edit',
@@ -27,7 +28,8 @@ export class PersonalEditComponent implements OnInit, OnDestroy {
   pageTitle: string;
   currentUser: VerifiedUser;
 
-  constructor(private store: Store<AppState>, private ts: ToasterService) {
+  constructor(private store: Store<AppState>, private ts: ToasterService,
+    public router: Router, public route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -69,6 +71,10 @@ export class PersonalEditComponent implements OnInit, OnDestroy {
   getAllMilestones(user: VerifiedUser) {
     const extra = new QueryExtras(user, null);
     this.store.dispatch(MSActions.getAllMilestonesAction({extras: extra}));
+  }
+
+  goBack() {
+    this.router.navigate(['../'], {relativeTo: this.route});
   }
 
   ngOnDestroy() {

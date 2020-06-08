@@ -1,1 +1,12 @@
+<div class="row mt-1 mb-1">
+  <div class="col-md-6 col-sm-12 sub-title">
+    <button mat-stroked-button color="primary" (click)="goBack()">
+      <span class="material-icons">
+        keyboard_backspace
+      </span>
+      Back
+    </button>
+  </div>
+</div>
+<hr>
 <app-milestone-new-add (onConfigSave)="onSave($event)" [editingConfig]="null"></app-milestone-new-add>
