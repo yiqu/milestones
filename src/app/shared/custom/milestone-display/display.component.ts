@@ -33,7 +33,7 @@ export class MilestoneDisplayComponent implements OnInit, OnChanges, OnDestroy {
   dateStarted: number;
   subtitlePrefix: string = "Started this job on ";
   totalComp: any;
-  showCalc: boolean = true;
+  showCalc: boolean = false;
   calculationWorkText: string;
 
   constructor(public dialog: MatDialog) {

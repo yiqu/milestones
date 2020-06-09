@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
 import { IJobConfig } from '../../models/job-config.model';
 import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation, fadeOutDownOnLeaveAnimation } from 'angular-animations';
 import { Router, ActivatedRoute, NavigationEnd, ParamMap } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatTab } from '@angular/material/tabs';
+import { MilestoneGraphDisplayComponent } from './graph-display/graph.component';
 
 @Component({
   selector: 'app-milestone-list',
@@ -32,6 +33,9 @@ export class MilestoneListComponent implements OnInit, OnDestroy {
 
   @Output()
   deleteAction: EventEmitter<number> = new EventEmitter<number>();
+
+  @ViewChild(MilestoneGraphDisplayComponent)
+  graphComp: MilestoneGraphDisplayComponent
 
   compDest$: Subject<any> = new Subject<any>();
   activeTabIndex: number = 0;
@@ -68,7 +72,10 @@ export class MilestoneListComponent implements OnInit, OnDestroy {
     this.router.navigate(['./'], {
       relativeTo: this.route,
       queryParams: {tab: tab.index}
-    })
+    });
+    if (tab.index === 2) {
+      this.graphComp.createGrpah();
+    }
   }
 
   ngOnDestroy() {

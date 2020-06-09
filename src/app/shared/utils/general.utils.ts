@@ -52,3 +52,36 @@ export function caluclateTotalComp(config: IJobConfig): number {
   }
   return NaN;
 }
+
+
+export function replaceToZero(res): number {
+  if (isNumeric(res)) {
+    return +res;
+  }
+  return 0;
+}
+
+export function getCompanyColor(name: string): string {
+  let res: string = "#000";
+  const n = name.toLowerCase();
+  if (n.includes("praxis")) {
+    res = "#ff6666";
+  } else if (n.includes("amazon")) {
+    res = "#ff751a";
+  } else if (n.includes("general") || n.includes("dynamics")) {
+    res = "#0040ff";
+  } else if (n.includes("omnyon")) {
+    res = "#00802b";
+  }
+  return res;
+}
+
+
+export function capitalizeFirstLetter(string: string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export function roundTo2Places(num: number): number {
+  const n = +num;
+  return Math.round((n + Number.EPSILON) * 100) / 100;
+}

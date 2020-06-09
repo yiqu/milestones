@@ -11,6 +11,7 @@ import { LoadingModule } from '../loading/loading.module';
 import { MilestoneListComponent } from './milestone-list-display/list-display.component';
 import { PersonalEmptyComponent } from './empty/empty.component';
 import { TableModule } from './table/table.module';
+import { MilestoneGraphDisplayComponent } from './milestone-list-display/graph-display/graph.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { TableModule } from './table/table.module';
     DialogConfirmComponent,
     MilestoneAddComponent,
     MilestoneListComponent,
-    PersonalEmptyComponent
+    PersonalEmptyComponent,
+    MilestoneGraphDisplayComponent
   ],
 
   declarations: [
@@ -38,7 +40,8 @@ import { TableModule } from './table/table.module';
     DialogConfirmComponent,
     MilestoneAddComponent,
     MilestoneListComponent,
-    PersonalEmptyComponent
+    PersonalEmptyComponent,
+    MilestoneGraphDisplayComponent
   ],
 
   providers: [
