@@ -48,7 +48,7 @@ export function caluclateTotalComp(config: IJobConfig): number {
     const four1kDepo = getNumeric(config?.Four1kContribution?.value);
 
     const total: number = base + (cashablePtoInHours * hourlyRate) + yearEndBonus + four1kDepo;
-    return total;
+    return roundTo2Places(total);
   }
   return NaN;
 }
@@ -68,7 +68,7 @@ export function getCompanyColor(name: string): string {
     res = "#660000";
   } else if (n.includes("amazon")) {
     res = "#ff751a";
-  } else if (n.includes("general") || n.includes("dynamics")) {
+  } else if (n.includes("general") || n.includes("dynamics") || n.includes("gd")) {
     res = "#0040ff";
   } else if (n.includes("omnyon")) {
     res = "#00802b";
@@ -79,6 +79,43 @@ export function getCompanyColor(name: string): string {
 
 export function capitalizeFirstLetter(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export function condenseCompanyName(name: string) {
+  let res: string = name;
+  const n = name.toLowerCase();
+  if (n.includes("praxis")) {
+    res = "Praxis";
+  } else if (n.includes("amazon")) {
+    res = "Amazon";
+  } else if (n.includes("general") || n.includes("dynamics")) {
+    res = "GDMS";
+  } else if (n.includes("omnyon")) {
+    res = "Omnyon";
+  } else if (n.includes("facebook")) {
+    res = "Facebook";
+  } else if (n.includes("google")) {
+    res = "Google";
+  } else if (n.includes("shield")) {
+    res = "Shield";
+  } else if (n.includes("peterson")) {
+    res = "Peterson Tech.";
+  } else if (n.includes("artera")) {
+    res = "Artera";
+  } else if (n.includes("wave")) {
+    res = "Wavestrike";
+  } else if (n.includes("brain")) {
+    res = "BrainTrust";
+  } else if (n.includes("omega")) {
+    res = "OmegaMinds";
+  } else if (n.includes("soft")) {
+    res = "SoftTech";
+  } else if (n.includes("northrop")) {
+    res = "NGC";
+  } else if (n.includes("booz")) {
+    res = "BAH";
+  }
+  return capitalizeFirstLetter(res);
 }
 
 export function roundTo2Places(num: number): number {
