@@ -148,9 +148,6 @@ export const milestonePersonalReducer = createReducer(
     }
   }),
   on(MSActions.calculateTotalCompAction, (state, {payload}) => {
-    console.log(payload)
-    console.log("calculating")
-
 
     return {
       ...state,

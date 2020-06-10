@@ -57,7 +57,6 @@ export class FormValue implements IFormValue {
   }
 
   get getNumericValue() {
-    console.log(this.value)
     if (this.value && isNumeric(this.value)) {
       return this.value;
     }

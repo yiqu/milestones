@@ -11,3 +11,7 @@
 .graph-chart {
   width: 100%;
 }
+
+.no-data-img-parent {
+  height: 250px;
+}

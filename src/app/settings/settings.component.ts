@@ -48,10 +48,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
           this.currentSettingData = state.settingsConfig;
           this.error = state.error;
           this.errorMsg = state.errorMsg;
-
-          if (this.currentSettingData) {
-            this.buildConfigFg(this.currentSettingData);
-          }
+          this.buildConfigFg(this.currentSettingData);
         }
       )
   }

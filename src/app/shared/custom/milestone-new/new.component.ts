@@ -77,10 +77,8 @@ export class MilestoneAddComponent implements OnInit, OnDestroy, OnChanges {
       takeUntil(this.compDest$)
     ).subscribe(
       ([setting, auth]) => {
-        if (setting.settingsConfig) {
-          this.workingDays = setting.settingsConfig.workDays ? setting.settingsConfig.workDays : DEFAULT_DAYS;
-          this.settingsLoading = setting.loading;
-        }
+        this.settingsLoading = setting.loading;
+        this.workingDays = setting.settingsConfig?.workDays ? setting.settingsConfig.workDays : DEFAULT_DAYS;
         if (auth) {
           this.currentUser = auth.verifiedUser;
         }

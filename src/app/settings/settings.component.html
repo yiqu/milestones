@@ -54,11 +54,11 @@
           Please fix your invalid values.
         </div>
         <div class="mt-3">
+          <button mat-flat-button color="primary" (click)="updateConfig()"
+            type="button" [disabled]="updateLoading">Update</button>
           <div *ngIf="updateLoading" class="mt-2 mb-2">
             Updating...
           </div>
-          <button mat-flat-button color="primary" (click)="updateConfig()"
-            type="button" [disabled]="updateLoading">Update</button>
         </div>
       </form>
       <ng-template #loading>

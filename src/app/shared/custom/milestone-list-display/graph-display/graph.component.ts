@@ -20,11 +20,14 @@ export class MilestoneGraphDisplayComponent implements OnInit, OnDestroy, AfterV
   msConfigs: IJobConfig[] = [];
 
   canvas: any;
-  canvasTcChange: any;
   ctx: any;
+  canvasTcChange: any;
   ctxTcChange: any;
+  canvasTenure: any;
+  ctxTenure: any;
 
-  labelsToShow: string[] = [];
+  noData: boolean = false;
+  noDataImgSrc: string = "assets/img/graph-chart.jpg";
 
   constructor(private cdp: CurrencyDisplayPipe) {
   }
@@ -33,7 +36,6 @@ export class MilestoneGraphDisplayComponent implements OnInit, OnDestroy, AfterV
   }
 
   ngOnChanges() {
-    console.log(this.msConfigs)
     this.createGrpah();
   }
 
@@ -42,15 +44,27 @@ export class MilestoneGraphDisplayComponent implements OnInit, OnDestroy, AfterV
   }
 
   createGrpah() {
-    this.canvas = document.getElementById('msChart');
-    this.canvasTcChange = document.getElementById('msChartTcChange');
-    if (this.canvas) {
-      this.ctx = this.canvas.getContext('2d');
-      let myChart = new Chart(this.ctx, this.createConfig());
-    }
-    if (this.canvas) {
-      this.ctxTcChange = this.canvasTcChange.getContext('2d');
-      let myChartTcChange = new Chart(this.ctxTcChange, this.createChangeByYearConfig());
+    if (this.msConfigs && this.msConfigs.length > 0) {
+      this.noData = false;
+
+      this.canvas = document.getElementById('msChart');
+      this.canvasTcChange = document.getElementById('msChartTcChange');
+      this.canvasTenure = document.getElementById('msChartTenure');
+
+      if (this.canvas) {
+        this.ctx = this.canvas.getContext('2d');
+        let myChart = new Chart(this.ctx, this.createConfig());
+      }
+      if (this.canvasTcChange) {
+        this.ctxTcChange = this.canvasTcChange.getContext('2d');
+        let myChartTcChange = new Chart(this.ctxTcChange, this.createChangeByYearConfig());
+      }
+      if (this.canvasTenure) {
+        this.ctxTenure = this.canvasTenure.getContext('2d');
+        let myChartTenure = new Chart(this.ctxTenure, this.createDurationConfig());
+      }
+    } else {
+      this.noData = true;
     }
   }
 
@@ -118,7 +132,7 @@ export class MilestoneGraphDisplayComponent implements OnInit, OnDestroy, AfterV
   }
 
   createData(): Chart.ChartData {
-    this.labelsToShow = ["Base Salary", "401k Contribution", "Bonus", "Cashable PTO Value"];
+    const labelsToShow = ["Base Salary", "401k Contribution", "Bonus", "Cashable PTO Value"];
     const datasetRes: Chart.ChartDataSets[] = [];
 
     this.msConfigs.forEach((c: IJobConfig) => {
@@ -145,7 +159,7 @@ export class MilestoneGraphDisplayComponent implements OnInit, OnDestroy, AfterV
     });
 
     return {
-      labels: this.labelsToShow,
+      labels: labelsToShow,
       datasets: datasetRes
     }
   }
@@ -244,7 +258,6 @@ export class MilestoneGraphDisplayComponent implements OnInit, OnDestroy, AfterV
         dataArray.push(tc);
         prevYearData = currentYearData;
       } else {
-        console.log(prevYearData)
         const tc: number = caluclateTotalComp(prevYearData);
         dataArray.push(tc);
       }
@@ -256,6 +269,8 @@ export class MilestoneGraphDisplayComponent implements OnInit, OnDestroy, AfterV
       backgroundColor: "#006622",
       borderColor: "#006622",
       fill: false,
+      steppedLine: "before",
+      spanGaps: true
     })
 
     labels.forEach((y: string, i: number) => {
@@ -271,6 +286,84 @@ export class MilestoneGraphDisplayComponent implements OnInit, OnDestroy, AfterV
     return {
       labels: labels,
       datasets: datasetRes
+    }
+  }
+
+  createDurationConfig(): Chart.ChartConfiguration {
+    return {
+      type: "pie",
+      data: this.createDurationData(),
+      options: {
+        responsive: true,
+        responsiveAnimationDuration: 1000,
+        maintainAspectRatio: true,
+        tooltips: {
+          // mode: 'index',
+          // intersect: false,
+          titleFontSize: 16,
+          bodyFontSize: 14,
+          bodySpacing: 5,
+          xPadding: 8,
+          yPadding: 8,
+          // Include a dollar sign in tooltip labels
+          callbacks: {
+            label: function(tooltipItem, data) {
+              const dataValue = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]
+              let label = data.datasets[tooltipItem.datasetIndex].label || '';
+              if (label) {
+                label += ': ';
+              }
+              const readable = moment.duration(dataValue, "ms").humanize();
+              label += readable + " ";
+              return label;
+            }.bind(this)
+          }
+        },
+        legend: {
+          position: "bottom",
+          labels: {
+            usePointStyle: true
+          }
+        }
+      }
+    }
+  }
+
+  createDurationData(): Chart.ChartData {
+    let companies: Set<string> = new Set();
+    const pieColors: string[] = [];
+    const startDates: number[] = [];
+    const durationData: number[] = [];
+
+    this.msConfigs.forEach((ms: IJobConfig) => {
+      companies.add(ms.companyName);
+      pieColors.push(getCompanyColor(ms.companyName));
+      startDates.push(ms.dateStarted.value);
+    });
+
+    const labels: string[] = [...companies];
+    const sortedByStartDate: IJobConfig[] = _.sortBy(this.msConfigs, (conf: IJobConfig) => {
+      return conf.dateStarted.value;
+    })
+
+    sortedByStartDate.forEach((conf: IJobConfig, index: number) => {
+      if (index < sortedByStartDate.length - 1) {
+        const dur = (+sortedByStartDate[index + 1].dateStarted.value) - (+sortedByStartDate[index].dateStarted.value);
+        durationData.push(dur);
+      }
+      else {
+        const dur = (new Date().getTime()) - (+sortedByStartDate[index].dateStarted.value);
+        durationData.push(dur);
+      }
+    });
+
+    return {
+      datasets: [{
+        data: [...durationData],
+        backgroundColor: [...pieColors],
+        label: 'Tenure Duration'
+      }],
+      labels: labels
     }
   }
 

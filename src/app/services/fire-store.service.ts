@@ -30,7 +30,6 @@ export class AngularFireService {
     const itemDoc = this.afs.doc<T>(pathWithUserId);
     return itemDoc.snapshotChanges().pipe(
       map((changes: Action<DocumentSnapshot<T>>) => {
-        //console.log(changes.payload.data(), changes.payload.metadata,changes.payload.ref)
         return changes.payload.data();
       }),
       catchError((err: FirebasePromiseError) => {

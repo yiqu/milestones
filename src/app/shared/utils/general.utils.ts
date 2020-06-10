@@ -65,7 +65,7 @@ export function getCompanyColor(name: string): string {
   let res: string = "#000";
   const n = name.toLowerCase();
   if (n.includes("praxis")) {
-    res = "#ff6666";
+    res = "#660000";
   } else if (n.includes("amazon")) {
     res = "#ff751a";
   } else if (n.includes("general") || n.includes("dynamics")) {
