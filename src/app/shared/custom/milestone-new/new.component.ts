@@ -61,6 +61,7 @@ export class MilestoneAddComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges() {
+    console.log("CHANGES")
     if (this.editingConfig) {
       this.createNewMilestoneFg(this.editingConfig);
     } else {

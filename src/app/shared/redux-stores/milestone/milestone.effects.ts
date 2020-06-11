@@ -219,6 +219,35 @@ export class MilestonePersonalEffects {
     );
   });
 
+  getPreviousMilestoneEntry$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(fromMsActions.getPreviousMilestoneEntryStartAction),
+      switchMap((data) => {
+        const extras = data.extras;
+        const user = extras.user;
+        return this.getDbCollection(user.uid).orderBy("dateStarted.value", "desc").get().then(
+          (res) => {
+            const result: any[] = [];
+            res.forEach((d) => {
+              result.push({
+                ...d.data(),
+                firebaseId: d.id
+              })
+            });
+            let previousEntry = null;
+            if (result.length > 0) {
+              previousEntry = result[0];
+            }
+            return fromMsActions.getPreviousMilestoneEntryDoneAction({previous: previousEntry});
+          },
+          (rej: FirebasePromiseError) => {
+            return fromMsActions.getPreviousMilestoneEntryFailureAction({errorMsg: AuthUtils.getFirebaseErrorMsg(rej)});
+          }
+        )
+      })
+    );
+  });
+
 
   getDbCollection(uid: string) {
     // {{uid}}/milestones/all  <--path

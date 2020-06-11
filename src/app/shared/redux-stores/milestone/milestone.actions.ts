@@ -18,6 +18,9 @@ const DELETE_MILESTONE_START: string = "[Milestone/API] Delete Milestone Start";
 const DELETE_MILESTONE_DONE: string = "[Milestone/API] Delete Milestone Success";
 const DELETE_MILESTONE_FAILURE: string = "[Milestone/API] Delete Milestone Failure";
 const CALCULATE_TOTAL_FOR_MILESTONE: string = "[Milestone/API] Calculate Total Compensations";
+const GET_PREVIOUS_MILESTONE_ENTRY_START: string = "[Milestone/API] Get Previous Entry Start";
+const GET_PREVIOUS_MILESTONE_ENTRY_DONE: string = "[Milestone/API] Get Previous Entry Success";
+const GET_PREVIOUS_MILESTONE_ENTRY_FAILURE: string = "[Milestone/API] Get Previous Entry Failed";
 
 export const addMilestoneStartAction = createAction(
   ADD_MILESTONE_START,
@@ -93,4 +96,19 @@ export const deleteMilestoneFailureAction = createAction(
 export const calculateTotalCompAction = createAction(
   CALCULATE_TOTAL_FOR_MILESTONE,
   props<{payload: IJobConfig[]}>()
+)
+
+export const getPreviousMilestoneEntryStartAction = createAction(
+  GET_PREVIOUS_MILESTONE_ENTRY_START,
+  props<{extras: QueryExtras}>()
+)
+
+export const getPreviousMilestoneEntryDoneAction = createAction(
+  GET_PREVIOUS_MILESTONE_ENTRY_DONE,
+  props<{previous: IJobConfig}>()
+)
+
+export const getPreviousMilestoneEntryFailureAction = createAction(
+  GET_PREVIOUS_MILESTONE_ENTRY_FAILURE,
+  props<ErrorActionProp>()
 )

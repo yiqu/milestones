@@ -12,7 +12,7 @@ import * as fv from '../../shared/form-validators/general-form.validator';
 import { CurrencyDisplayPipe } from '../../shared/pipes/currency-display.pipe';
 import { VerifiedUser } from '../../shared/models/user.model';
 import { AuthState } from '../../shared/redux-stores/auth/auth.models';
-import { IMilestonePersonalState } from '../../shared/redux-stores/milestone/milestone.model';
+import { IMilestonePersonalState, QueryExtras } from '../../shared/redux-stores/milestone/milestone.model';
 import { IJobConfigFormValue, IJobConfig, JobConfig, FormValue } from '../../shared/models/job-config.model';
 import * as moment from 'moment';
 import * as MSActions from '../../shared/redux-stores/milestone/milestone.actions';
@@ -25,9 +25,31 @@ import * as MSActions from '../../shared/redux-stores/milestone/milestone.action
 export class PersonalAddComponent implements OnInit, OnDestroy {
 
   compDest$: Subject<any> = new Subject<any>();
+  previousMilestone: IJobConfig;
+  currentUser: VerifiedUser;
+  milestoneToFill: IJobConfig;
 
   constructor(private router: Router, private route: ActivatedRoute, private fb: FormBuilder,
     private store: Store<AppState>, private cdp: CurrencyDisplayPipe) {
+      this.store.select("personal").pipe(
+        takeUntil(this.compDest$)
+      ).subscribe(
+        (state: IMilestonePersonalState) => {
+          this.previousMilestone = state.previousEntry;
+        }
+      )
+
+      this.store.select("appAuth").pipe(
+        takeUntil(this.compDest$)
+      ).subscribe(
+        (data) => {
+          this.currentUser = data.verifiedUser;
+          if (this.currentUser) {
+            const extra = new QueryExtras(this.currentUser, null);
+            this.store.dispatch(MSActions.getPreviousMilestoneEntryStartAction({extras: extra}));
+          }
+        }
+      );
   }
 
   ngOnInit() {
@@ -39,6 +61,10 @@ export class PersonalAddComponent implements OnInit, OnDestroy {
 
   goBack() {
     this.router.navigate(['../'], {relativeTo: this.route});
+  }
+
+  loadPrevious() {
+    this.milestoneToFill = JSON.parse(JSON.stringify(this.previousMilestone));
   }
 
   ngOnDestroy() {

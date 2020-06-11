@@ -12,7 +12,8 @@ const inititalState: IMilestonePersonalState = {
   crudData: null,
   payloadData: [],
   queryExtras: null,
-  editingConfig: null
+  editingConfig: null,
+  previousEntry: null
 }
 
 export const milestonePersonalReducer = createReducer(
@@ -151,6 +152,34 @@ export const milestonePersonalReducer = createReducer(
 
     return {
       ...state,
+    }
+  }),
+  on(MSActions.getPreviousMilestoneEntryStartAction, (state, {extras}) => {
+    return {
+      ...state,
+      loading: true,
+      error: false,
+      errMsg: null,
+      queryExtras: extras,
+      previousEntry: null
+    }
+  }),
+  on(MSActions.getPreviousMilestoneEntryDoneAction, (state, {previous}) => {
+    return {
+      ...state,
+      loading: false,
+      error: false,
+      errMsg: null,
+      previousEntry: previous
+    }
+  }),
+  on(MSActions.getPreviousMilestoneEntryFailureAction, (state, {errorMsg}) => {
+    return {
+      ...state,
+      loading: false,
+      error: true,
+      errMsg: errorMsg,
+      previousEntry: null
     }
   }),
 

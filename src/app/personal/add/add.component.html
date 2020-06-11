@@ -1,12 +1,16 @@
 <div class="row mt-1 mb-1">
   <div class="col-md-6 col-sm-12 sub-title">
-    <button mat-stroked-button color="primary" (click)="goBack()">
+    <button mat-stroked-button color="primary" class="mr-2" (click)="goBack()">
       <span class="material-icons">
         keyboard_backspace
       </span>
       Back
     </button>
+    <button mat-stroked-button color="primary" (click)="loadPrevious()" *ngIf="previousMilestone">
+      Load previous Milestone
+    </button>
   </div>
 </div>
 <hr>
-<app-milestone-new-add (onConfigSave)="onSave($event)" [editingConfig]="null"></app-milestone-new-add>
+<app-milestone-new-add (onConfigSave)="onSave($event)"
+  [editingConfig]="milestoneToFill"></app-milestone-new-add>
