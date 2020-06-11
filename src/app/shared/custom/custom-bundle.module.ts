@@ -12,6 +12,7 @@ import { MilestoneListComponent } from './milestone-list-display/list-display.co
 import { PersonalEmptyComponent } from './empty/empty.component';
 import { TableModule } from './table/table.module';
 import { MilestoneGraphDisplayComponent } from './milestone-list-display/graph-display/graph.component';
+import { AddNewPercentComponent } from './milestone-new/percent-option/percent.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { MilestoneGraphDisplayComponent } from './milestone-list-display/graph-d
     MilestoneDisplayComponent,
     DialogConfirmComponent,
     MilestoneAddComponent,
+    AddNewPercentComponent,
     MilestoneListComponent,
     PersonalEmptyComponent,
     MilestoneGraphDisplayComponent
@@ -39,6 +41,7 @@ import { MilestoneGraphDisplayComponent } from './milestone-list-display/graph-d
     MilestoneDisplayComponent,
     DialogConfirmComponent,
     MilestoneAddComponent,
+    AddNewPercentComponent,
     MilestoneListComponent,
     PersonalEmptyComponent,
     MilestoneGraphDisplayComponent

@@ -68,6 +68,13 @@ export function isNumeric(num: any){
   return !isNaN(num);
 }
 
+export function getNumericOrZero(res: any) {
+  if (res && isNumeric(res)) {
+    return +res;
+  }
+  return 0;
+}
+
 export interface IJobConfigColumn {
   companyName: string;
   endYear: number;

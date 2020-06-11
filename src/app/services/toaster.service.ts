@@ -22,6 +22,11 @@ export class ToasterService {
     this.ts.info(msg, "Info.");
   }
 
+  getSuccessAndClear(msg: string, duration?: number) {
+    this.clearAll();
+    this.ts.success(msg, "Success!");
+  }
+
   clearAll() {
     this.ts.clear();
   }

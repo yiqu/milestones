@@ -208,6 +208,9 @@
           </div>
         </div>
         <div>
+          <app-milestone-new-add-percent #f1kPercent (valueChange)="onPercentChange401k($event)"></app-milestone-new-add-percent>
+        </div>
+        <div>
           <mat-form-field class="full-w">
             <mat-label>401k Contribution</mat-label>
             <span matPrefix>$ &nbsp;</span>
@@ -245,6 +248,9 @@
           <div class="sub-text mb-2">
             This is the amount of cash bonus you will receive from your company.
           </div>
+        </div>
+        <div>
+          <app-milestone-new-add-percent #bonusPercent (valueChange)="onPercentChangeBonus($event)"></app-milestone-new-add-percent>
         </div>
         <div>
           <mat-form-field class="full-w">

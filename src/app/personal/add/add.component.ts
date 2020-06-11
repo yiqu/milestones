@@ -16,6 +16,7 @@ import { IMilestonePersonalState, QueryExtras } from '../../shared/redux-stores/
 import { IJobConfigFormValue, IJobConfig, JobConfig, FormValue } from '../../shared/models/job-config.model';
 import * as moment from 'moment';
 import * as MSActions from '../../shared/redux-stores/milestone/milestone.actions';
+import { ToasterService } from 'src/app/services/toaster.service';
 
 @Component({
   selector: 'app-personal-add',
@@ -30,7 +31,7 @@ export class PersonalAddComponent implements OnInit, OnDestroy {
   milestoneToFill: IJobConfig;
 
   constructor(private router: Router, private route: ActivatedRoute, private fb: FormBuilder,
-    private store: Store<AppState>, private cdp: CurrencyDisplayPipe) {
+    private store: Store<AppState>, private cdp: CurrencyDisplayPipe, private ts: ToasterService) {
       this.store.select("personal").pipe(
         takeUntil(this.compDest$)
       ).subscribe(
@@ -65,6 +66,7 @@ export class PersonalAddComponent implements OnInit, OnDestroy {
 
   loadPrevious() {
     this.milestoneToFill = JSON.parse(JSON.stringify(this.previousMilestone));
+    this.ts.getSuccessAndClear("Previous Milestone loaded successfully.");
   }
 
   ngOnDestroy() {

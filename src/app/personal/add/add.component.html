@@ -1,12 +1,12 @@
 <div class="row mt-1 mb-1">
   <div class="col-md-6 col-sm-12 sub-title">
-    <button mat-stroked-button color="primary" class="mr-2" (click)="goBack()">
+    <button mat-stroked-button class="mr-2 util" (click)="goBack()">
       <span class="material-icons">
         keyboard_backspace
       </span>
       Back
     </button>
-    <button mat-stroked-button color="primary" (click)="loadPrevious()" *ngIf="previousMilestone">
+    <button mat-button color="primary" (click)="loadPrevious()" *ngIf="previousMilestone">
       Load previous Milestone
     </button>
   </div>

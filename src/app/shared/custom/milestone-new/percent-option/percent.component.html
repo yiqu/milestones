@@ -1,0 +1,6 @@
+<mat-form-field>
+  <mat-label>Percent % of salary</mat-label>
+  <mat-select disableRipple [(ngModel)]="selectedValue" (ngModelChange)="onValueChange()">
+    <mat-option [value]="opt" *ngFor="let opt of options">{{opt.display}}</mat-option>
+  </mat-select>
+</mat-form-field>

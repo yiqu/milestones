@@ -6,15 +6,17 @@ import * as fu from '../../../shared/utils/form.utils';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../shared/redux-stores/global-store/app.reducer';
 import { SettingsState } from '../../../shared/redux-stores/settings/settings.model';
-import { takeUntil, debounceTime, tap } from 'rxjs/operators';
+import { takeUntil, debounceTime, tap, distinctUntilChanged } from 'rxjs/operators';
 import * as SettingActions from '../../../shared/redux-stores/settings/settings.actions';
 import * as fv from '../../../shared/form-validators/general-form.validator';
 import { CurrencyDisplayPipe } from '../../../shared/pipes/currency-display.pipe';
 import { VerifiedUser } from '../../../shared/models/user.model';
-import { IJobConfigFormValue, IJobConfig, JobConfig, FormValue, IFormValue } from '../../../shared/models/job-config.model';
+import { IJobConfigFormValue, IJobConfig, JobConfig, FormValue, IFormValue, isNumeric, getNumericOrZero } from '../../../shared/models/job-config.model';
 import * as moment from 'moment';
 import { IMilestonePersonalState } from '../../redux-stores/milestone/milestone.model';
 import { AuthState } from '../../redux-stores/auth/auth.models';
+import { IPercentOption } from './percent-option/percent.component';
+import { roundTo2Places } from '../../utils/general.utils';
 
 const DEFAULT_DAYS: number = 251;
 
@@ -43,9 +45,20 @@ export class MilestoneAddComponent implements OnInit, OnDestroy, OnChanges {
   currentUser: VerifiedUser;
   crudLoading: boolean;
   formDebouncing: boolean;
+  percent401kMultiplier: number = 0;
+  percentBonusMultiplier: number = 0;
+
 
   get projectedPto(): FormControl {
     return <FormControl>this.msFg.get("projectedPTOInDays.value");
+  }
+
+  get bonusValue(): FormControl {
+    return <FormControl>this.msFg.get("bonus.value");
+  }
+
+  get four1kValue(): FormControl {
+    return <FormControl>this.msFg.get("Four1kContribution.value");
   }
 
   get wageRateValue(): FormControl {
@@ -61,7 +74,6 @@ export class MilestoneAddComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges() {
-    console.log("CHANGES")
     if (this.editingConfig) {
       this.createNewMilestoneFg(this.editingConfig);
     } else {
@@ -129,7 +141,41 @@ export class MilestoneAddComponent implements OnInit, OnDestroy, OnChanges {
         this.formDebouncing = false;
       }
     )
+
+    this.msFg.get("wageRateValue.value").valueChanges.pipe(
+      distinctUntilChanged()
+    ).subscribe(
+      (res) => {
+        this.calculateAndSetBonus();
+        this.calculateAndSetFour1k();
+      }
+    )
   }
+
+  calculateAndSetBonus() {
+    const val: IJobConfigFormValue = this.msFg.value;
+    let bonusResVal = 0;
+    if (val.wageRateType === "salary") {
+      bonusResVal = (val.wageRateValue.value ? val.wageRateValue.value : 0) * this.percentBonusMultiplier;
+    } else if (val.wageRateType === "hourly") {
+      const userSalary = this.calculateSalary();
+      bonusResVal = userSalary * this.percentBonusMultiplier;
+    }
+    this.bonusValue.setValue(getNumericOrZero(bonusResVal));
+  }
+
+  calculateAndSetFour1k() {
+    const val: IJobConfigFormValue = this.msFg.value;
+    let four1kResVal = 0;
+    if (val.wageRateType === "salary") {
+      four1kResVal = (val.wageRateValue.value ? val.wageRateValue.value : 0) * this.percent401kMultiplier;
+    } else if (val.wageRateType === "hourly") {
+      const userSalary = this.calculateSalary();
+      four1kResVal = userSalary * this.percent401kMultiplier;
+    }
+    this.four1kValue.setValue(getNumericOrZero(four1kResVal));
+  }
+
 
   createValueFg(req: boolean, numberOnly: boolean = false, formVal?: IFormValue): FormGroup {
     let vals = [];
@@ -154,7 +200,8 @@ export class MilestoneAddComponent implements OnInit, OnDestroy, OnChanges {
   calculateHourly(): number {
     const salary: number = this.msFg.get("wageRateValue.value").value;
     if (salary > 0) {
-      const projectedPto = +(this.msFg.get("projectedPTOInDays.value").value);
+      const projectedPto = (this.msFg.get("projectedPTOInDays.value").value ?
+        this.msFg.get("projectedPTOInDays.value").value : 0);
       const workableHours = (this.workingDays - projectedPto) * 8;
       const hourly = salary / workableHours;
       return (+(hourly.toFixed(2)));
@@ -219,6 +266,16 @@ export class MilestoneAddComponent implements OnInit, OnDestroy, OnChanges {
 
   onClearByFcName(fcName: string) {
     this.msFg.get(fcName).get('value').reset();
+  }
+
+  onPercentChange401k(p: IPercentOption) {
+    this.percent401kMultiplier = p.value;
+    this.calculateAndSetFour1k();
+  }
+
+  onPercentChangeBonus(p: IPercentOption) {
+    this.percentBonusMultiplier = p.value;
+    this.calculateAndSetBonus();
   }
 
   ngOnDestroy() {
