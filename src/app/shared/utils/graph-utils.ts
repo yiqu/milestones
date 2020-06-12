@@ -19,7 +19,7 @@ export function getCategoryColor(category: string): string {
   let color: string = "#bfbfbf";
   switch(category) {
     case "salary": {
-      color = "#33cc00";
+      color = "#009933";
       break;
     }
     case "Four1kContribution": {
@@ -36,4 +36,10 @@ export function getCategoryColor(category: string): string {
     }
   }
   return color;
+}
+
+export class CompanyDuration {
+  constructor(public name: string, public dur: number) {
+
+  }
 }

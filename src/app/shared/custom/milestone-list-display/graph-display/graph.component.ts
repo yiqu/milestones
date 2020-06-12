@@ -5,7 +5,7 @@ import { IJobConfig, IJobConfigColumn } from '../../../../shared/models/job-conf
 import { replaceToZero, getCompanyColor, capitalizeFirstLetter, roundTo2Places,
   caluclateTotalComp,
   condenseCompanyName} from '../../../../shared/utils/general.utils';
-import { getPointStyle, getCategoryColor } from '../../../../shared/utils/graph-utils';
+import { getPointStyle, getCategoryColor, CompanyDuration } from '../../../../shared/utils/graph-utils';
 import { CurrencyDisplayPipe } from '../../../../shared/pipes/currency-display.pipe';
 import * as moment from 'moment';
 import * as _ from 'lodash';
@@ -27,6 +27,10 @@ export class MilestoneGraphDisplayComponent implements OnInit, OnDestroy, AfterV
   canvasTenure: any;
   ctxTenure: any;
 
+  tcChart: Chart;
+  categoryChart: Chart;
+  durationChart: Chart;
+
   noData: boolean = false;
   noDataImgSrc: string = "assets/img/graph-chart.jpg";
 
@@ -44,6 +48,9 @@ export class MilestoneGraphDisplayComponent implements OnInit, OnDestroy, AfterV
     this.createGrpah();
   }
 
+  /**
+   * Chart will not re-draw if it already has been drawn once.
+   */
   createGrpah() {
     if (this.msConfigs && this.msConfigs.length > 0) {
       this.noData = false;
@@ -52,17 +59,17 @@ export class MilestoneGraphDisplayComponent implements OnInit, OnDestroy, AfterV
       this.canvasTcChange = document.getElementById('msChartTcChange');
       this.canvasTenure = document.getElementById('msChartTenure');
 
-      if (this.canvas) {
+      if (this.canvas && !this.categoryChart) {
         this.ctx = this.canvas.getContext('2d');
-        let myChart = new Chart(this.ctx, this.createConfig());
+        this.categoryChart = new Chart(this.ctx, this.createConfig());
       }
-      if (this.canvasTcChange) {
+      if (this.canvasTcChange && !this.tcChart) {
         this.ctxTcChange = this.canvasTcChange.getContext('2d');
-        let myChartTcChange = new Chart(this.ctxTcChange, this.createChangeByYearConfig());
+        this.tcChart = new Chart(this.ctxTcChange, this.createChangeByYearConfig());
       }
-      if (this.canvasTenure) {
+      if (this.canvasTenure && !this.durationChart) {
         this.ctxTenure = this.canvasTenure.getContext('2d');
-        let myChartTenure = new Chart(this.ctxTenure, this.createDurationConfig());
+        this.durationChart = new Chart(this.ctxTenure, this.createDurationConfig());
       }
     } else {
       this.noData = true;
@@ -273,7 +280,7 @@ export class MilestoneGraphDisplayComponent implements OnInit, OnDestroy, AfterV
   createDurationConfig(): Chart.ChartConfiguration {
     return {
       type: "pie",
-      data: this.createDurationData(),
+      data: this.createDurationData2(),
       options: {
         responsive: true,
         responsiveAnimationDuration: 1000,
@@ -295,8 +302,10 @@ export class MilestoneGraphDisplayComponent implements OnInit, OnDestroy, AfterV
               label += data.labels[tooltipItem.index];
               const year = moment.duration(dataValue).years();
               const month = moment.duration(dataValue).months();
-              const readable = "" + (year ? year + " year " : "") + (month ? month + " months" : "");
-
+              let readable = "" + (year ? year + " year " : "") + (month ? month + " months" : "");
+              if (readable.trim() === "" || readable === "undefined" || readable === "null") {
+                readable = moment.duration(dataValue).humanize();
+              }
               label += ": " + readable;
               return label;
             }.bind(this)
@@ -312,37 +321,46 @@ export class MilestoneGraphDisplayComponent implements OnInit, OnDestroy, AfterV
     }
   }
 
-  createDurationData(): Chart.ChartData {
-    let companies: Set<string> = new Set();
-    const pieColors: string[] = [];
-    const durationData: number[] = [];
+  createDurationData2() {
+    let com: Set<string> = new Set();
     const configs = [...this.msConfigs];
-
+    const pieColors: string[] = [];
     const sortedByStartDate: IJobConfig[] = _.sortBy(configs, (conf: IJobConfig) => {
       return conf.dateStarted.value;
-    })
-
-    let startOfCurrent = sortedByStartDate[0];
-    sortedByStartDate.forEach((conf: IJobConfig, index: number) => {
-      companies.add(condenseCompanyName(conf.companyName));
-
-      if (sortedByStartDate[index].companyName !== startOfCurrent.companyName) {
-        const dur = sortedByStartDate[index].dateStarted.value - startOfCurrent.dateStarted.value;
-        durationData.push(dur);
-        startOfCurrent = sortedByStartDate[index];
-      }
-
     });
 
-    const companyArr = [...companies];
-    companyArr.forEach((c) => {
-      pieColors.push(getCompanyColor(c));
+    sortedByStartDate.forEach((conf: IJobConfig, index: number) => {
+      com.add((conf.companyName.toLowerCase()));
+    });
+    const comArr = [...com];
+    let coDurs: {[key: string]: CompanyDuration} = {};
+    comArr.forEach((c) => {
+      coDurs[c.toLowerCase()] = new CompanyDuration(c.toLowerCase(), 0);
+    });
+
+    sortedByStartDate.forEach((jc: IJobConfig, i: number) => {
+      let nextJob: number = new Date().getTime();
+      if (i < (sortedByStartDate.length - 1)) {
+        nextJob = sortedByStartDate[i+1].dateStarted.value;
+      }
+      const currentJob = sortedByStartDate[i].dateStarted.value;
+      const dur = nextJob - currentJob;
+      coDurs[jc.companyName.toLowerCase()].dur = (coDurs[jc.companyName.toLowerCase()].dur + dur);
+    });
+
+    let displayLabels: string[] = [];
+    let displayData: number[] = [];
+
+    Object.keys(coDurs).forEach((cd) => {
+      displayLabels.push(condenseCompanyName(cd));
+      displayData.push(coDurs[cd].dur);
+      pieColors.push(getCompanyColor(coDurs[cd].name));
     });
 
     return {
-      labels: [...companies],
+      labels: [...displayLabels],
       datasets: [{
-        data: [...durationData],
+        data: [...displayData],
         backgroundColor: [...pieColors],
         label: 'Tenure Duration'
       }],

@@ -62,7 +62,7 @@ export function replaceToZero(res): number {
 }
 
 export function getCompanyColor(name: string): string {
-  let res: string = "#000";
+  let res: string = "#6699ff";
   const n = name.toLowerCase();
   if (n.includes("praxis")) {
     res = "#660000";
