@@ -161,7 +161,7 @@ export class MilestoneAddComponent implements OnInit, OnDestroy, OnChanges {
       const userSalary = this.calculateSalary();
       bonusResVal = userSalary * this.percentBonusMultiplier;
     }
-    this.bonusValue.setValue(getNumericOrZero(bonusResVal));
+    this.bonusValue.setValue(roundTo2Places(getNumericOrZero(bonusResVal)));
   }
 
   calculateAndSetFour1k() {
@@ -173,7 +173,7 @@ export class MilestoneAddComponent implements OnInit, OnDestroy, OnChanges {
       const userSalary = this.calculateSalary();
       four1kResVal = userSalary * this.percent401kMultiplier;
     }
-    this.four1kValue.setValue(getNumericOrZero(four1kResVal));
+    this.four1kValue.setValue(roundTo2Places(getNumericOrZero(four1kResVal)));
   }
 
 

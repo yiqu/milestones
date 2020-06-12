@@ -5,7 +5,7 @@ import { IJobConfig, IJobConfigColumn } from '../../../../shared/models/job-conf
 import { replaceToZero, getCompanyColor, capitalizeFirstLetter, roundTo2Places,
   caluclateTotalComp,
   condenseCompanyName} from '../../../../shared/utils/general.utils';
-import { getPointStyle } from '../../../../shared/utils/graph-utils';
+import { getPointStyle, getCategoryColor } from '../../../../shared/utils/graph-utils';
 import { CurrencyDisplayPipe } from '../../../../shared/pipes/currency-display.pipe';
 import * as moment from 'moment';
 import * as _ from 'lodash';
@@ -71,8 +71,8 @@ export class MilestoneGraphDisplayComponent implements OnInit, OnDestroy, AfterV
 
   createConfig(): Chart.ChartConfiguration {
     return {
-      type: 'line',
-      data: this.createData(),
+      type: 'bar',
+      data: this.createData2(),
       options: {
         responsive: false,
         responsiveAnimationDuration: 1000,
@@ -97,10 +97,6 @@ export class MilestoneGraphDisplayComponent implements OnInit, OnDestroy, AfterV
             }.bind(this)
           }
         },
-        hover: {
-          mode: 'nearest',
-          intersect: true
-        },
         legend: {
           position: "bottom",
           labels: {
@@ -116,7 +112,8 @@ export class MilestoneGraphDisplayComponent implements OnInit, OnDestroy, AfterV
               },
               scaleLabel: {
                 fontColor: "#000"
-              }
+              },
+              stacked: true
             }
           ],
           yAxes: [{
@@ -125,39 +122,52 @@ export class MilestoneGraphDisplayComponent implements OnInit, OnDestroy, AfterV
               callback: function(value, index, values) {
                   return '$' + this.cdp.transform(value);
               }.bind(this)
-            }
+            },
+            stacked: true
           }]
         }
       }
     }
   }
 
-  createData(): Chart.ChartData {
-    const labelsToShow = ["Base Salary", "401k Contribution", "Bonus", "Cashable PTO Value"];
+  createData2() {
+    // Y-axis
+    const labelsToShow: string[] = [];
+
     const datasetRes: Chart.ChartDataSets[] = [];
 
-    this.msConfigs.forEach((c: IJobConfig) => {
-      // get all possible years
-      const currentYear = moment(c.dateStarted.value).year() + "";
-      const data = [];
-      const cashablePtoValue: number = (c.hourlyRate.value) * (c.cashablePTOInHours.value);
-      data.push(replaceToZero(c.salary.value),
-        replaceToZero(c.Four1kContribution.value),
-        replaceToZero(c.bonus.value),
-        replaceToZero(roundTo2Places(cashablePtoValue))
-      );
-      const datasetColor = getCompanyColor(c.companyName);
+    // this is the sections of each bar
+    const categoriesToDisplay: string[] = ["Salary", "401k Contribution", "Bonus", "Cashable PTO Value"];
+    const categoryIds: string[] = ["salary", "Four1kContribution", "bonus", "cashablePTOInHours"];
+    const configs = [...this.msConfigs];
 
+    configs.forEach((c: IJobConfig) => {
+      const startDate = moment(c.dateStarted.value).format("MM/YYYY");
+      labelsToShow.push(startDate + " (" + condenseCompanyName(c.companyName) +
+        ") $" + this.cdp.transform(caluclateTotalComp(c)));
+    });
+
+    categoriesToDisplay.forEach((category: string, index: number) => {
       datasetRes.push({
-        label: (currentYear + " (" + condenseCompanyName(c.companyName) + ")"),
-        data: data,
-        backgroundColor: datasetColor,
-        borderColor: datasetColor,
-        fill: false,
-        pointStyle: getPointStyle(c.companyName),
-        pointRadius: 4,
+        label: category,
+        backgroundColor: getCategoryColor(categoryIds[index])
       })
     });
+
+    datasetRes.forEach((ds, index) => {
+      const data: number[] = [];
+      configs.forEach((c: IJobConfig) => {
+        let value = replaceToZero(c[categoryIds[index]].value);
+        if (categoryIds[index] === "cashablePTOInHours") {
+          value = (c.hourlyRate.value) * (c.cashablePTOInHours.value);
+        }
+        data.push(value)
+      });
+      data.reverse();
+      ds.data = [...data];
+    });
+
+    labelsToShow.reverse();
 
     return {
       labels: labelsToShow,
@@ -232,7 +242,9 @@ export class MilestoneGraphDisplayComponent implements OnInit, OnDestroy, AfterV
     const years: string[] = [];
     const datasetRes: Chart.ChartDataSets[] = [];
     const dataArray: any[] = [];
-    this.msConfigs.forEach((c: IJobConfig) => {
+    const configs = [...this.msConfigs];
+
+    configs.forEach((c: IJobConfig) => {
       const startDate = moment(c.dateStarted.value).format("MM/YYYY");
       years.push(startDate + " (" + condenseCompanyName(c.companyName) + ")");
       const tc: number = caluclateTotalComp(c);
@@ -304,8 +316,9 @@ export class MilestoneGraphDisplayComponent implements OnInit, OnDestroy, AfterV
     let companies: Set<string> = new Set();
     const pieColors: string[] = [];
     const durationData: number[] = [];
+    const configs = [...this.msConfigs];
 
-    const sortedByStartDate: IJobConfig[] = _.sortBy(this.msConfigs, (conf: IJobConfig) => {
+    const sortedByStartDate: IJobConfig[] = _.sortBy(configs, (conf: IJobConfig) => {
       return conf.dateStarted.value;
     })
 

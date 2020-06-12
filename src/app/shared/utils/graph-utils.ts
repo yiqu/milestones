@@ -14,3 +14,26 @@ export function getPointStyle(cName: string): PointStyle {
   }
   return res;
 }
+
+export function getCategoryColor(category: string): string {
+  let color: string = "#bfbfbf";
+  switch(category) {
+    case "salary": {
+      color = "#33cc00";
+      break;
+    }
+    case "Four1kContribution": {
+      color = "#006699";
+      break;
+    }
+    case "bonus": {
+      color = "#884dff";
+      break;
+    }
+    case "cashablePTOInHours": {
+      color = "#ff6600";
+      break;
+    }
+  }
+  return color;
+}
