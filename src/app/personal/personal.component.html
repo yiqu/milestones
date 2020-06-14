@@ -1,10 +1,12 @@
 <div class="container mb-3">
-  <div class="row mb-3 mt-3">
+  <div class="row sticky-top">
     <div class="col-sm-12">
       <button mat-button color="primary" (click)="onAddMilestone()" class="mr-1">Add new Milestone</button>
       <button mat-button color="primary" (click)="onEditMilestone()">Edit Milestones</button>
     </div>
   </div>
-  <hr>
+  <div class="sticky-hr">
+    <hr>
+  </div>
   <router-outlet></router-outlet>
 </div>

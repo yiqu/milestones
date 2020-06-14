@@ -5,7 +5,7 @@
   <div class="card-body">
     <div class="title mb-1">
       <span class="co-name mr-2">{{companyName}}</span>
-      <span class="total-comp">{{totalComp | currencyDisplay}}</span>
+      <span class="total-comp">${{totalComp | currencyDisplay}}</span>
     </div>
     <div class="mt-1 mb-1">
       <button mat-stroked-button class="" (click)="onShowCalcToggle()">

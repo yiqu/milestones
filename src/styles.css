@@ -155,3 +155,15 @@ button.edit-btn {
 button.util {
   color: #404040;
 }
+
+.sub-row-sticky {
+  position: sticky;
+  top: 8px;
+  z-index: 3;
+  background-color: #fafafa;
+}
+
+hr {
+  margin-top: 0rem !important;
+  margin-bottom: 0rem !important;
+}

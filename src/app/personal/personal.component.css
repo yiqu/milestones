@@ -2,3 +2,18 @@
   font-weight: 800;
   font-size: 18px;
 }
+
+.sticky-top {
+  position: sticky;
+  top: 0;
+  background-color: #fafafa;
+  z-index: 3;
+  padding: 10px;
+  padding-left: 0px;
+}
+
+.sticky-hr {
+  position: sticky;
+  top: 56px;
+  z-index: 2;
+}
