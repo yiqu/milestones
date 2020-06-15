@@ -169,15 +169,39 @@ hr {
 }
 
 .fa-certificate.cert-icon {
-  color: #ff8c1a;
-  padding-left: 8px;
+  color: #b3c6ff;
   background-color: #fafafa;
 }
 
-.timeline-header {
-  color: #0073e6;
-  font-weight: 800;
-  text-transform: uppercase;
-  font-size: 1.5rem;
+.fa-certificate.cert-icon.is-mo {
+  padding-left: 8px;
 }
 
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.timeline-header-text {
+  font-family: 'Quicksand', sans-serif;
+  display: flex;
+  align-self: flex-end;
+  padding-right: 10px;
+  font-size: 1.3rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.timeline-logo-parent {
+  height: auto;
+  overflow: hidden;
+  opacity: 0.9;
+}
+
+.timeline-co-logo {
+  border-top-left-radius: calc(.25rem - 1px);
+  border-top-right-radius: calc(.25rem - 1px);
+  max-width: 100%;
+  height: auto;
+  width: 5rem;
+}

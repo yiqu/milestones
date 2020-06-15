@@ -1,4 +1,17 @@
-<ngx-timeline [events]="events" *ngIf="msConfigs && msConfigs.length > 0"></ngx-timeline>
+<ngx-timeline [events]="events" *ngIf="msConfigs && msConfigs.length > 0">
+  <ng-template let-event let-index="rowIndex" timelineHeader>
+    <div [ngStyle]="{'color': event.header | companyNameColor}">
+      <div class="timeline-header">
+        <div class="timeline-header-text">
+          {{event.header}}
+        </div>
+        <div class="timeline-logo-parent">
+          <img [src]="event.header | companyLogoUrl" class="timeline-co-logo" alt="company logo" [title]="event.header">
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</ngx-timeline>
 <ng-template #nodata>
   <div class="graph-title secfont mt-3 mb-5 text-center">
     You have not entered any Milestones yet. Timline will be available when at least one Milestone has been added.

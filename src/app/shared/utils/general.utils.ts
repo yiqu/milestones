@@ -68,10 +68,10 @@ export function getCompanyColor(name: string): string {
     res = "#660000";
   } else if (n.includes("amazon")) {
     res = "#ff751a";
-  } else if (n.includes("general") || n.includes("dynamics") || n.includes("gd")) {
+  } else if (n.includes("general") || n.includes("dynamics") || n.includes("gdms")) {
     res = "#0040ff";
   } else if (n.includes("omnyon")) {
-    res = "#00802b";
+    res = "#0000e6";
   }
   return res;
 }

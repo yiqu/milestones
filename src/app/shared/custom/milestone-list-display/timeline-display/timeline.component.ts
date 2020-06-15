@@ -2,6 +2,8 @@ import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { TimelineEvent, IJobConfig, ITimelineEvent } from '../../../../shared/models/job-config.model';
 import { condenseCompanyName, caluclateTotalComp } from '../../../../shared/utils/general.utils';
 import { CurrencyDisplayPipe } from '../../../../shared/pipes/currency-display.pipe';
+import { IsMobileService } from 'src/app/services/is-mobile.service';
+import * as utils from '../../../../shared/utils/general.utils';
 
 @Component({
   selector: 'app-milestone-timeline-display',
@@ -16,7 +18,7 @@ export class MilestoneTimelineComponent implements OnInit, OnChanges {
   @Input()
   msConfigs: IJobConfig[] = [];
 
-  constructor(private cdp: CurrencyDisplayPipe) {
+  constructor(private cdp: CurrencyDisplayPipe, public ims: IsMobileService) {
 
   }
 
@@ -27,9 +29,13 @@ export class MilestoneTimelineComponent implements OnInit, OnChanges {
   ngOnChanges(c) {
     this.msConfigs.forEach((c: IJobConfig) => {
       const date = c.dateStarted.value ? new Date(c.dateStarted.value) : new Date(0);
-      const body = "TC: $" + this.cdp.transform(caluclateTotalComp(c))
+      const body = "TC: $" + this.cdp.transform(caluclateTotalComp(c));
+      let cssClass: string = "fa-certificate cert-icon";
+      if (this.ims.mediaQList.matches) {
+        cssClass += " is-mo";
+      }
       const newEvent = new TimelineEvent(date, condenseCompanyName(c.companyName),
-        body);
+        body, null, cssClass);
 
       this.events.push(newEvent);
     });

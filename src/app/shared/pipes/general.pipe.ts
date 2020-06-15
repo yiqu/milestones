@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import memo from 'memo-decorator';
 import { CurrencyDisplayPipe } from './currency-display.pipe';
-import { stripCommas } from '../utils/general.utils';
+import { stripCommas, getCompanyColor } from '../utils/general.utils';
 
 const PRIVATE_KEYS: string[] = ["dateStarted", "user", "endYear", "firebaseId", "companyName"];
 
@@ -131,7 +131,7 @@ export class CompanyLogoUrlPipe implements PipeTransform {
     let name: string = "";
     if (value) {
       const trimmed = value.trim().toLowerCase().replace(" ", "");
-      if (trimmed.includes("dynamics") || trimmed.includes("general")) {
+      if (trimmed.includes("dynamics") || trimmed.includes("general") || trimmed.includes("gdms")) {
         name = "gdms";
       } else if (trimmed.includes("amazon") || trimmed.includes("amaz")) {
         name = "amazon";
@@ -146,6 +146,18 @@ export class CompanyLogoUrlPipe implements PipeTransform {
       }
     }
     return url + name + ".png";
+  }
+}
+
+@Pipe({
+  name: 'companyNameColor',
+  pure: true
+})
+export class CompanyNameColorPipe implements PipeTransform {
+
+  @memo()
+  transform(value: string): string {
+    return getCompanyColor(value);
   }
 }
 

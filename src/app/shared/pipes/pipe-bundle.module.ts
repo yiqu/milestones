@@ -5,7 +5,7 @@ import { DateDisplayPipe } from './time-utils.pipe';
 import { UserDisplayPipe } from './user.pipe';
 import { CapitalizeFirstLetterPipe } from './letters.pipe';
 import { CurrencyDisplayPipe } from './currency-display.pipe';
-import { ObjectKeysPipe, MilestoneLabelPipe, MilestoneValUnitPipe, CompanyLogoUrlPipe } from './general.pipe';
+import { ObjectKeysPipe, MilestoneLabelPipe, MilestoneValUnitPipe, CompanyLogoUrlPipe, CompanyNameColorPipe } from './general.pipe';
 import { TableColumnDisplayPipe, TableDataDisplayPipe } from './table.pipe';
 
 @NgModule({
@@ -23,7 +23,8 @@ import { TableColumnDisplayPipe, TableDataDisplayPipe } from './table.pipe';
     MilestoneValUnitPipe,
     CompanyLogoUrlPipe,
     TableColumnDisplayPipe,
-    TableDataDisplayPipe
+    TableDataDisplayPipe,
+    CompanyNameColorPipe
   ],
 
   declarations: [
@@ -38,7 +39,8 @@ import { TableColumnDisplayPipe, TableDataDisplayPipe } from './table.pipe';
     MilestoneValUnitPipe,
     CompanyLogoUrlPipe,
     TableColumnDisplayPipe,
-    TableDataDisplayPipe
+    TableDataDisplayPipe,
+    CompanyNameColorPipe
   ],
 
   providers: [],
