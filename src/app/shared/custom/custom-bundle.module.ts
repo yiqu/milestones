@@ -13,6 +13,8 @@ import { PersonalEmptyComponent } from './empty/empty.component';
 import { TableModule } from './table/table.module';
 import { MilestoneGraphDisplayComponent } from './milestone-list-display/graph-display/graph.component';
 import { AddNewPercentComponent } from './milestone-new/percent-option/percent.component';
+import { MilestoneTimelineComponent } from './milestone-list-display/timeline-display/timeline.component';
+import { NgxTimelineModule } from 'ngx-timeline';
 
 
 @NgModule({
@@ -25,6 +27,7 @@ import { AddNewPercentComponent } from './milestone-new/percent-option/percent.c
     RouterModule,
     LoadingModule,
     TableModule,
+    NgxTimelineModule
   ],
 
   exports: [
@@ -34,7 +37,8 @@ import { AddNewPercentComponent } from './milestone-new/percent-option/percent.c
     AddNewPercentComponent,
     MilestoneListComponent,
     PersonalEmptyComponent,
-    MilestoneGraphDisplayComponent
+    MilestoneGraphDisplayComponent,
+    MilestoneTimelineComponent
   ],
 
   declarations: [
@@ -44,7 +48,8 @@ import { AddNewPercentComponent } from './milestone-new/percent-option/percent.c
     AddNewPercentComponent,
     MilestoneListComponent,
     PersonalEmptyComponent,
-    MilestoneGraphDisplayComponent
+    MilestoneGraphDisplayComponent,
+    MilestoneTimelineComponent
   ],
 
   providers: [

@@ -32,6 +32,7 @@ import { PersonalAddCompleteComponent } from './personal/add-complete/complete.c
 import { CustomComponentsModule } from './shared/custom/custom-bundle.module';
 import { PersonalEditConfigComponent } from './personal/edit/edit-config/config.component';
 import { PersonalEmptyComponent } from './personal/empty/empty.component';
+import { NgxTimelineModule } from 'ngx-timeline';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { PersonalEmptyComponent } from './personal/empty/empty.component';
     NotFoundComponentModule,
     LoadingModule,
     CustomComponentsModule,
+    NgxTimelineModule,
     AppRoutingModule
   ],
 

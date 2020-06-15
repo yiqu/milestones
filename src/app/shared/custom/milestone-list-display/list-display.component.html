@@ -6,8 +6,20 @@
 
       <mat-tab>
         <ng-template mat-tab-label>
+          <mat-icon class="mr-1">schedule</mat-icon>
+          Timeline
+        </ng-template>
+        <div class="row mt-3 mb-3 center-align" [@fadeInOnEnter]>
+          <div class="col-md-10 col-sm-12">
+            <app-milestone-timeline-display [msConfigs]="allMilestones"></app-milestone-timeline-display>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
           <mat-icon class="mr-1">dns</mat-icon>
-          Tiles View {{allMilestones.length > 0 ? "(" + allMilestones.length + ")" : '0'}}
+          Tiles {{allMilestones.length > 0 ? "(" + allMilestones.length + ")" : '0'}}
         </ng-template>
         <div class="row mt-3 mb-3 center-align" *ngFor="let stone of allMilestones; index as i"
           [@fadeInOnEnter] [@fadeOutOnLeave]>
@@ -21,10 +33,10 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon class="mr-1">list</mat-icon>
-          List View
+          List
         </ng-template>
-        <div class="row mt-3 mb-3 center-align">
-          <div class="col-md-10 col-sm-12">
+        <div class="row mt-3 mb-3 center-align" [@fadeInOnEnter]>
+          <div class="col-md-12 col-sm-12">
             <app-shared-table [mileStones]="allMilestones"></app-shared-table>
           </div>
         </div>
@@ -33,9 +45,9 @@
       <mat-tab label="Graph">
         <ng-template mat-tab-label>
           <mat-icon class="mr-1">timeline</mat-icon>
-          Graph View
+          Graph
         </ng-template>
-        <div class="row mt-3 mb-3 center-align">
+        <div class="row mt-3 mb-3 center-align" [@fadeInOnEnter]>
           <div class="col-md-10 col-sm-12">
             <app-milestone-graph-display [msConfigs]="allMilestones"></app-milestone-graph-display>
           </div>

@@ -167,3 +167,17 @@ hr {
   margin-top: 0rem !important;
   margin-bottom: 0rem !important;
 }
+
+.fa-certificate.cert-icon {
+  color: #ff8c1a;
+  padding-left: 8px;
+  background-color: #fafafa;
+}
+
+.timeline-header {
+  color: #0073e6;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+}
+

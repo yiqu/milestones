@@ -55,7 +55,7 @@ export class MilestoneListComponent implements OnInit, OnDestroy {
   }
 
   setActiveTab(p: any) {
-    if  (p && (p > -1 && p < 3)) {
+    if  (p && (p > -1 && p < 4)) {
       this.activeTabIndex = +p;
     }
   }
@@ -73,7 +73,7 @@ export class MilestoneListComponent implements OnInit, OnDestroy {
       relativeTo: this.route,
       queryParams: {tab: tab.index}
     });
-    if (tab.index === 2) {
+    if (tab.index === 3) {
       this.graphComp.createGrpah();
     }
   }

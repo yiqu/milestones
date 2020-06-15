@@ -1,0 +1,11 @@
+<ngx-timeline [events]="events" *ngIf="msConfigs && msConfigs.length > 0"></ngx-timeline>
+<ng-template #nodata>
+  <div class="graph-title secfont mt-3 mb-5 text-center">
+    You have not entered any Milestones yet. Timline will be available when at least one Milestone has been added.
+  </div>
+  <div class="mb-3 mt-3 center-align">
+    <div class="no-data-img-parent mb-3">
+      <img [src]="noDataImgSrc" class="img-h-100" alt="no data">
+    </div>
+  </div>
+</ng-template>

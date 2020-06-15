@@ -106,3 +106,22 @@ export class JobConfigColumn implements IJobConfigColumn {
 
   }
 }
+
+
+export interface ITimelineEvent {
+  date: Date;
+  icon?: string;
+  header: string;
+  body: string;
+  footer?: string;
+}
+
+
+export class TimelineEvent implements ITimelineEvent {
+  constructor(public date: Date,
+    public header: string,
+    public body: string,
+    public footer?: string,
+    public icon: string = "fa-certificate cert-icon") {
+  }
+}
