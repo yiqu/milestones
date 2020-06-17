@@ -21,6 +21,8 @@ const CALCULATE_TOTAL_FOR_MILESTONE: string = "[Milestone/API] Calculate Total C
 const GET_PREVIOUS_MILESTONE_ENTRY_START: string = "[Milestone/API] Get Previous Entry Start";
 const GET_PREVIOUS_MILESTONE_ENTRY_DONE: string = "[Milestone/API] Get Previous Entry Success";
 const GET_PREVIOUS_MILESTONE_ENTRY_FAILURE: string = "[Milestone/API] Get Previous Entry Failed";
+const CALCULATE_TC_DIFFERENCE: string = "[Milestone/API] Calculate Gain Difference";
+const CALCULATE_TC_DIFFERENCE_DONE: string = "[Milestone/API] Calculate Gain Difference Done";
 
 export const addMilestoneStartAction = createAction(
   ADD_MILESTONE_START,
@@ -111,4 +113,14 @@ export const getPreviousMilestoneEntryDoneAction = createAction(
 export const getPreviousMilestoneEntryFailureAction = createAction(
   GET_PREVIOUS_MILESTONE_ENTRY_FAILURE,
   props<ErrorActionProp>()
+)
+
+export const getGainDifferenceAction = createAction(
+  CALCULATE_TC_DIFFERENCE,
+  props<{milestones: IJobConfig[]}>()
+)
+
+export const getGainDifferenceActionDone = createAction(
+  CALCULATE_TC_DIFFERENCE_DONE,
+  props<{milestones: IJobConfig[]}>()
 )

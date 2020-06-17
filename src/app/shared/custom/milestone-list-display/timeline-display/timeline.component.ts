@@ -35,7 +35,7 @@ export class MilestoneTimelineComponent implements OnInit, OnChanges {
         cssClass += " is-mo";
       }
       const newEvent = new TimelineEvent(date, condenseCompanyName(c.companyName),
-        body, null, cssClass);
+        body, c.differenceInPercent, cssClass);
 
       this.events.push(newEvent);
     });

@@ -205,3 +205,24 @@ hr {
   height: auto;
   width: 5rem;
 }
+
+.timeline-header-parent {
+  border-bottom: 1px solid #ccc;
+  width: 100%;
+  padding-bottom: 5px;
+}
+
+.timeline-body-text {
+  color: #000;
+  font-weight: 800;
+  font-family: 'Montserrat';
+  letter-spacing: 1px;
+}
+
+.text-green {
+  color: #29a329;
+}
+
+.text-red {
+  color: #e62e00;
+}

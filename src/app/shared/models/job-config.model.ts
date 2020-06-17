@@ -12,6 +12,7 @@ export interface IJobConfig {
   dateStarted: FormValue;
   user: VerifiedUser;
   firebaseId?: string;
+  differenceInPercent?: number;
 }
 
 export class JobConfig implements IJobConfig {
@@ -26,7 +27,8 @@ export class JobConfig implements IJobConfig {
     public bonus: FormValue,
     public dateStarted: FormValue,
     public user: VerifiedUser,
-    public firebaseId?: string
+    public firebaseId?: string,
+    public differenceInPercent?: number
   ) {
 
   }
@@ -121,7 +123,7 @@ export class TimelineEvent implements ITimelineEvent {
   constructor(public date: Date,
     public header: string,
     public body: string,
-    public footer?: string,
+    public footer?: any,
     public icon: string = "fa-certificate cert-icon") {
   }
 }

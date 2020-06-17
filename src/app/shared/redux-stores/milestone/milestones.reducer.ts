@@ -182,5 +182,22 @@ export const milestonePersonalReducer = createReducer(
       previousEntry: null
     }
   }),
-
+  on(MSActions.getGainDifferenceAction, (state, {milestones}) => {
+    return {
+      ...state,
+      loading: true,
+      previousEntry: null,
+      payloadData: milestones
+    }
+  }),
+  on(MSActions.getGainDifferenceActionDone, (state, {milestones}) => {
+    return {
+      ...state,
+      loading: false,
+      error: false,
+      errMsg: null,
+      previousEntry: null,
+      payloadData: milestones
+    }
+  }),
 )

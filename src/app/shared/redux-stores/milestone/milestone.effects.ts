@@ -18,6 +18,7 @@ import { IJobConfig } from '../../models/job-config.model';
 import { FirebasePromiseError } from '../../models/firebase.model';
 import { getPureObject } from '../../utils/general.utils';
 import { QueryExtras } from './milestone.model';
+import * as fromGeneralUtils from '../../utils/general.utils';
 
 @Injectable()
 export class MilestonePersonalEffects {
@@ -113,9 +114,12 @@ export class MilestonePersonalEffects {
       ofType(fromMsActions.getAllMilestonesDoneAction),
       tap(() => {
         this.ts.getSuccess("Loaded all Milestones.");
+      }),
+      map((d) => {
+        return fromMsActions.getGainDifferenceAction({milestones: d.payload});
       })
     );
-  }, {dispatch: false});
+  });
 
   // redirect to edit page
   startMilestoneEdit$ = createEffect(() => {
@@ -244,6 +248,24 @@ export class MilestonePersonalEffects {
             return fromMsActions.getPreviousMilestoneEntryFailureAction({errorMsg: AuthUtils.getFirebaseErrorMsg(rej)});
           }
         )
+      })
+    );
+  });
+
+  calculateGainDifference$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(fromMsActions.getGainDifferenceAction),
+      map((ms) => {
+        let data: IJobConfig[] = [...ms.milestones];
+        const res: IJobConfig[] = [];
+        for (let i=0; i<data.length; i++) {
+          let d: IJobConfig = JSON.parse(JSON.stringify(data[i]));
+
+          d.differenceInPercent = (fromGeneralUtils.caluclateTotalComp(data[i]) -
+            fromGeneralUtils.caluclateTotalComp(data[i+1])) / fromGeneralUtils.caluclateTotalComp(data[i+1]);
+          res.push(d);
+        }
+        return fromMsActions.getGainDifferenceActionDone({milestones: res});
       })
     );
   });
