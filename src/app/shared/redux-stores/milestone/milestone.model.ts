@@ -6,6 +6,9 @@ export class ErrorActionProp {
   }
 }
 
+/**
+ * Milestone states
+ */
 export interface IMilestonePersonalState {
   loading: boolean;
   crudLoading: boolean;

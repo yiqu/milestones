@@ -1,0 +1,21 @@
+.val {
+  font-family: 'Montserrat', sans-serif;
+  color: #009933;
+  font-weight: 500;
+  font-size: 1.3rem;
+}
+
+.val2 {
+  font-family: 'Montserrat', sans-serif;
+  color: #cc9900;
+  font-weight: 500;
+  font-size: 1.3rem;
+}
+
+.src-parent {
+  height: 40rem;
+}
+
+.src-parent-2 {
+  height: 25rem;
+}

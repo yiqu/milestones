@@ -33,6 +33,9 @@ const routes: Routes = [
   { path: 'settings',
     loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule)
   },
+  { path: 'performance',
+    loadChildren: () => import('./metrics/metrics.module').then(m => m.MetricsModule)
+  },
   { path: '**', component: NotFoundComponent}
 ];
 

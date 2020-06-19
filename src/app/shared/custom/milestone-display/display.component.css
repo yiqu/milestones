@@ -4,7 +4,7 @@
 
 .vlabel {
   font-family: 'Quicksand', sans-serif;
-  font-weight: 600;
+  font-weight: 400;
   color: #8c8c8c;
 }
 
@@ -23,8 +23,14 @@
 
 .sub-title {
   font-family: 'Quicksand', sans-serif;
-  font-weight: 600;
+  font-weight: 400;
   color: #a3297a;
+}
+
+.sub-title.percent{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  color: #8c8c8c;
 }
 
 .total-comp {
@@ -53,7 +59,7 @@
 
 .co-name {
   color: #0073e6;
-  font-weight: 800;
+  font-weight: 400;
   text-transform: uppercase;
   font-size: 1.5rem;
 }

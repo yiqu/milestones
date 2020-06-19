@@ -35,7 +35,7 @@ export class TableComponent implements OnInit, OnChanges {
   transformMilestoneData(ms: IJobConfig[]) {
     let res: IJobConfigColumn[] = [];
     ms.forEach((d: IJobConfig) => {
-      const totalComp = caluclateTotalComp(d);
+      const totalComp = caluclateTotalComp(d, true);
       let rowData = new JobConfigColumn(d.companyName, d.endYear, totalComp, d.projectedPTOInDays?.value, d.salary?.value,
         d.hourlyRate?.value, d.cashablePTOInHours?.value, d.Four1kContribution?.value, d.bonus?.value,
         d.dateStarted?.value, d.user, d.firebaseId);

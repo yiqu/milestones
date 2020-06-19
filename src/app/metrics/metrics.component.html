@@ -1,0 +1,70 @@
+<div class="container mb-3" *ngIf="!loading; else isLoading">
+  <ng-container *ngIf="!noMilestones; else noMs">
+    <div class="row mb-3 secfont text-center mt-3">
+      <div class="col-sm-12">
+        <h2>Milestone Metrics</h2>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <p>
+          You had
+          <span class="val px-1">{{totalMilestonesCount}}</span> jobs in the past
+          <span class="val px-1">{{workingYears}}</span>.
+        </p>
+        <p>
+          Your first job was with
+          <span [ngStyle]="{'color': firstMilestone.companyName|companyNameColor}">{{firstMilestone.companyName | uppercase}}</span>
+          , in which you started on {{firstMilestone.dateStarted.value | date}}.
+        </p>
+        <p>
+          Your average tenureship is <span class="val px-1">{{avgLengthAtAJob}}</span> years per job. <br>
+        </p>
+        <p>
+          The median number of years that wage and salary workers had been with their current employer
+          was <span class="val2 px-1">{{avgAllJobs}}</span>  years in January 2018, unchanged from the median in January 2016, the U.S. Bureau of
+          Labor Statistics reported today.
+          <a target="_blank" href="https://www.bls.gov/news.release/tenure.nr0.htm">Source</a>
+        </p>
+        <p>
+          For those in computer and mathematical jobs, median tenure in 2014 was <span class="val2 px-1">{{avgCsJobsRecentTenure}}</span> years.
+          That’s up from 2012 when it was 4.8 years. In fact, the average has remained steady for over a decade.
+          The only dips were in 2002 after the tech bubble collapse--the average then was 3.2 years--and again in 2008 (4.5 years).
+          <span><a target="_blank" href="https://www.thebalancecareers.com/job-tenure-and-the-myth-of-job-hopping-2071302#:~:text=Tenure%20and%20Tech%20Careers&text=That's%20up%20from%202012%20when,though%2C%20the%20BLS%20groups%20occupations.">Source</a></span>
+        </p>
+        <p>
+          Tenureship in Silicon Valley has an average of <span class="val2 px-1">{{avgFangJobTenure}}</span> years.
+        </p>
+      </div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-md-12">
+        <div class="src-parent">
+          <div class="mb-1">
+            HackerLife's Average Tenure At a Company in SV.
+            <a target="_blank" href="https://hackerlife.co/blog/san-francisco-large-corporation-employee-tenure">Source</a>
+          </div>
+          <img [src]="svAvgImgUrl" class="img-h-100 " alt="sv">
+        </div>
+      </div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-md-12">
+        <div class="src-parent-2">
+          <div class="mb-1">
+            TeamBlind's Average Tenure At a Company at FANG.
+          </div>
+          <img [src]="fangAvgImgUrl" class="img-h-100 " alt="fang">
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #noMs>
+    <app-milestone-empty></app-milestone-empty>
+  </ng-template>
+</div>
+<ng-template #isLoading>
+  <app-shared-loading></app-shared-loading>
+</ng-template>
+

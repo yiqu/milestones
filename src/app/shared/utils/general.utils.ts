@@ -39,7 +39,7 @@ export function getNumeric(res: any): number {
    * Total Comp
    * Base + Cashable PTO * hourly rate + year end bonus + 401k deposit
    */
-export function caluclateTotalComp(config: IJobConfig): number {
+export function caluclateTotalComp(config: IJobConfig, roundToDecimal?: boolean): number {
   if (config) {
     const base = getNumeric(config?.salary?.value);
     const cashablePtoInHours = getNumeric(config?.cashablePTOInHours?.value);
@@ -48,7 +48,10 @@ export function caluclateTotalComp(config: IJobConfig): number {
     const four1kDepo = getNumeric(config?.Four1kContribution?.value);
 
     const total: number = base + (cashablePtoInHours * hourlyRate) + yearEndBonus + four1kDepo;
-    return roundTo2Places(total);
+    if (roundToDecimal) {
+      return roundTo2Places(total);
+    }
+    return roundToInteger(total);
   }
   return NaN;
 }
@@ -121,4 +124,9 @@ export function condenseCompanyName(name: string) {
 export function roundTo2Places(num: number): number {
   const n = +num;
   return Math.round((n + Number.EPSILON) * 100) / 100;
+}
+
+export function roundToInteger(num: number): number {
+  const n = +num;
+  return Math.round(n);
 }

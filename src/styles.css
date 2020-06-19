@@ -188,7 +188,7 @@ hr {
   align-self: flex-end;
   padding-right: 10px;
   font-size: 1.3rem;
-  font-weight: 800;
+  font-weight: 400;
   text-transform: uppercase;
 }
 
@@ -214,7 +214,7 @@ hr {
 
 .timeline-body-text {
   color: #000;
-  font-weight: 800;
+  font-weight: 400;
   font-family: 'Montserrat';
   letter-spacing: 1px;
 }

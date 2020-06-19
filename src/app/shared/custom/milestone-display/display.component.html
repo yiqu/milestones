@@ -15,9 +15,12 @@
     <div *ngIf="showCalc" class="mt-1 mb-1 text-muted">
       {{calculationWorkText}}
     </div>
-    <div class="sub-title">
+    <div class="sub-title mb-1">
       {{subtitlePrefix}}
       {{dateStarted | dateDisplay:'MDYANDFROMNOW'}} .
+    </div>
+    <div class="sub-title percent mb-1" *ngIf="config?.differenceInPercent">
+      {{config.differenceInPercent | percent:'1.2-2'}} increase in TC from your last job.
     </div>
   </div>
   <ul class="list-group list-group-flush">

@@ -3,7 +3,9 @@ import memo from 'memo-decorator';
 import { CurrencyDisplayPipe } from './currency-display.pipe';
 import { stripCommas, getCompanyColor } from '../utils/general.utils';
 
-const PRIVATE_KEYS: string[] = ["dateStarted", "user", "endYear", "firebaseId", "companyName"];
+// these properties will NOT be shown
+const PRIVATE_KEYS: string[] = ["dateStarted", "user", "endYear", "firebaseId", "companyName",
+  "differenceInPercent"];
 
 @Pipe({
   name: 'getObjectKeys',
@@ -141,6 +143,27 @@ export class CompanyLogoUrlPipe implements PipeTransform {
       }
       else if (trimmed.includes("omnyon") || trimmed.includes("omnyonllc")) {
         name = "omnyonllc";
+      }
+      else if (trimmed.includes("facebook")) {
+        name = "facebook";
+      } else if (trimmed.includes("google")) {
+        name = "google";
+      } else if (trimmed.includes("netflix")) {
+        name = "netflix";
+      } else if (trimmed.includes("nexxis")) {
+        name = "nexxis";
+      } else if (trimmed.includes("omega") || trimmed.includes("omegaminds")) {
+        name = "omegaminds";
+      } else if (trimmed.includes("artera")) {
+        name = "artera";
+      } else if (trimmed.includes("capitalsolutionsgroup") || trimmed.includes("capitalsolution")) {
+        name = "csg";
+      } else if (trimmed.includes("microsoft")) {
+        name = "microsoft";
+      } else if (trimmed.includes("nexxis")) {
+        name = "nexxis";
+      } else if (trimmed.includes("softtech")) {
+        name = "softtech";
       } else {
         return "assets/banner/milestones-banner.jpg";
       }
