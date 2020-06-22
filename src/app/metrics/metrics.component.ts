@@ -104,7 +104,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
   getAverageLengthAtAJob(): number {
     const durInMilli: number = this.getTotalDurationInMilli();
     const years = moment.duration(durInMilli).asYears();
-    const avgLengthAtAJob = years / this.configs.length;
+    const avgLengthAtAJob = years / this.getTotalUniqueMilestoneCount();
     return roundTo2Places(avgLengthAtAJob);
   }
 
