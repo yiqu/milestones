@@ -50,7 +50,7 @@ export class PersonalEditComponent implements OnInit, OnDestroy {
         this.allMilestones = data.payloadData;
         this.loading = data.loading;
         this.pageTitle = this.allMilestones.length > 0 ?
-          ("Click 'Edit' to start editing" ) : "";
+          ("Click 'Edit' to start editing a Milestone" ) : "";
       }
     );
 

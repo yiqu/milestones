@@ -8,7 +8,7 @@ import { IMilestonePersonalState, QueryExtras } from '../shared/redux-stores/mil
 import * as fromMsActions from '../shared/redux-stores/milestone/milestone.actions';
 import { VerifiedUser } from '../shared/models/user.model';
 import * as moment from 'moment';
-import { condenseCompanyName, roundToInteger, roundTo2Places } from '../shared/utils/general.utils';
+import { condenseCompanyName, roundToInteger, roundTo2Places, caluclateTotalComp } from '../shared/utils/general.utils';
 
 @Component({
   selector: 'app-metrics',
@@ -30,6 +30,12 @@ export class MetricsComponent implements OnInit, OnDestroy {
   avgCsJobsRecentTenure: number = 5;
   avgFangJobTenure: number = 2.3;
 
+  avgAnnualTcIncrease: number;
+  firstJobSalary: number;
+  lastJobSalary: number;
+  totalGainInSalary: number;
+  totalWorkingYears: number;
+
   svAvgImgUrl: string = "assets/metrics/avgtechtenure.png";
   fangAvgImgUrl: string = "assets/metrics/blindavg.png";
 
@@ -50,17 +56,27 @@ export class MetricsComponent implements OnInit, OnDestroy {
         this.noMilestones = res.payloadData.length > 0 ? false : true;
         this.loading = res.loading;
         this.configs = res.payloadData;
-        this.totalMilestonesCount = this.configs.length;
+        this.totalMilestonesCount = this.getTotalUniqueMilestoneCount();
         if (this.totalMilestonesCount > 0) {
           this.workingYears = this.calculateTotalYearsDuration();
           this.firstMilestone = this.getFirstJob();
           this.avgLengthAtAJob = this.getAverageLengthAtAJob();
+          this.avgAnnualTcIncrease = this.getAverageAnnualTcIncrease();
         }
       }
     );
   }
 
   ngOnInit() {
+  }
+
+  getTotalUniqueMilestoneCount(): number {
+    let s: Set<string> = new Set();
+    this.configs.forEach((c) => {
+      s.add(condenseCompanyName(c.companyName));
+    });
+    let uniques: string[] = [...s];
+    return uniques.length;
   }
 
   getAllMilestones(user: VerifiedUser) {
@@ -89,6 +105,18 @@ export class MetricsComponent implements OnInit, OnDestroy {
     const years = moment.duration(durInMilli).asYears();
     const avgLengthAtAJob = years / this.configs.length;
     return roundTo2Places(avgLengthAtAJob);
+  }
+
+  getAverageAnnualTcIncrease(): number {
+    if (this.configs.length > 1) {
+      this.lastJobSalary = caluclateTotalComp(this.configs[0], true);
+      this.firstJobSalary = caluclateTotalComp(this.configs[this.configs.length - 1], true);
+      this.totalGainInSalary = this.lastJobSalary - this.firstJobSalary;
+      const workingDuration: number = new Date().getTime() - (this.configs[this.configs.length - 1].dateStarted.value);
+      this.totalWorkingYears = roundTo2Places(moment.duration(workingDuration).asYears());
+      return roundTo2Places(this.totalGainInSalary / this.totalWorkingYears);
+    }
+    return null;
   }
 
   ngOnDestroy() {

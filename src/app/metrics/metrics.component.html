@@ -14,8 +14,15 @@
           <span class="val px-1">{{workingYears}}</span>.
         </p>
         <p>
+          Your first salary was {{this.firstJobSalary | currencyDisplay}}, and your current salary is {{ this.lastJobSalary | currencyDisplay}}. <br>
+          You have worked a total of {{totalWorkingYears}} years.
+        </p>
+        <p>
+          Your average annual TC (in dollar amount) increase is <span class="val px-1">${{avgAnnualTcIncrease | currencyDisplay}}</span>.
+        </p>
+        <p>
           Your first job was with
-          <span [ngStyle]="{'color': firstMilestone.companyName|companyNameColor}">{{firstMilestone.companyName | uppercase}}</span>
+          <span [ngStyle]="{'color': firstMilestone.companyName | companyNameColor}">{{firstMilestone.companyName | uppercase}}</span>
           , in which you started on {{firstMilestone.dateStarted.value | date}}.
         </p>
         <p>

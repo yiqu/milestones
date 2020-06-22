@@ -26,6 +26,10 @@ export class TableColumnDisplayPipe implements PipeTransform {
         res = "Salary";
         break;
       }
+      case "bonus": {
+        res = "Bonus";
+        break;
+      }
       case "totalComp": {
         res = "TC";
         break;
@@ -39,7 +43,7 @@ export class TableColumnDisplayPipe implements PipeTransform {
         break;
       }
       case "projectedPTOInDays": {
-        res = "Porjected PTO Usage(d)";
+        res = "Projected PTO Usage(d)";
         break;
       }
       case "Four1kContribution": {

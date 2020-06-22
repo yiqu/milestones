@@ -74,7 +74,7 @@ export function getCompanyColor(name: string): string {
   } else if (n.includes("general") || n.includes("dynamics") || n.includes("gdms")) {
     res = "#0040ff";
   } else if (n.includes("omnyon")) {
-    res = "#0000e6";
+    res = "#3399ff";
   }
   return res;
 }
@@ -122,8 +122,11 @@ export function condenseCompanyName(name: string) {
 }
 
 export function roundTo2Places(num: number): number {
-  const n = +num;
-  return Math.round((n + Number.EPSILON) * 100) / 100;
+  if (num !== undefined && num !==null) {
+    const n = +num;
+    return Math.round((n + Number.EPSILON) * 100) / 100;
+  }
+  return NaN;
 }
 
 export function roundToInteger(num: number): number {

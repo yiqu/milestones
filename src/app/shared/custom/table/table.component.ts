@@ -4,6 +4,7 @@ import { IJobConfigColumn, IJobConfig, JobConfigColumn } from '../../models/job-
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { caluclateTotalComp } from '../../utils/general.utils';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-shared-table',
@@ -13,7 +14,7 @@ import { caluclateTotalComp } from '../../utils/general.utils';
 export class TableComponent implements OnInit, OnChanges {
 
   displayedColumns: string[] = ['endYear', 'companyName', 'totalComp', 'salary', 'hourlyRate', 'cashablePTOInHours',
-    'projectedPTOInDays', 'bonus', 'Four1kContribution' , 'dateStarted', 'firebaseId'];
+    'projectedPTOInDays', 'bonus', 'Four1kContribution' , 'dateStarted'];
   dataSource: MatTableDataSource<IJobConfigColumn>;
 
   @ViewChild(MatPaginator, {static: true})
@@ -26,6 +27,9 @@ export class TableComponent implements OnInit, OnChanges {
   mileStones: IJobConfig[] = [];
 
   constructor() {
+    if (!environment.production) {
+      this.displayedColumns.push('firebaseId');
+    }
   }
 
   ngOnChanges() {

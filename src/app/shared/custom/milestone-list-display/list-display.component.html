@@ -33,7 +33,7 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon class="mr-1">list</mat-icon>
-          List
+          List {{allMilestones.length > 0 ? "(" + allMilestones.length + ")" : '0'}}
         </ng-template>
         <div class="row mt-3 mb-3 center-align" [@fadeInOnEnter]>
           <div class="col-md-12 col-sm-12">

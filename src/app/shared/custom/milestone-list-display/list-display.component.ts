@@ -55,7 +55,7 @@ export class MilestoneListComponent implements OnInit, OnDestroy {
   }
 
   setActiveTab(p: any) {
-    if  (p && (p > -1 && p < 4)) {
+    if  (p !== undefined && (p > -1 && p < 4)) {
       this.activeTabIndex = +p;
     }
   }

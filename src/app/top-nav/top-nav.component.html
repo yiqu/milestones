@@ -7,7 +7,7 @@
   </div>
 
   <div class="d-flex section-parent center-align" (click)="onLogoClick()" [@tada]="swingState">
-    <a [routerLink]="'/'" class="">
+    <a [routerLink]="'/'" [queryParams]="{'tab':0}" class="">
       <img src="assets/banner/milestones-banner-4.png" [@headShake]="logoShakeState"
         class="logo-img d-inline-block" alt="logo">
       <div class="secfont banner-text">{{ headerTitle }}</div>
