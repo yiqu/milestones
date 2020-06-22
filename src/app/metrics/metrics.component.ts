@@ -86,7 +86,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
 
   calculateTotalYearsDuration(): string {
     const durInMilli: number = this.getTotalDurationInMilli();
-    return roundTo2Places(moment.duration(durInMilli).asYears()) + " years";
+    const res = roundTo2Places(moment.duration(durInMilli).asYears()) < 1 ? "1" : roundTo2Places(moment.duration(durInMilli).asYears());
+    return res + " years";
   }
 
   getTotalDurationInMilli(): number {
@@ -108,12 +109,13 @@ export class MetricsComponent implements OnInit, OnDestroy {
   }
 
   getAverageAnnualTcIncrease(): number {
-    if (this.configs.length > 1) {
+    if (this.configs.length > 0) {
       this.lastJobSalary = caluclateTotalComp(this.configs[0], true);
       this.firstJobSalary = caluclateTotalComp(this.configs[this.configs.length - 1], true);
       this.totalGainInSalary = this.lastJobSalary - this.firstJobSalary;
       const workingDuration: number = new Date().getTime() - (this.configs[this.configs.length - 1].dateStarted.value);
       this.totalWorkingYears = roundTo2Places(moment.duration(workingDuration).asYears());
+      this.totalWorkingYears = this.totalWorkingYears < 1 ? 1 : this.totalWorkingYears;
       return roundTo2Places(this.totalGainInSalary / this.totalWorkingYears);
     }
     return null;

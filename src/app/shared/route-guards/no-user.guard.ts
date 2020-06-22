@@ -31,3 +31,27 @@ export class NoVerifiedUserGuard implements CanActivate {
   }
 
 }
+
+@Injectable({
+  providedIn: 'root'
+})
+export class NoVerifiedUserChildrenGuard implements CanActivateChild {
+  constructor(public router: Router, public route: ActivatedRoute,
+    public store: Store<AppState>) {
+  }
+
+  canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
+    Observable<boolean | UrlTree> | Promise<boolean> | boolean | UrlTree {
+
+    return this.store.select("appAuth").pipe(
+      take(1),
+      map((state: AuthState) => {
+        if (state.verifiedUser) {
+          return true;
+        }
+        return this.router.createUrlTree(['/', 'auth', 'signin']);;;
+      }),
+    );
+  }
+
+}

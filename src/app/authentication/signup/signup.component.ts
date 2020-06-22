@@ -96,7 +96,7 @@ export class AuthSignupComponent implements OnInit, OnDestroy {
     if (res.password !== res.repassword) {
       this.as.throwErrorMessage("Password does not match.")
     } else {
-      const auth: AuthInfoFromUser = new AuthInfoFromUser(res.email, res.password, false);
+      const auth: AuthInfoFromUser = new AuthInfoFromUser(res.email, res.password, true);
       this.signup(auth);
     }
   }
