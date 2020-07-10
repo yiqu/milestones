@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogConfirmComponent } from '../dialog/dialog.component';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { caluclateTotalComp } from '../../utils/general.utils';
+import { caluclateTotalComp, roundTo2Places } from '../../utils/general.utils';
 
 @Component({
   selector: 'app-milestone-display',
@@ -80,8 +80,9 @@ export class MilestoneDisplayComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getCalcText(): string {
-    const cashablePtoInValue = this.config?.cashablePTOInHours?.value * this.config?.hourlyRate?.value;
-    return "Salary of $" + this.config.salary.value + " + $" + cashablePtoInValue +
+    const cashablePtoInValue: number = this.config?.cashablePTOInHours?.value * this.config?.hourlyRate?.value;
+    const roudned: number = roundTo2Places(cashablePtoInValue);
+    return "Salary of $" + this.config.salary.value + " + $" + roudned +
     " (" + this.config.cashablePTOInHours.value + "h (cashable pto) * $" + this.config.hourlyRate.value
     + " (hourly rate)" + ") + $" + this.config.bonus.value + " (bonus) + $" +
     this.config.Four1kContribution.value + " (401k)";
