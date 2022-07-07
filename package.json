@@ -39,7 +39,7 @@
     "jquery": ">=3.5.0",
     "lodash": "~4.17.15",
     "memo-decorator": "^2.0.1",
-    "moment": "~2.24.0",
+    "moment": "~2.29.4",
     "ngx-timeline": "^5.0.0",
     "ngx-toastr": "^12.0.1",
     "popper.js": "^1.16.1",
